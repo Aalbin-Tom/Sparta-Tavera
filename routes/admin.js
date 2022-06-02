@@ -30,7 +30,7 @@ router.get('/', function(req, res){
 router.get('/admin-login',function(req, res) {
     console.log('vanu');
     if(req.session.admin){
-        res.render('admin/admin-home');
+        res.render('admin/admin-home',{adminhead:true});
     }else{
         console.log('vanilla');
   res.redirect('/admin')
@@ -52,10 +52,10 @@ router.post('/admin-login', function(req, res) {
 
 
   
-  /* GET adminlogout page. */
+  /* GET adminhome page. */
   router.get('/admin-home', function(req, res) {
    
-        res.render('admin/admin-home');
+        res.render('admin/admin-home',{adminhead:true});
 });
 
   /* GET adminlogout page. */
@@ -64,6 +64,24 @@ router.post('/admin-login', function(req, res) {
           res.redirect('/admin');
   });
 
+  //get show-user user page
+  router.get('/show-users',function (req,res){
+    productHelper.getAllUser().then((user) => {
 
+       res.render('admin/show-users',{adminhead:true})
+
+    })
+      
+  })
+
+
+
+
+
+  //get product page
+  router.get('/', function(req, res) {
+    
+        res.render('/');
+});
 
 module.exports = router;
