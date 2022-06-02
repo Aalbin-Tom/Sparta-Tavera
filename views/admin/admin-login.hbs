@@ -1,0 +1,150 @@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/admin/assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="/admin/assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/admin/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/admin/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="/admin/assets/vendor/css/pages/page-auth.css" />
+    <!-- Helpers -->
+    <script src="/admin/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/admin/assets/js/config.js"></script>
+</head>
+
+
+
+<!-- Content -->
+
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+            <!-- Register -->
+            <div class="card">
+                <div class="card-body">
+                    
+                    <H1>Admin Log In</H1>
+
+                    <form  class="mb-3" action="/admin/admin-login" method="post">
+                        <div class="mb-3">
+                             <input type="email" name="email" id="email" onkeyup="validEmail()" placeholder="Email" class="form-control">
+                <span id="emails" class="text-danger"></span><br>
+                        </div>
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password"></label>
+                                <a href="auth-forgot-password-basic.html">
+                                    <small>Forgot Password?</small>
+                                </a>
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" name="password" id="password"  onkeyup="validPassowrd()" class="form-control" 
+                                    placeholder="Password"
+                                    aria-describedby="password"/>
+                                <span class=" text-danger" id="passwords"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember-me" />
+                                <label class="form-check-label" for="remember-me"> Remember Me </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100"  type="submit">Sign in</button>
+                        </div>
+                    </form>
+
+                    {{!-- <p class="text-center">
+                        <span>New on our platform?</span>
+                        <a href="auth-register-basic.html">
+                            <span>Create an account</span>
+                        </a>
+                    </p> --}}
+                </div>
+            </div>
+            <!-- /Register -->
+        </div>
+    </div>
+</div>
+
+<!-- / Content -->
+
+
+
+ <script>
+        
+        var Email = document.getElementById('emails')
+        var Password = document.getElementById('passwords')
+
+        function validEmail() {
+            const email = document.getElementById('email').value
+            if (email == "") {
+                Email.innerHTML = "enter you email address"
+                return false
+
+
+            }
+            if (!email.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)) {
+                Email.innerHTML = 'enter a proper email adress'
+                return false
+            }
+
+            Email.innerHTML = null
+            return true
+        }       
+       
+
+
+        function validPassowrd() {
+            const name = document.getElementById('password').value
+            if (name == "") {
+                Password.innerHTML = "enter a password"
+                return false
+            }
+            if (name.length < 1) {
+                Password.innerHTML = "password should be more than three characters"
+                return false
+            }
+            Password.innerHTML = null
+            return true
+        }
+
+
+
+        function validation() {
+            if (!validEmail()  && !validPassowrd()) {
+                return false
+            } else if (!validEmail()  || !validPassowrd()) {
+                return false
+            }else { return true }
+
+        }
+    </script>
