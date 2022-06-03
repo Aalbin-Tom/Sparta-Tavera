@@ -11,6 +11,15 @@ const res = require('express/lib/response');
 
 module.exports = {
 
+
+        addProduct:(product,callback)=>{ 
+        console.log(product);
+        db.get().collection('product').insertOne(product).then((data)=>{
+           
+          callback(data)
+        })
+    },
+
     doSignup: (userData) => {
 
         return new Promise(async (resolve, reject) => {

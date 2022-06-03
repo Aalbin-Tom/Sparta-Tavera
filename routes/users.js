@@ -51,7 +51,7 @@ router.post('/login', (req, res)=> {
       res.redirect('/verify')
     } else {
       req.session.logginErr = "Invalid Username or Password"
-      res.redirect('/users/login')
+      res.redirect('/user/login')
       
     }
   })
@@ -179,5 +179,19 @@ router.get('/logout', function (req, res) {
   req.session.destroy()
   res.redirect('/')
 })
+
+
+
+
+//shop  get 
+router.get('/shop', (req, res) =>{
+  if(req.session.userData){
+    res.render('user/shop',{user:true,userData:req.session.userData});
+  }else{
+    res.redirect('/')
+  }
+  
+});
+
 
 module.exports = router;
