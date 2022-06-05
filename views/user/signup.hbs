@@ -1,4 +1,128 @@
 
+
+    <div class="main">
+
+        <div class="container">
+            <div class="signup-content">
+               <form method="post" action="/signup" id="sgnup" class="signup-form" style="background-color: rgb(209 191 129);">
+                    <p class="text-danger"> {{ signinErr }}</p>
+                    <h2>Sign Up </h2>
+                   <div class="form-group">
+                       <input type="name" name="name" id="name" onkeyup="validName()" placeholder="Name" class="form-control">
+                <span id="names" class="text-danger"></span>
+                    </div>
+                   
+                   
+                    <div class="form-group">
+                       <input type="email" name="email" id="email" onkeyup="validEmail()" placeholder="Email" class="form-control">
+                <span id="emails" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                       <input type="phone" name="phone" id="phone" onkeyup="validPhone()" placeholder="Phone No" class="form-control">
+                <span id="phones" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" onkeyup="validPassowrd()" placeholder="Password" class="form-control">
+                <span id="passwords" class="text-danger"></span> 
+                    </div>
+                   
+                    <div class="form-group">
+                     <input  type="submit"   onclick="return validation()" class="btn btn-primary btn-md mt-3" placeholder="Sign up" style="background-color: aqua;">
+                  <br>
+                  
+               
+                 </div>
+                 
+                 <button class="btn btn-warning"><a href="/login" style="color: black;">Log In</a></button>
+                    </div>
+                </form>
+            </div>
+        </div
+
+    </div>
+
+    <script>
+        var Name = document.getElementById('names')
+        var Email = document.getElementById('emails')
+        var Password = document.getElementById('passwords')
+        var Phone = document.getElementById('phones')
+
+
+        function validEmail() {
+            const email = document.getElementById('email').value
+            if (email == "") {
+                Email.innerHTML = "enter you email address"
+                return false
+
+
+            }
+            if (!email.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)) {
+                Email.innerHTML = 'enter a proper email adress'
+                return false
+            }
+
+            Email.innerHTML = null
+            return true
+        }       
+        function validName() {
+            
+            const name = document.getElementById('name').value;
+            if (name == "") {
+                Name.innerHTML = 'Enter your Name'
+                return false
+            }
+            if (!name.match(/^[a-zA-Z]*$/)) {
+                Name.innerHTML = 'Numbers and symbols are not allowed'
+                return false
+            }
+            Name.innerHTML = null
+            return true
+
+        }
+
+        
+        function validPhone() {
+            const phone = document.getElementById('phone').value
+            if (phone == "") {
+                Phone.innerHTML = "enter a password"
+                return false
+            }
+            if (!phone.match(/^\d{10}$/)) {
+                Phone.innerHTML = "phone number should be  10 digits "
+                return false
+            }
+            Phone.innerHTML = null
+            return true
+        }
+
+
+
+        function validPassowrd() {
+            const name = document.getElementById('password').value
+            if (name == "") {
+                Password.innerHTML = "enter phone number"
+                return false
+            }
+            if (name.length < 1) {
+                Password.innerHTML = "password should be more than three characters"
+                return false
+            }
+            Password.innerHTML = null
+            return true
+        }
+
+
+
+        function validation() {
+            if (!validEmail() && !validName() && !validPassowrd() && !validPhone()) {
+                return false
+            } else if (!validEmail() || !validName() || !validPassowrd() || !validPhone() ) {
+                return false
+            }else { return true }
+
+        }
+    </script>
 <style>
 
     /* @extend display-flex; */
@@ -393,125 +517,3 @@ input[type=checkbox]:not(old):checked + label > span:before {
 /*# sourceMappingURL=style.css.map */
 
 </style>
-    <div class="main">
-
-        <div class="container">
-            <div class="signup-content">
-               <form method="post" action="/signup" id="sgnup" class="signup-form" style="background-color: rgb(209 191 129);">
-                    <h2>Sign Up </h2>
-                   <div class="form-group">
-                       <input type="name" name="name" id="name" onkeyup="validName()" placeholder="Name" class="form-control">
-                <span id="names" class="text-danger"></span>
-                    </div>
-                   
-                   
-                    <div class="form-group">
-                       <input type="email" name="email" id="email" onkeyup="validEmail()" placeholder="Email" class="form-control">
-                <span id="emails" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                       <input type="phone" name="phone" id="phone" onkeyup="validPhone()" placeholder="Phone No" class="form-control">
-                <span id="phones" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password" id="password" onkeyup="validPassowrd()" placeholder="Password" class="form-control">
-                <span id="passwords" class="text-danger"></span> 
-                    </div>
-                   
-                    <div class="form-group">
-                     <input  type="submit"   onclick="return validation()" class="btn btn-primary btn-md mt-3" placeholder="Sign up" style="background-color: aqua;">
-                  <br>
-                  
-               
-                 </div>
-                 
-                 <button class="btn btn-warning"><a href="/login" style="color: black;">Log In</a></button>
-                    </div>
-                </form>
-            </div>
-        </div
-
-    </div>
-
-    <script>
-        var Name = document.getElementById('names')
-        var Email = document.getElementById('emails')
-        var Password = document.getElementById('passwords')
-        var Phone = document.getElementById('phones')
-
-
-        function validEmail() {
-            const email = document.getElementById('email').value
-            if (email == "") {
-                Email.innerHTML = "enter you email address"
-                return false
-
-
-            }
-            if (!email.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)) {
-                Email.innerHTML = 'enter a proper email adress'
-                return false
-            }
-
-            Email.innerHTML = null
-            return true
-        }       
-        function validName() {
-            
-            const name = document.getElementById('name').value;
-            if (name == "") {
-                Name.innerHTML = 'Enter your Name'
-                return false
-            }
-            if (!name.match(/^[a-zA-Z]*$/)) {
-                Name.innerHTML = 'Numbers and symbols are not allowed'
-                return false
-            }
-            Name.innerHTML = null
-            return true
-
-        }
-
-        
-        function validPhone() {
-            const phone = document.getElementById('phone').value
-            if (phone == "") {
-                Phone.innerHTML = "enter a password"
-                return false
-            }
-            if (!phone.match(/^\d{10}$/)) {
-                Phone.innerHTML = "phone number should be  10 digits "
-                return false
-            }
-            Phone.innerHTML = null
-            return true
-        }
-
-
-
-        function validPassowrd() {
-            const name = document.getElementById('password').value
-            if (name == "") {
-                Password.innerHTML = "enter phone number"
-                return false
-            }
-            if (name.length < 1) {
-                Password.innerHTML = "password should be more than three characters"
-                return false
-            }
-            Password.innerHTML = null
-            return true
-        }
-
-
-
-        function validation() {
-            if (!validEmail() && !validName() && !validPassowrd() && !validPhone()) {
-                return false
-            } else if (!validEmail() || !validName() || !validPassowrd() || !validPhone() ) {
-                return false
-            }else { return true }
-
-        }
-    </script>

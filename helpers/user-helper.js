@@ -27,6 +27,7 @@ module.exports = {
             userData.password = await bcrypt.hash(userData.password, 10)
             console.log(userData.password);
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
+                // db.get().collection(collection.USER_COLLECTION).updateOne({email:userData.email},{$set:{status:true}})
                console.log(userData);
                 resolve(data)
             })
@@ -35,6 +36,24 @@ module.exports = {
         })
 
     },
+
+    signUp:(email)=>{
+        let response={}
+        return new Promise(async(resolve,reject)=>{
+            let emails = await db.get().collection(collection.USER_COLLECTION).findOne({ email: email.email });
+            if(emails){
+                response.status=true
+                resolve(response)
+
+            }else{
+                resolve({status:false})
+            }
+        })
+
+    },
+
+
+
     doLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
             // let loginStatus = false
@@ -63,6 +82,7 @@ module.exports = {
         })
     },
 
+   
 
 
     getAllUser: () => {
@@ -81,13 +101,13 @@ module.exports = {
         })
     },
 
-    getuserdetails: (userId) => {
+ getuserdetails: (userId) => {
         return new Promise((res, rej) => {
             db.get().collection(collections.USER_COLLECTION).findOne({ _id: ObjectId(userId) }).then((user) => {
                 res(user)
             })
         })
-    },
+    },   
 
 
     updateUser: (userId, userDetails) => {
@@ -124,3 +144,5 @@ module.exports = {
     }
 
     }
+
+

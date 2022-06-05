@@ -1,42 +1,51 @@
+<!-- Bootstrap Table with Header - Dark -->
 
-         
-            
+<div class="card">
+    <h5 class="card-header"></h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            {{#each users}}
+            <tbody class="table-border-bottom-0">
 
-              <!-- Bootstrap Table with Header - Dark -->
-              <div class="card">
-                <h5 class="card-header"></h5>
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
-                    <thead class="table-dark">
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    {{#each user}}
-                    <tbody class="table-border-bottom-0">
-                      
-                       <tr>
-                   
-                    <td>{{name}}</td>
-                    <td>{{email}}</td>
-                    <td>{{phone}}</td>
-                    <br>
-                    <td><a href="/admin/edit-users/{{this._id}}" class="btn btn-primary">Edit User</a></td>
-                    <td><a href="/admin/delete-users/{{this._id}}" 
-                            onclick="return confirm('Are you want to delete{{this.Name}}?')"
-                            class="btn btn-danger">Delete</a></td>
+                <tr>
 
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.phone}}</td>
+                    <td> {{#if this.status }}
+                        <span class="badge bg-label-primary me-1">Active</span>
+                        {{else}}
+                        <span class="badge bg-label-danger me-1">Blocked</span>
+                        {{/if}}
+                    </td>
 
+                    <td>
+                        {{#if status}}
+                         <a href="/admin/block-user/{{this._id}}"
+                            onclick="return confirm('Are you sure to BLOCK  {{this.name}}?')"
+                            class="btn btn-primary">Block</a>
+                        {{else}}
+                       
+                            <a href="/admin/unblock-user/{{this._id}}"
+                            onclick="return confirm('Are you sure  to UNBLOCK  {{this.name}}?')"
+                            class="btn btn-danger">Unblock</a>
+                        {{/if}}
+
+                    </td>
                 </tr>
                 {{/each}}
 
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <!--/ Bootstrap Table with Header Dark -->
-
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Bootstrap Table with Header Dark -->

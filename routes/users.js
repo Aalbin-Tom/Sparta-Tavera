@@ -2,20 +2,22 @@ var express = require('express');
 var router = express.Router();
 var productHelper = require('../helpers/user-helper')
 const userHelper = require('../helpers/user-helper');
-const otp =require ("../config/otp");
+const otp = require("../config/otp");
 const { redirect } = require('express/lib/response');
-const client = require("twilio")(otp.accountSID,otp.authToken)
+const req = require('express/lib/request');
+const res = require('express/lib/response');
+const client = require("twilio")(otp.accountSID, otp.authToken)
 
 
 
 //........................middlewear......................
 // const adminLogin= (req, res, next)=>{
-    
+
 //   if(req.session.logIn){
-      
+
 //    next()
 //   }else{
-     
+
 //       res.redirect('/home ')
 //   }
 // }
@@ -24,42 +26,44 @@ const client = require("twilio")(otp.accountSID,otp.authToken)
 
 
 /* GET users listing. */
-router.get('/', function(req, res) {
-  
-    res.render('home',{user:true,userData:req.session.userData});
+router.get('/', function (req, res) {
+
+  res.render('home', { user: true, userData: req.session.userData });
 });
 
 
 //login get 
-router.get('/login', (req, res) =>{
-  if(req.session.userData){
+router.get('/login', (req, res) => {
+  if (req.session.user) {
     res.redirect('/')
-  } 
-    res.render('user/login',{logginErr: req.session.logginErr});
-    req.session.logginErr=null
- 
+  }
+  res.render('user/login', { logginErr: req.session.logginErr });
+  req.session.logginErr = null
+
 });
 
 //login post
 
-router.post('/login', (req, res)=> {
+router.post('/login', (req, res) => {
+ 
   userHelper.doLogin(req.body).then((response) => {
     if (response.status) {
-     
-      req.session.loggedIn =true
-      req.session.userData  = response.user
+
+      req.session.loggedIn = true
+      req.session.userData = response.user
       res.redirect('/verify')
     } else {
       req.session.logginErr = "Invalid Username or Password"
       res.redirect('/user/login')
-      
+
     }
   })
 });
-  
+
 
 
 //................................login with otp......................................................................................................................................
+
 
 // router.post('/login',  (req, res) => {
 //   userHelper.doLogin(req.body).then((response) => {
@@ -70,8 +74,8 @@ router.post('/login', (req, res)=> {
 //     if (response.status) {
 //       console.log('mmmmmmmmmmmm');
 //       console.log(user.phone);
-//       // req.session.login = true
-//       // req.session.user = response.user
+//      // req.session.login = true
+//      // req.session.user = response.user
 //       var Number = response.phone
 //       client.verify
 //       .services(otp.serviceSID)
@@ -82,8 +86,9 @@ router.post('/login', (req, res)=> {
 //       })
 //       .then((data)=>{
       
-//        req.session.login = true
-//        req.session.user = user
+//        req.session.loggedin = true
+//        req.session.userData = response.user
+// console.log(user)
 //         console.log(data+'iam line 40 data');
 //         res.redirect('/verify')
 //       })
@@ -97,42 +102,47 @@ router.post('/login', (req, res)=> {
 
 
 //signup get 
-router.get('/signup', (req, res) =>{
-  res.render('user/signup');
+router.get('/signup', (req, res) => {
+  if(req.session.user){
+    req.redirect('/')
+  }else{
+  res.render('user/signup', { signinErr: req.session.signinErr });
+  req.session.signinErr = null 
+}
 });
 
 //signup post
-router.post('/signup', (req, res)=> {
-  if(req.session.userData){
-    res.redirect('/')
-  }
-  res.redirect('/verify');
 
-});
 
 router.post('/signup', function (req, res, next) {
- 
-      userHelper.doSignup(req.body).then((resp) => {
-        console.log(resp);
-      res.redirect('/login')
-  
-    })
-    })
- 
+  userHelper.signUp(req.body).then((response) => {
+    if (response.status) {
+      req.session.signinErr = "Email allready exits"
+      res.redirect('/signup')
+    } else {
+      userHelper.doSignup(req.body).then((response) => {  
+        
+        res.redirect('/login')
+
+      })
+    }
+  })
+})
+
 //verify get 
-router.get('/verify', (req, res) =>{
-  
-  const Number=req.session.phone
-  res.render('user/verify',{header:true,Number});
+router.get('/verify', (req, res) => {
+
+  const Number = req.session.phone
+  res.render('user/verify', { header: true, Number });
 });
 
 
-cred={
-  otp:'1234'
-}
-//verify post
-router.post('/verify', (req, res)=> {
-  if( req.body.otp == cred.otp){
+// cred = {
+//   otp: '1234'
+// }
+// //verify post
+router.post('/verify', (req, res) => {
+  if (req.body.otp == cred.otp) {
     console.log(otp);
     res.redirect('/')
   }
@@ -143,13 +153,12 @@ router.post('/verify', (req, res)=> {
 //................................verify with otp......................................................................................................................................
 
 // router.post('/verify', (req, res) => {
-//   console.log('haikksndknkdnknkdnknknknknkn');
 //   var Number =req.session.phone
 //   console.log(Number);
 //   var Otp = req.body.otp
- 
+
 //   console.log(Otp);
-  
+
 //   client.verify
 //     .services(otp.serviceSID)
 //     .verificationChecks.create({
@@ -159,13 +168,14 @@ router.post('/verify', (req, res)=> {
 //     .then((data) => {
 //       console.log(data.status + "otp status/*/*/*/");
 //       if(data.status=='approved'){
+//           req.session.login = true
 //         res.redirect("/");
 //       }else{
 //         console.log(data.status+'no booyy');
 //         otpErr = 'Invalid OTP'
 //         res.render('user/verify',{otpErr,Number,header:true})
 //       }
-   
+
 // });
 
 // })
@@ -184,13 +194,13 @@ router.get('/logout', function (req, res) {
 
 
 //shop  get 
-router.get('/shop', (req, res) =>{
-  if(req.session.userData){
-    res.render('user/shop',{user:true,userData:req.session.userData});
-  }else{
+router.get('/shop', (req, res) => {
+  if (req.session.userData) {
+    res.render('user/shop', { user: true, userData: req.session.userData });
+  } else {
     res.redirect('/')
   }
-  
+
 });
 
 

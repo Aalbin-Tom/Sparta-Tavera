@@ -68,14 +68,12 @@
 
 <body>
 	
-	{{#if admin}}
-	{{>admin-header}}
+	{{#if adminhead}}
+	{{>admin-head}}
 
 	{{!-- {{else if  header}} --}}
-	{{else if user }}
+	{{else user }}
 	{{>user-header}}
-	{{else adminhead}}
-	{{>admin-head}}
 	{{/if}}
 	{{{body}}}
 	{{footer}}
