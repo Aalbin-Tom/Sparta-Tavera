@@ -4,6 +4,6 @@ module.exports= {
 
 accountSID :  "AC0af48262557a3f33b64099833c4d0889",
 
-authToken : "79e39025119278f25a61011835865cc9" 
+authToken : "e36b6322ecb2ffdc425d8e45f10026df" 
 }
 

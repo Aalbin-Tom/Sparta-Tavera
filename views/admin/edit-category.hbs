@@ -1,0 +1,23 @@
+<div class="container mt-5">
+  <div class="row">
+
+    <div class="col-md-6">
+      <h2 class="text-center">Edit  Category</h2>
+      <form action="/admin/edit-category/{{category._id}}" method="post" enctype="multipart/form-data">
+
+
+        <label>Category Name</label>
+        <input type="text" name="category" class="form-control" value="{{category.category}}">
+
+
+  <label >Image</label>
+                        <input  type="file" name="image" class="form-control">
+                        <img src="/category/{{category._id}}.jpg" style="width: 100px; height: auto;">
+        <button type="submit" class="btn btn-success mt-4">submit</button>
+
+
+      </form>
+    </div>
+
+  </div>
+</div>
