@@ -37,7 +37,7 @@ router.get('/user-profile', (req, res) => {
 
 /* GET users listing. */
 router.get('/', function (req, res) {
-
+ 
   res.render('home', { user: true, userData: req.session.userData });
 });
 
@@ -49,26 +49,26 @@ router.get('/login', (req, res) => {
   }
   res.render('user/login', { logginErr: req.session.logginErr });
   req.session.logginErr = null
-
+ 
 });
 
 //login post
 
-// router.post('/login', (req, res) => {
+router.post('/login', (req, res) => {
  
-//   userHelper.doLogin(req.body).then((response) => {
-//     if (response.status) {
+  userHelper.doLogin(req.body).then((response) => {
+    if (response.status) {
 
-//       req.session.loggedIn = true
-//       req.session.userData = response.user
-//       res.redirect('/verify')
-//     } else {
-//       req.session.logginErr = "Invalid Username or Password"
-//       res.redirect('/login')
+      req.session.loggedIn = true
+      req.session.userData = response.user
+      res.redirect('/verify')
+    } else {
+      req.session.logginErr = "Invalid Username or Password"
+      res.redirect('/login')
 
-//     }
-//   })
-// });
+    }
+  })
+});
 
 
 
@@ -95,7 +95,6 @@ router.post('/login',  (req, res) => {
         channel:'sms'
       })
       .then((data)=>{
-      
        req.session.loggedin = true
        req.session.userData = response.user
 console.log(user)
@@ -153,44 +152,44 @@ res.redirect('/')
 
 
 // //verify post
-// router.post('/verify', (req, res) => {
-//   if (req.body.otp == "1234") {
-//     console.log(otp);
-//     res.redirect('/')
-//   }
-//   res.redirect('/verify');
-// });
+router.post('/verify', (req, res) => {
+  if (req.body.otp == "1234") {
+    console.log(otp);
+    res.redirect('/')
+  }
+  res.redirect('/verify');
+});
 
 
 //................................verify with otp......................................................................................................................................
 
-router.post('/verify', (req, res) => {
-  var Number =req.session.phone
-  console.log(Number);
-  var Otp = req.body.otp
+// router.post('/verify', (req, res) => {
+//   var Number =req.session.phone
+//   console.log(Number);
+//   var Otp = req.body.otp
 
-  console.log(Otp);
+//   console.log(Otp);
 
-  client.verify
-    .services(otp.serviceSID)
-    .verificationChecks.create({
-      to: `+91${Number}`,
-      code: Otp
-    })
-    .then((data) => {
-      console.log(data.status + "otp status/*/*/*/");
-      if(data.status=='approved'){
-          req.session.login = true
-        res.redirect("/");
-      }else{
-        console.log(data.status+'no booyy');
-        otpErr = 'Invalid OTP'
-        res.render('user/verify',{otpErr,Number,header:true})
-      }
+//   client.verify
+//     .services(otp.serviceSID)
+//     .verificationChecks.create({
+//       to: `+91${Number}`,
+//       code: Otp
+//     })
+//     .then((data) => {
+//       console.log(data.status + "otp status/*/*/*/");
+//       if(data.status=='approved'){
+//           req.session.login = true
+//         res.redirect("/");
+//       }else{
+//         console.log(data.status+'no booyy');
+//         otpErr = 'Invalid OTP'
+//         res.render('user/verify',{otpErr,Number,header:true})
+//       }
 
-});
+// });
 
-})
+// })
 
 
 
@@ -220,9 +219,12 @@ router.get('/shop', (req, res) => {
 
 
 //..............................single-product.............................................
-router.get('/single-product', (req, res) => {
+router.get('/single-product/:id', (req, res) => {
   if (req.session.userData) {
-    res.render('user/single-product', { user: true, userData: req.session.userData });
+    adminHelper.getProductDetails(req.params.id).then((product)=>{
+      res.render('user/single-product', { user: true, userData: req.session.userData ,product});
+
+    })
   } else {
     res.redirect('/')
   }

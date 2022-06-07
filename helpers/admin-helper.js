@@ -63,6 +63,8 @@ module.exports= {
                       name:productDetails.name,
                       category:productDetails.category,
                       discription:productDetails.discription,
+                      discountedprice:productDetails.discountedprice,
+                     
                       price:productDetails.price
                      
               }

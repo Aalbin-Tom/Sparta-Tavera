@@ -36,7 +36,7 @@ router.get('/admin-login', function (req, res) {
     if (req.session.admin) {
         res.render('admin/admin-home', { adminhead: true });
     } else {
-        console.log('vanilla');
+        // console.log('vanilla');
         res.redirect('/admin')
     }
 

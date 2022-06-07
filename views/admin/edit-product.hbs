@@ -8,18 +8,33 @@
                     enctype="multipart/form-data">
                     
                         <label >Name</label>
-                        <input type="text" name="name" class="form-control" value="{{product.name}}">
-                        <label >Category</label>
-                        <input type="text" name="category" class="form-control" value="{{product.category}}">
+                        
+                        <input type="text" name="name" id="name" class="form-control" onkeyup="validName()" value="{{product.name}}">
+                        <span  id="names" class="text-danger"></span><br>
+                        
+                        <label >Category</label> 
+                        
+                        <input type="text" name="category" id="category"  class="form-control" onkeyup="validCategory()" value="{{product.category}}">
+                       <span  id="categorys" class="text-danger"></span><br>
                         <label >Price</label>
-                        <input type="text" name="price" class="form-control" value="{{product.value}}">
-                        <label >Description</label>
-                        <input type="text" name="discription" class="form-control" value="{{product.discription}}">
+                        <span  id="prices" class="text-danger"></span>
+                        <input type="text" name="price" id="price"  class="form-control" onkeyup="validPrice()" value="{{product.price}}">
+                        
+                        <label >Disscount Price</label>
+                       
+                        <input type="text" name="discountedprice" id="discountedprice"  class="form-control" onkeyup="validDiscountedprice()" value="{{product.discountedprice}}">
+                         <span  id="newprices" class="text-danger"></span><br>
+                        <label >Description</label> 
+                        
+                        <input type="text" name="discription" id="discription" class="form-control" onkeyup="validDiscription()" value="{{product.discription}}">
+                       <span  id="discriptions" class="text-danger"></span><br>
                         <label >Image</label>
-                        <input type="file" name="image" class="form-control">
-                        <img src="/productimage/{{product._id}}.jpg" style="width: 100px; height: auto;">
-                        <button type="submit" class="btn btn-success mt-4">submit</button>
-
+                        <input type="file" name="image" class="form-control " required>
+                        <img src="/productimage/{{product._id}}.jpg" style="width: 100px; height: auto; ">
+                       
+ 
+                     <button  type="submit"   onclick="return validation()" class="btn btn-success mt-4" > Submit</button>
+                 
 
                     </form>
               </div>
@@ -28,4 +43,106 @@
     </div>
 
 
+
+
+    <script> 
+        var Name = document.getElementById('names')
+        var Category = document.getElementById('categorys')
+        var Price = document.getElementById('prices')
+        var Discription= document.getElementById('discriptions')
+        var Discountedprice = document.getElementById('newprices')
+
+      
+      
+
+        function validCategory() {
+            const category = document.getElementById('category').value
+            if (category == "") {
+                Category.innerHTML = "enter category name "
+                return false
+
+
+            }
+            if (!category.match(/^[a-zA-Z]*$/)) {
+                Category.innerHTML = 'enter a proper category name'
+                return false
+            }
+
+            Category.innerHTML = null
+            return true
+        }       
+        function validName() {
+            
+            const name = document.getElementById('name').value;
+            if (name == "") {
+                Name.innerHTML = 'Enter your Name'
+                return false
+            }
+            if (!name.match(/^[a-zA-Z]*$/)) {
+                Name.innerHTML = 'Numbers and symbols are not allowed'
+                return false
+            }
+            Name.innerHTML = null
+            return true
+
+        }
+         function validPrice() {
+            
+            const price = document.getElementById('price').value;
+            if (price == "") {
+                Price.innerHTML = 'Enter your Price'
+                return false
+            }
+            if (!pricce.match(/^\d{4}$/)) {
+                Price.innerHTML = 'Numbers and symbols are not allowed'
+                return false
+            }
+            Price.innerHTML = null
+            return true
+
+        }
+
+          function validDiscription() {
+            
+            const discription = document.getElementById('discription').value;
+            if (discription == "") {
+                Discription.innerHTML = 'Enter Discription'
+                return false
+            }
+            if (!discription.match(/^[a-zA-Z]*$/)) {
+                Discription.innerHTML = 'Numbers and symbols are not allowed'
+                return false
+            }
+            Discription.innerHTML = null
+            return true
+
+        }
+
+        function validDiscountedprice() {
+            
+            const discountedprice = document.getElementById('discountedprice').value;
+            if (Discountedprice == "") {
+                discountedprice.innerHTML = 'Enter your Discouted Price'
+                return false
+            }
+            if (!discountedprice.match(/^\d{4}$/)) {
+                Discountedprice.innerHTML = 'Numbers only allowed'
+                return false
+            }
+            Discountedprice.innerHTML = null
+            return true
+
+        }
+
+
+
+        function validation() {
+            if ( !validCategory() && !validName()   && !validPrice() && !validDiscription()   && !validDiscountedprice()) {
+                return false
+            } else if ( !validCategory() || !validName()   || !validPrice()  || !validDiscription() || !validDiscountedprice()  ) {
+                return false
+            }else { return true }
+
+        }
+    </script>
 
