@@ -6,16 +6,17 @@
             <form action="/admin/edit-category/{{category._id}}" method="post" enctype="multipart/form-data">
 
 
-                <label>Category</label>
+   <div class="mt-2 mb-3">
+                        <label for="largeSelect" class="form-label">Category</label>
+                        <select id="largeSelect"  name="category" class="form-select form-select-lg">
+                          {{#each category}}
+                          <option style="color: black;" value={{this.categoryname}}>{{this.categoryname}}</option>
+                        {{/each}}
+                        </select>
 
-                <input type="text" name="category" id="category" class="form-control" onkeyup="validCategory()"
-                    value="{{product.category}}">
-                <span id="categorys" class="text-danger"></span><br>
+                      </div>
 
-
-                <label>Image</label>
-                <input type="file" name="image" class="form-control" required>
-                <img src="/category/{{category._id}}.jpg" style="width: 100px; height: auto;">
+                
                 <button type="submit" onclick="return validation()" class="btn btn-success mt-4">submit</button>
 
 
@@ -40,7 +41,7 @@
 
         }
         if (!category.match(/^[a-zA-Z]*$/)) {
-            Category.innerHTML = 'enter a proper category name'
+            Category.innerHTML = 'Numbers not allowed'
             return false
         }
 

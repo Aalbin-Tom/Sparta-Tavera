@@ -75,39 +75,39 @@ router.post('/login', (req, res) => {
 //................................login with otp......................................................................................................................................
 
 
-router.post('/login',  (req, res) => {
-  userHelper.doLogin(req.body).then((response) => {
-    console.log(response);
-    req.session.phone=response.user?.phone
-    console.log('vannu')
-    let user = response.user
-    if (response.status) {
-      console.log('mmmmmmmmmmmm');
-      console.log(user.phone);
-     // req.session.login = true
-     // req.session.user = response.user
-      var Number = response.phone
-      client.verify
-      .services(otp.serviceSID)
-      .verifications
-      .create({
-        to:`+91${user.phone}`,
-        channel:'sms'
-      })
-      .then((data)=>{
-       req.session.loggedin = true
-       req.session.userData = response.user
-console.log(user)
-        console.log(data+'iam line 40 data');
-        res.redirect('/verify')
-      })
+// router.post('/login',  (req, res) => {
+//   userHelper.doLogin(req.body).then((response) => {
+//     console.log(response);
+//     req.session.phone=response.user?.phone
+//     console.log('vannu')
+//     let user = response.user
+//     if (response.status) {
+//       console.log('mmmmmmmmmmmm');
+//       console.log(user.phone);
+//      // req.session.login = true
+//      // req.session.user = response.user
+//       var Number = response.phone
+//       client.verify
+//       .services(otp.serviceSID)
+//       .verifications
+//       .create({
+//         to:`+91${user.phone}`,
+//         channel:'sms'
+//       })
+//       .then((data)=>{
+//        req.session.loggedin = true
+//        req.session.userData = response.user
+// console.log(user)
+//         console.log(data+'iam line 40 data');
+//         res.redirect('/verify')
+//       })
       
-    } else {
-      req.session.loginErr = 'Invalid username or password'
-      res.redirect('/login')
-    }
-  })
-})
+//     } else {
+//       req.session.loginErr = 'Invalid username or password'
+//       res.redirect('/login')
+//     }
+//   })
+// })
 
 
 //signup get 

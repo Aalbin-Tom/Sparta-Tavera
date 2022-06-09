@@ -53,17 +53,19 @@
                     <H1>Admin Log In</H1>
 
                     <form  class="mb-3" action="/admin/admin-login" method="post">
+                    
+                    <p class="error"> {{ loginErr }}</p>
                         <div class="mb-3">
                              <input type="email" name="email" id="email" onkeyup="validEmail()" placeholder="Email" class="form-control">
                 <span id="emails" class="text-danger"></span><br>
                         </div>
                         <div class="mb-3 form-password-toggle">
-                            <div class="d-flex justify-content-between">
+                            {{!-- <div class="d-flex justify-content-between">
                                 <label class="form-label" for="password"></label>
                                 <a href="auth-forgot-password-basic.html">
                                     <small>Forgot Password?</small>
                                 </a>
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <input type="password" name="password" id="password"  onkeyup="validPassowrd()" class="form-control" 
                                     placeholder="Password"

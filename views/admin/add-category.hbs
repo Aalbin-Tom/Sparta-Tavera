@@ -7,11 +7,12 @@
 
 
         <label>Category Name</label>
-        <input type="text" name="category" class="form-control">
+        <input type="text" name="categoryname" id="categoryname" onkeyup="validCategory()" class="form-control">
+         <span id="categorys" class="text-danger"></span><br>
 
         <label>Image</label>
-        <input type="file" name="image" class="form-control">
-        <button type="submit" class="btn btn-success mt-4">submit</button>
+        <input type="file" name="image" class="form-control" required>
+        <button type="submit" onclick="return validation()" class="btn btn-success mt-4">submit</button>
 
 
       </form>
@@ -19,3 +20,38 @@
 
   </div>
 </div>
+
+
+<script>
+
+    var Category = document.getElementById('categorys')
+
+
+    function validCategory() {
+        const category = document.getElementById('categoryname').value
+        if (category == "") {
+            Category.innerHTML = "enter category name "
+            return false
+
+
+        }
+        if (!category.match(/^[a-zA-Z]*$/)) {
+            Category.innerHTML = 'umbers not allowed'
+            return false
+        }
+
+        Category.innerHTML = null
+        return true
+    }
+
+
+
+    function validation() {
+        if (!validCategory()) {
+            return false
+        } else if (!validCategory()) {
+            return false
+        } else { return true }
+
+    }
+</script>

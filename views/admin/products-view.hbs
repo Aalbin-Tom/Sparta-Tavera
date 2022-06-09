@@ -20,13 +20,12 @@
                 {{#each product}}
                 <tr>
 
-                    <td> <img style="height: 75px; width:75px;" src="/productimage/{{this._id}}.jpg"> </td>
+                    <td> <img style="height: 75px; width:75px;" src="/productimage/{{this.images.[1]}}"> </td>
                     <td>{{this.name}}</td>
                     <td>{{this.category}}</td>
                     <td>{{this.discription}}</td>
                     <td>{{this.discountedprice}}</td>
                     <td>{{this.price}}</td>
-
 
                     
                     <td><a href="/admin/edit-product/{{this._id}}" class="btn btn-primary">Edit</a></td>
