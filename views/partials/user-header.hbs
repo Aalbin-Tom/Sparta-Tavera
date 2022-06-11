@@ -50,18 +50,18 @@
 										<li><a href="/shop">Shop</a></li>
 										<li><a href="checkout.html">Check Out</a></li>
 										<li><a href="single-product.html">Single Product</a></li>
-										<li><a href="cart.html">Cart </a></li>
+										<li><a href="/cart">Cart </a></li>
 									</ul>
 								</li>
 								<li>
 									<div class="header-icons">
-										<a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"><span class="badge bg-success">{{cartCount}}</span></i></a>
+										<a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"><span class="badge badge-success" id="cart-count">{{cartCount}}</span></i></a>
 										<a class="mobile-hide search-bar-icon" href=""><i class="fas fa-search"></i></a>
 										{{#if userData}}
 										<a class="btn btn-yellow" href="/user-profile" >{{userData.name}}</a>
 										<a class="btn btn-yellow" href="/logout">Logout</a>
 										{{else}}
-										<a class="btn btn-yellow" href="/login" >Login</a>
+										<a class="btn btn-yellow" href="/login" >Login</a> 
 										{{/if}}
 									</div>
 								</li>

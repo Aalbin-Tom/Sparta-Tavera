@@ -72,7 +72,7 @@
                 Name.innerHTML = 'Enter your Name'
                 return false
             }
-            if (!name.match(/^[a-zA-Z]*$/)) {
+            if (!name.match(/^[a-zA-Z\s-, ]+$/)) {
                 Name.innerHTML = 'Numbers and symbols are not allowed'
                 return false
             }

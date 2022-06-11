@@ -10,39 +10,38 @@
 
 	<!-- title -->
 	<title>SPARTA</title>
- 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/admin/assets/img/favicon/favicon.ico" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
+	<!-- Favicon -->
+	<link rel="icon" type="image/x-icon" href="/admin/assets/img/favicon/favicon.ico" />
 
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="/admin/assets/vendor/fonts/boxicons.css" />
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+		rel="stylesheet" />
 
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="/admin/assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="/admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="/admin/assets/css/demo.css" />
+	<!-- Icons. Uncomment required icon fonts -->
+	<link rel="stylesheet" href="/admin/assets/vendor/fonts/boxicons.css" />
 
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+	<!-- Core CSS -->
+	<link rel="stylesheet" href="/admin/assets/vendor/css/core.css" class="template-customizer-core-css" />
+	<link rel="stylesheet" href="/admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+	<link rel="stylesheet" href="/admin/assets/css/demo.css" />
 
-    <link rel="stylesheet" href="/admin/assets/vendor/libs/apex-charts/apex-charts.css" />
+	<!-- Vendors CSS -->
+	<link rel="stylesheet" href="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <!-- Page CSS -->
+	<link rel="stylesheet" href="/admin/assets/vendor/libs/apex-charts/apex-charts.css" />
 
-    <!-- Helpers -->
-    <script src="/admin/assets/vendor/js/helpers.js"></script>
+	<!-- Page CSS -->
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="/admin/assets/js/config.js"></script>
+	<!-- Helpers -->
+	<script src="/admin/assets/vendor/js/helpers.js"></script>
+
+	<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+	<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+	<script src="/admin/assets/js/config.js"></script>
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="/assets/img/favicon.png">
 	<!-- google font -->
@@ -67,24 +66,26 @@
 </head>
 
 <body>
-	
+
 	{{#if adminhead}}
 	{{>admin-head}}
 
-	{{!-- {{else if  header}} --}}
-	{{else user }}
+	{{!-- {{else if header}} --}}
+	{{else if user }}
 	{{>user-header}}
 	{{/if}}
 	{{{body}}}
+
 	{{!-- {{footer}} --}}
 	<!-- footer -->
-		{{!-- <div class="footer-area">
+	{{!-- <div class="footer-area">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box about-widget">
 						<h2 class="widget-title">About us</h2>
-						<p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+						<p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium
+							doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
@@ -123,16 +124,16 @@
 		</div>
 	</div>
 	<!-- end footer -->
-		<!-- copyright -->
+	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2019 - <a href="">Imran Hossain</a>,  All Rights Reserved.<br>
+					<p>Copyrights &copy; 2019 - <a href="">Imran Hossain</a>, All Rights Reserved.<br>
 						Distributed By - <a href="">Themewagon</a>
 					</p>
 				</div>
-				{{!-- <div class="col-lg-6 text-right col-md-12">
+				<div class="col-lg-6 text-right col-md-12">
 					<div class="social-icons">
 						<ul>
 							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
@@ -142,19 +143,20 @@
 							<li><a href="#" target="_blank"><i class="fab fa-dribbble"></i></a></li>
 						</ul>
 					</div>
-				</div> 
+				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end copyright -->   
-      
+	<!-- end copyright --> --}}
+
 
 	<!-- Optional JavaScript; choose one of the two! -->
 
 	<!-- Option 1: Bootstrap Bundle with Popper -->
-	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+	{{!--
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
-		</script>  --}}
+		</script> --}}
 
 	<!-- Option 2: Separate Popper and Bootstrap JS -->
 	<!--
@@ -189,34 +191,36 @@
 	<script src="/assets/js/jquery.magnific-popup.min.js"></script>
 	<!-- mean menu -->
 	<script src="/assets/js/jquery.meanmenu.min.js"></script>
-	<script src="/assets/js/zoom.js"></script>
+
+	<script src="/javascripts/script.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery.min.js">  </script>
 
 	<!-- sticker js -->
 	<script src="/assets/js/sticker.js"></script>
 	<!-- main js -->
 	<script src="/assets/js/main.js"></script>
-	
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="/admin/assets/vendor/libs/popper/popper.js"></script>
-    <script src="/admin/assets/vendor/js/bootstrap.js"></script>
-    <script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-    <script src="/admin/assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
+	<!-- Core JS -->
+	<!-- build:js assets/vendor/js/core.js -->
+	<script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
+	<script src="/admin/assets/vendor/libs/popper/popper.js"></script>
+	<script src="/admin/assets/vendor/js/bootstrap.js"></script>
+	<script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-    <!-- Vendors JS -->
-    <script src="/admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+	<script src="/admin/assets/vendor/js/menu.js"></script>
+	<!-- endbuild -->
 
-    <!-- Main JS -->
-    <script src="/admin/assets/js/main.js"></script>
+	<!-- Vendors JS -->
+	<script src="/admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
-    <!-- Page JS -->
-    <script src="/admin/assets/js/dashboards-analytics.js"></script>
+	<!-- Main JS -->
+	<script src="/admin/assets/js/main.js"></script>
 
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+	<!-- Page JS -->
+	<script src="/admin/assets/js/dashboards-analytics.js"></script>
+
+	<!-- Place this tag in your head or just before your close body tag. -->
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
 
 </body>
 

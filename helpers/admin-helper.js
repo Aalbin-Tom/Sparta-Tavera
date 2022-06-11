@@ -127,8 +127,8 @@ module.exports = {
         res(block)
       })
     })
-  },
-
+  }, 
+ 
   unblockUser: (id) => {
     return new Promise((res, rej) => {
       db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(id) }, { $set: { status: false, status: true } }).then((unblock) => {

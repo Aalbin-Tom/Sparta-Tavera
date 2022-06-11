@@ -97,14 +97,17 @@
             <div class="col-lg-3 col-md-6  text-center {{this.category}} ">
                 <div class="single-product-item">
                     <div class="product-image">
-                        <a style="height: 200px; width: 305px;" href="/single-product/{{this._id}}"><img src="/productimage/{{this.images.[1]}}" alt="" ></a>
+                        <a  href="/single-product/{{this._id}}"><img style="height: 200px; width: 305px;" src="/productimage/{{this.images.[0]}}" alt="" ></a>
                     </div>
                     <h3>{{this.name}}</h3>
                     <h5>{{this.category}}</h5>
-                    <p class="productprice"><span>Per pice/placte </span><del>{{this.price }}</del></p>
+                    <p class="productprice"><span>Per pice/placte <br></span><del>{{this.price }}</del></p>
                     <p class="product-price">{{this.discountedprice }}</p>
 
-                    <a href="/cart" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                    {{!-- <a href="/add-to-cart/{{this._id}}" "><i class="fas fa-shopping-cart"></i> Add to Cart</a> --}}
+                   <a class="cart-btn" >
+                       <button onclick="addToCart('{{this._id}}')"><i class="fas fa-shopping-cart"></i>  Add to Cart</button>
+                       </a>
                 </div>
             </div>
             {{/each}}
@@ -237,4 +240,6 @@
     .product-image:hover img {
         transform: scale(1.5);
     }
+
+
 </style>

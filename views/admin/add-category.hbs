@@ -35,7 +35,7 @@
 
 
         }
-        if (!category.match(/^[a-zA-Z]*$/)) {
+        if (!category.match(/^[a-zA-Z\s-, ]+$/)) {
             Category.innerHTML = 'umbers not allowed'
             return false
         }
