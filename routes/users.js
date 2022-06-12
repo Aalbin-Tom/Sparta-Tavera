@@ -8,6 +8,7 @@ const req = require('express/lib/request');
 const res = require('express/lib/response');
 const adminHelper = require('../helpers/admin-helper');
 const async = require('hbs/lib/async');
+const { response } = require('../app');
 const client = require("twilio")(otp.accountSID, otp.authToken)
 
 
@@ -257,13 +258,30 @@ router.get('/cart',async(req,res)=>{
     let product= await userHelper.getCartProducts(req.session.userData._id)
 // console.log(product);
 // console.log(product[0]._id);
-  res.render('user/cart',{user:true, userData: req.session.userData ,cartCount:req.session.count,product})
+let totalamount=await userHelper.getTotalAmount(req.session.userData._id) 
+  res.render('user/cart',{user:true,totalamount, userData: req.session.userData ,cartCount:req.session.count,product})
   
   }else{
-    res.redirect('/login')
+    res.redirect('/login',)
   }
   
 })   
+
+//.............total amountt.....................................................
+
+// router.get('/cart',async(req,res)=>{
+//   if(req.session.userData){
+//     let product= await userHelper.getCartProducts(req.session.userData._id)
+// // console.log(product);
+// // console.log(product[0]._id);
+// response.totalamount=await userHelper.getTotalAmount(req.session.userData._id) 
+//   res.render('user/cart',{user:true,totalamount, userData: req.session.userData ,cartCount:req.session.count,product})
+  
+//   }else{
+//     res.redirect('/login',)
+//   }
+  
+// })   
 
 
 //.............add-to-cart.....................................................
@@ -281,9 +299,11 @@ router.get('/add-to-cart/:id',(req,res)=>{
   
 })
 //...................................
+
 router.post('/changeproductquantity',(req,res,next)=>{
   console.log(req.body);
-  userHelper.changeproductquantity(req.body).then((response)=>{
+  userHelper.changeproductquantity(req.body).then(async(response)=>{
+   response.total = await userHelper.getTotalAmount(req.session.userData._id) 
     res.json(response)
   })
 }) 

@@ -40,7 +40,9 @@ module.exports = {
 
   addProduct: (body, files) => {
     body.images = files
+     body.price= parseInt(body.price)
     return new Promise(async(resolve, reject) => {
+     
        await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(body)
             resolve();
         })

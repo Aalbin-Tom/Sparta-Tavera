@@ -21,11 +21,11 @@ function addToCart(productId) {
 
 
 
-function incQuantity(cartId, item, count) {
+function incQuantity(cartId, item, userid, count) {
     let quantity = parseInt(document.getElementById(item).innerHTML)
     count = parseInt(count);
     // quantity =parseInt(quantity)
-
+    // alert(userid)
     console.log('ajax conected')
     $.ajax({
         url: '/changeproductquantity',
@@ -33,6 +33,7 @@ function incQuantity(cartId, item, count) {
             cart: cartId,
             product: item,
             count: count,
+            user:userid,
             quantity: quantity
         },
         method: 'post',
@@ -42,7 +43,9 @@ function incQuantity(cartId, item, count) {
                 location.reload()
 
             } else {
+                console.log(response);
                 document.getElementById(item).innerHTML = quantity + count
+                document.getElementById('total').innerHTML=response.total
             }
 
         }
