@@ -49,9 +49,9 @@
                 <div class="product-filters">
                     <ul>
                         <li class="active" data-filter="*">All</li>
-                        <li data-filter=".Drinks">Drinks</li>
-                        <li data-filter=".">Main Cource</li>
-                        <li data-filter=".Icecream">Icecream</li>
+                      {{#each category}}
+                        <li>   <a href="/showcart/{{this.categoryname}}">{{this.categoryname}} </a>  </li>
+                        {{/each}}
                     </ul>
                 </div>
             </div>

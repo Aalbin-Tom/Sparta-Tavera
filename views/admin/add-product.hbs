@@ -44,18 +44,22 @@
                     
                         <label >Name</label>
                         
-                        <input type="text" name="name" id="name" class="form-control" onkeyup="validName()" >
+                        <input type="text" name="name" id="name" class="form-control" onkeyup="validateName()" >
                         <span  id="names" class="text-danger"></span><br>
                         
-                        <label >Category</label> 
-                        
-                        <input type="text" name="category" id="category"  class="form-control" onkeyup="validCategory()" >
-                       <span  id="categorys" class="text-danger"></span><br>
+                        <label>Category</label>
+                {{!-- <label for="largeSelect" class="form-label">Catogaery</label> --}}
+              <select  name="category" class="form-select form-select-lg style=" color: black;">
+                    {{#each category}}
+                    <option " value="{{this.categoryname}}">{{this.categoryname}} </option>
+                    {{/each}}
+                </select><br>
+
                         <label >Price</label>
                         
                         <input type="number" name="price" id="price"  class="form-control" onkeyup="validPrice()" >
                         <span  id="prices" class="text-danger"></span><br>
-                        <label >Disscount Price</label>
+                        <label >Discount Price</label>
                        
                         <input type="number" name="discountedprice" id="discountedprice"  class="form-control" onkeyup="validDiscountedprice()">
                          <span  id="newprices" class="text-danger"></span><br>
@@ -82,9 +86,8 @@
 
 
 
-    <script> 
+     <script> 
         var Name = document.getElementById('names')
-        var Category = document.getElementById('categorys')
         var Price = document.getElementById('prices')
         var Discription= document.getElementById('discriptions')
         var Discountedprice = document.getElementById('newprices')
@@ -92,41 +95,27 @@
       
       
 
-        function validCategory() {
-            const category = document.getElementById('category').value
-            if (category == "") {
-                Category.innerHTML = "enter category name "
-                return false
-
-
-            }
-            if (!category.match(/^[a-zA-Z]*$/)) {
-                Category.innerHTML = 'enter a proper category name'
-                return false
-            }
-
-            Category.innerHTML = null
-            return true
-        }       
-        function validName() {
+       
+        function validateName() {
             
             const name = document.getElementById('name').value;
-            if (name == "") {
+            if (name == " ") {
                 Name.innerHTML = 'Enter your Name'
                 return false
             }
             if (!name.match(/^[a-zA-Z\s-, ]+$/)) {
                 Name.innerHTML = 'Numbers and symbols are not allowed'
                 return false
-            }
+            }else{   
             Name.innerHTML = null
             return true
 
+}
         }
          function validPrice() {
             
             const price = document.getElementById('price').value;
-            if (price == "") {
+            if (price == " ") {
                 Price.innerHTML = 'Enter Amount'
                 return false
             }
@@ -134,26 +123,26 @@
             if (price.match >= 4) {
                 Price.innerHTML = ' Numbers only allowed'
                 return false
-            }
+            }else{
             Price.innerHTML = null
             return true
-
+}
         }
 
           function validDiscription() {
             
             const discription = document.getElementById('discription').value;
-            if (discription == "") {
+            if (discription == " ") {
                 Discription.innerHTML = 'Enter Discription'
                 return false
             }
             if (!discription.match(/^[a-zA-Z\s-, ]+$/)) {
                 Discription.innerHTML = 'Numbers and symbols are not allowed'
                 return false
-            }
+            }else{
             Discription.innerHTML = null
             return true
-
+            }
         }
 
         function validDiscountedprice() {
@@ -164,24 +153,24 @@
                 return false
             }
             if (!discountedprice.match >=4) {
-                Discountedprice.innerHTML = ''
+                Discountedprice.innerHTML = ' Enter the discount price'
                 return false
-            }
+            }else{
             Discountedprice.innerHTML = null
             return true
-
+}
         }
 
 
 
         function validation() {
-            if ( !validCategory() && !validName()   && !validPrice() && !validDiscription()   && !validDiscountedprice()) {
-                return false
-            } else if ( !validCategory() || !validName()   || !validPrice()  || !validDiscription() || !validDiscountedprice()  ) {
+             if (  !validateName()   || !validPrice()  || !validDiscription() || !validDiscountedprice()  ) {
                 return false
             }else { return true }
 
         }
+
+       
     </script>
-
-
+ 
+{{!-- <script defer src="https://cdn.crop.guide/loader/l.js?c=TPBSGJ"></script>  --}}

@@ -1,0 +1,218 @@
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 offset-lg-2 text-center">
+				<div class="breadcrumb-text">
+					<p></p>
+					<h1>Check Out Product</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end breadcrumb section -->
+
+<!-- check out section -->
+<div class="checkout-section mt-150 mb-150">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="checkout-accordion-wrap">
+					<div class="accordion" id="accordionExample">
+						<div class="card single-accordion">
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link" type="button" data-toggle="collapse"
+										data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										Billing Address
+									</button>
+								</h5>
+							</div>
+
+							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+								data-parent="#accordionExample">
+								<div class="card-body">
+									<div class="billing-address-form">
+										<form action="/check-out" method="post" id="checkout">
+											<p><a class="btn btn-primary py-3 px-4 mr-4">Add New Address </a>
+											</p>
+											<h3 class="mb-4 billing-heading">Billing Details</h3>
+											<div class="row align-items-end">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="firstname">Name</label>
+														<input type="text" id="name" onkeyup="validateName()"
+															name="name" class="form-control" placeholder="">
+														<span id="name" class="text-danger"></span>
+													</div>
+												</div>
+
+
+												<div class="w-100"></div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="streetaddress">Address</label>
+														<input type="text" id="address" onkeyup="validateName()"
+															name="address" class="form-control"
+															placeholder="House number and street name">
+														<span id="name" class="text-danger"></span>
+													</div>
+												</div>
+												
+												
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="phone">Pincode</label>
+														<input type="Number" id="pincode"
+															onkeyup="validPhoneumber()" name="pincode"
+															class="form-control" placeholder="">
+														<span id="phonenumbers" class="text-danger"></span>
+													</div>
+												</div>
+												<div class="w-100"></div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="phone">Phone</label>
+														<input type="text" id="phonenumbers"
+															onkeyup="validPhoneumber()" name="number"
+															class="form-control" placeholder="">
+														<span id="phonenumbers" class="text-danger"></span>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="emailaddress">Email</label>
+														<input type="text" id="email" onkeyup="validEmail()"
+															name="email" class="form-control" placeholder="">
+														<span id="email" class="text-danger"></span>
+													</div>
+												</div>
+												<input type="text"  name="userId" id="" value="{{userData._id}}" hidden  >
+												<div class="Payment">
+													<p class="mt-4 my-3">Payment method</p>
+													<label class="radio-inline">
+														<input type="radio" name="payment-method" value="COD"
+															checked>COD
+													</label>
+												</div>
+												<div class="form-check">
+													<label class="radio-inline ">
+														<input type="radio" name="payment-method" value="Online">online
+														Payment
+													</label>
+													{{!-- <button class="btn btn-primary float-right boxed-btn"
+														type="submit">CheckOut</button> --}}
+												</div>
+											</div>
+											<button><a class="btn btn-primary float-right boxed-btn"
+													type="submit">Place Order</a></button>
+
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card single-accordion">
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+										data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										Shipping Address
+									</button>
+								</h5>
+							</div>
+							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+								data-parent="#accordionExample">
+								<div class="card-body">
+									<div class="shipping-address-form">
+										<p>Your shipping address form is here.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card single-accordion">
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+										data-target="#collapseThree" aria-expanded="false"
+										aria-controls="collapseThree">
+										Card Details
+									</button>
+								</h5>
+							</div>
+							<div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+								data-parent="#accordionExample">
+								<div class="card-body">
+									<div class="card-details">
+										<p>Your card details goes here.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="order-details-wrap">
+					<table class="order-details">
+						<thead>
+							<tr>
+								<th>Your order Details</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+
+						<tbody class="checkout-details">
+							<tr>
+								<td>Products Total</td>
+								<td>{{totalamount}} Rs</td>
+							</tr>
+							<tr>
+								<td>Delivery charge</td>
+								<td>45 Rs</td>
+							</tr>
+							<tr>
+								<td>Sub Total</td>
+								<td>{{subtotal}} Rs</td>
+							</tr>
+						</tbody>
+
+					</table>
+					<div>
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end check out section -->
+
+
+
+
+<script>
+	$('#checkout').submit((e) => {
+		e.preventDefault()
+		$.ajax({
+			url: '/check-out',
+
+			method: 'post',
+			data: $('#checkout').serialize(),
+			
+			success: (response) => {
+				
+				if (response.status){
+					alert("haloo")
+					location.href="/payment-success"
+				}
+			}
+ 
+		})
+	}) 
+</script>

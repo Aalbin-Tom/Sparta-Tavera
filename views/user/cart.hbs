@@ -27,6 +27,8 @@
                                 <th class="product-name">Name</th>
                                 <th class="product-price">Price</th>
                                 <th class="product-quantity">Quantity</th>
+                                <th class="product-quantity">Product total</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +42,7 @@
                                 </td>
                                 <td class="product-name">{{this.product.name}}</td>
                                 <td class="product-price">{{this.product.price}}</td>
-
+                                
 
                                 {{!-- <td> <button></button> class="product-quantity"><input type="number"
                                         placeholder="{{this.quantity}}" </td> --}}
@@ -53,6 +55,8 @@
                                         onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}',1)"
                                         style="border: none;">+</button>
                                 </td>
+                                <td class="product-price" ><span id="producttotal"> {{singleProAmount}} </span>  </td>
+
 
                             </tr>
                             </div>
@@ -73,22 +77,22 @@
                         </thead>
                         <tbody>
                             <tr class="total-data">
-                                <td><strong>Subtotal: </strong></td>
+                                <td><strong>Product Total: </strong></td>
                                 <td><span id="total">{{totalamount}}</span> Rs</td>
                             </tr>
                             <tr class="total-data">
-                                <td><strong>Shipping: </strong></td>
-                                <td>$45</td>
+                                <td><strong>Delivery charge: </strong></td>
+                                <td>45 Rs</td>
                             </tr>
                             <tr class="total-data">
-                                <td><strong>Total: </strong></td>
-                                <td>$545</td>
+                                <td><strong>Sub Total: </strong></td>
+                                <td> <span id="subtotal">{{subtotal}} Rs </span></td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="cart-buttons">
-                        <a href="cart.html" class="boxed-btn">Update Cart</a>
-                        <a href="checkout.html" class="boxed-btn black">Check Out</a>
+                       
+                        <a href="/check-out" class="boxed-btn black">Check Out</a>
                     </div>
                 </div>
 
@@ -106,24 +110,3 @@
     </div>
 </div>
 <!-- end cart -->
-
-
-{{!--
-<script>
-
-    function incQuantity(cartId, productId, count) {
-        console.log('ajax conected')
-        $.ajax({
-            url: '/changeproductquantity',
-            data: {
-                cart: cartId,
-                product: productId,
-                count: count
-            },
-            method: 'post',
-            success: (response) => {
-                alert(response)
-            }
-        })
-    } 
-</script>--}}

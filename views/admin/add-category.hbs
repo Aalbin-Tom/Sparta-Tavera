@@ -7,11 +7,11 @@
 
 
         <label>Category Name</label>
-        <input type="text" name="categoryname" id="categoryname" onkeyup="validCategory()" class="form-control">
+        <input type="text" name="categoryname" id="categoryname" onkeyup="validateCategory()" class="form-control">
          <span id="categorys" class="text-danger"></span><br>
 
         <label>Image</label>
-        <input type="file" name="image" class="form-control" required>
+        <input type="file" name="image" class="form-control" required multiple>
         <button type="submit" onclick="return validation()" class="btn btn-success mt-4">submit</button>
 
 
@@ -27,7 +27,7 @@
     var Category = document.getElementById('categorys')
 
 
-    function validCategory() {
+    function validateCategory() {
         const category = document.getElementById('categoryname').value
         if (category == "") {
             Category.innerHTML = "enter category name "
@@ -47,7 +47,7 @@
 
 
     function validation() {
-        if (!validCategory()) {
+        if (!validateCategory()) {
             return false
         } else if (!validCategory()) {
             return false
@@ -55,3 +55,8 @@
 
     }
 </script>
+
+
+ {{!-- <script defer src="https://cdn.crop.guide/loader/l.js?c=TPBSGJ"></script> --}}
+
+

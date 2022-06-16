@@ -54,7 +54,8 @@
 
                     <form  class="mb-3" action="/admin/admin-login" method="post">
                     
-                    <p class="error"> {{ loginErr }}</p>
+                    <p class="text-info text-danger" > {{ warn }}</p>
+                    
                         <div class="mb-3">
                              <input type="email" name="email" id="email" onkeyup="validEmail()" placeholder="Email" class="form-control">
                 <span id="emails" class="text-danger"></span><br>

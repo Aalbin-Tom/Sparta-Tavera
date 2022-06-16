@@ -90,12 +90,84 @@
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="section-title">	
 						<h3><span class="orange-text">Our</span> Products</h3>
-						<p>Come and look for your Tasty and Delicious Orders</p>
+						<p>Come and look for your Tasty and Delicious Foods</p>
 					</div>
 				</div>
 			</div>
+			<div class="product-section mt-150 mb-150">
+    <div class="container">
 
-			<div class="row">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-filters">
+                    <ul>
+                        <li class="active" data-filter="*">All</li>
+                      {{#each category}}
+                        <li>   <a href="/showcart/{{this.categoryname}}">{{this.categoryname}} </a>  </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {{!-- {{#each product}}
+            <div class="col-md-4 d-flex">
+
+
+                <div class="product ftco-animate">
+                    <div class="img d-flex align-items-center justify-content-center"
+                        style="background-image: url(/assets/images/{{this._id}});">
+                        <div class="desc">
+                            <p class="meta-prod d-flex">
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                        class="flaticon-shopping-bag"></span></a>
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                        class="flaticon-heart"></span></a>
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                        class="flaticon-visibility"></span></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text text-center">
+                        <span class="sale">Sale</span>
+                        <span class="category">{{this.catogaery}}</span>
+                        <h2>{{this.name}}</h2>
+                        <p class="mb-0"><span class="price price-sale"></span> <span class="price">
+                                <h2>{{this.price}}Rs</h2>
+                            </span></p>
+                    </div>
+                </div>
+
+            </div>
+            {{/each}}
+
+        </div> --}}
+
+        <div class="row gy-3 product-lists">
+
+            {{#each product}}
+
+            <div class="col-lg-3 col-md-6  text-center {{this.category}} ">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a  href="/single-product/{{this._id}}"><img style="height: 200px; width: 305px;" src="/productimage/{{this.images.[0]}}" alt="" ></a>
+                    </div>
+                    <h3>{{this.name}}</h3>
+                    <h5>{{this.category}}</h5>
+                    <p class="productprice"><span>Per pice/placte <br></span><del>{{this.price }}</del></p>
+                    <p class="product-price">{{this.discountedprice }}</p>
+
+                    {{!-- <a href="/add-to-cart/{{this._id}}" "><i class="fas fa-shopping-cart"></i> Add to Cart</a> --}}
+                   <a class="cart-btn" >
+                       <button onclick="addToCart('{{this._id}}')"><i class="fas fa-shopping-cart"></i>  Add to Cart</button>
+                       </a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+
+			{{!-- <div class="row">
 				<div class="col-lg-4 col-md-6 text-center">
 					<div class="single-product-item">
 						<div class="product-image">
@@ -128,7 +200,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --}}
 	<!-- end product section -->
 
 	<!-- cart banner section -->

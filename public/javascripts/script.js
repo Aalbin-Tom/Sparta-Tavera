@@ -44,11 +44,17 @@ function incQuantity(cartId, item, userid, count) {
 
             } else {
                 console.log(response);
+                   response.subtotal= response.total+45 
+                    console.log(response.subtotal);
                 document.getElementById(item).innerHTML = quantity + count
                 document.getElementById('total').innerHTML=response.total
+                document.getElementById('subtotal').innerHTML=response.subtotal
+                document.getElementById('producttotal').innerHTML=response.singleProAmount
+
+ 
             }
 
-        }
+        } 
     })
 }
 
@@ -57,7 +63,7 @@ function removeproduct(cartId, item) {
 
     $.ajax({
         url: '/remove-product',
-         method: 'post',
+         method: 'post', 
          
         data: {
             cart: cartId,
@@ -71,5 +77,27 @@ function removeproduct(cartId, item) {
         
            
         }
-    })
+    }) 
 }
+
+
+
+
+	// $('#checkout').submit((e) => {
+	// 	e.preventDefault()
+	// 	$.ajax({
+	// 		url: '/check-out',
+
+	// 		method: 'post',
+	// 		data: $('#checkout').serialize(),
+			
+	// 		success: (response) => {
+				
+	// 			if (response.status){
+	// 				alert("haloo")
+	// 				location.href="/payment-success"
+	// 			}
+	// 		}
+ 
+	// 	})
+	// })

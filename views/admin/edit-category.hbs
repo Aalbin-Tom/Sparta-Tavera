@@ -3,20 +3,14 @@
 
         <div class="col-md-6">
             <h2 class="text-center">Edit Category</h2>
-            <form action="/admin/edit-category/{{category._id}}" method="post" enctype="multipart/form-data">
+            <form action="/admin/edit-category/{{category._id}}" method="post">
+
+                {{!-- enctype="multipart/form-data" --}}
+                <label>Category Name</label>
+                <input type="text" name="categoryname" id="category" onkeyup="validateCategory()" value="{{category.categoryname}}" class="form-control">
+                <span id="categorys" class="text-danger"></span><br>
 
 
-   <div class="mt-2 mb-3">
-                        <label for="largeSelect" class="form-label">Category</label>
-                        <select id="largeSelect"  name="category" class="form-select form-select-lg">
-                          {{#each category}}
-                          <option style="color: black;" value={{this.categoryname}}>{{this.categoryname}}</option>
-                        {{/each}}
-                        </select>
-
-                      </div>
-
-                
                 <button type="submit" onclick="return validation()" class="btn btn-success mt-4">submit</button>
 
 
@@ -32,7 +26,7 @@
     var Category = document.getElementById('categorys')
 
 
-    function validCategory() {
+    function validateCategory() {
         const category = document.getElementById('category').value
         if (category == "") {
             Category.innerHTML = "enter category name "
@@ -52,11 +46,11 @@
 
 
     function validation() {
-        if (!validCategory()) {
+        if (!validateCategory()) {
             return false
-        } else if (!validCategory()) {
-            return false
-        } else { return true }
+        } else {
+            return true
+        }
 
     }
 </script>

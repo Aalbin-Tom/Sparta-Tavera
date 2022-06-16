@@ -1,148 +1,150 @@
+<div class="container mt-5">
+    <div class="row">
 
-    <div class="container mt-5">
-      <div class="row">
-          
-              <div class="col-md-6">
-                  <h2 class="text-center">Edit Product</h2>
-                    <form action="/admin/edit-product/{{product._id}}" method="post" 
-                    enctype="multipart/form-data">
-                    
-                        <label >Name</label>
-                        
-                        <input type="text" name="name" id="name" class="form-control" onkeyup="validName()" value="{{product.name}}">
-                        <span  id="names" class="text-danger"></span><br>
-                        
-                        <label >Category</label> 
-                        
-                        <input type="text" name="category" id="category"  class="form-control" onkeyup="validCategory()" value="{{product.category}}">
-                       <span  id="categorys" class="text-danger"></span><br>
-                        <label >Price</label>
-                        <span  id="prices" class="text-danger"></span>
-                        <input type="text" name="price" id="price"  class="form-control" onkeyup="validPrice()" value="{{product.price}}">
-                        
-                        <label >Disscount Price</label>
-                       
-                        <input type="text" name="discountedprice" id="discountedprice"  class="form-control" onkeyup="validDiscountedprice()" value="{{product.discountedprice}}">
-                         <span  id="newprices" class="text-danger"></span><br>
-                        <label >Description</label> 
-                        
-                        <input type="text" name="discription" id="discription" class="form-control" onkeyup="validDiscription()" value="{{product.discription}}">
-                       <span  id="discriptions" class="text-danger"></span><br>
-                        <label >Image</label>
-                        <input type="file" name="image" class="form-control " required multiple>
-                        <img src="/productimage/{{product.images.[1]}}" style="width: 100px; height: auto; ">
-                       
- 
-                     <button  type="submit"   onclick="return validation()" class="btn btn-success mt-4" > Submit</button>
-                 
+        <div class="col-md-6">
+            <h2 class="text-center">Edit Product</h2>
+            <form action="/admin/edit-product/{{product._id}}" method="post" >
+{{!-- enctype="multipart/form-data" --}}
+                <label>Name</label>
 
-                    </form>
-              </div>
-      
-      </div>
+                <input type="text" name="name" id="name" class="form-control" value="{{product.name}}"
+                    onkeyup="validateName()">
+
+                <span id="names" class="text-danger"></span><br>
+
+
+
+                {{!-- <input type="text" name="category" id="category" class="form-control" onkeyup="validCategory()"
+                    value="{{product.category}}">
+                <span id="categorys" class="text-danger"></span><br>
+                --}}
+
+                <label>Category</label>
+                {{!-- <label for="largeSelect" class="form-label">Catogaery</label> --}}
+                <select id="" name="category" class="form-select form-select-lg style=" color: black;">
+                    {{#each category}}
+                    <option " value=" {{this.categoryname}}">{{this.categoryname}} </option>
+                    {{/each}}
+                </select>
+
+                <label>Price</label>
+
+                <span id="prices" class="text-danger"></span>
+                <input type="text" name="price" id="price" class="form-control" value="{{product.price}}"
+                    onkeyup="validatePrice()">
+
+
+                <label>Disscount Price</label>
+
+                <input type="text" name="discountedprice" id="discountedprice" class="form-control"
+                    value="{{product.discountedprice}}" onkeyup="validateDiscountedprice()">
+                <span id="newprices" class="text-danger"></span><br>
+                <label>Description</label>
+
+                <input type="text" name="discription" id="discription" class="form-control"
+                    value="{{product.discription}}" onkeyup="validateDiscription()">
+
+                <span id="discriptions" class="text-danger"></span><br>
+                <label>Image</label>
+                <input type="file" name="image" class="form-control " id="imgview" required multiple
+                    onchange="viewImage(event)">
+                <img src="/productimage/{{product.images.[0]}}" style="width: 100px; height: auto;">
+
+
+                <button type="submit" onclick=" return validation()" class="btn btn-success mt-4"> Submit</button>
+
+
+            </form>
+        </div>
+
     </div>
+</div>
+
+{{!--
+<script>
+    function viewImage(event) {
+        document.getElementById('imgview').src = URL.createObjectURL(event.target.files[0])
+    }
+</script> --}}
 
 
 
 
-    <script> 
-        var Name = document.getElementById('names')
-        var Category = document.getElementById('categorys')
-        var Price = document.getElementById('prices')
-        var Discription= document.getElementById('discriptions')
-        var Discountedprice = document.getElementById('newprices')
-
-      
-      
-
-        function validCategory() {
-            const category = document.getElementById('category').value
-            if (category == "") {
-                Category.innerHTML = "enter category name "
-                return false
+{{!--
+<script defer src="https://cdn.crop.guide/loader/l.js?c=TPBSGJ"></script> --}}
 
 
-            }
-            if (!category.match(/^[a-zA-Z]*$/)) {
-                Category.innerHTML = 'enter a proper category name'
-                return false
-            }
 
-            Category.innerHTML = null
-            return true
-        }       
-        function validName() {
-            
-            const name = document.getElementById('name').value;
-            if (name == "") {
-                Name.innerHTML = 'Enter your Name'
-                return false
-            }
-            if (!name.match(/^[a-zA-Z]*$/)) {
-                Name.innerHTML = 'Numbers and symbols are not allowed'
-                return false
-            }
-            Name.innerHTML = null
-            return true
 
+
+<script>
+    var Name = document.getElementById('names')
+    var Price = document.getElementById('prices')
+    var Discription = document.getElementById('discriptions')
+    var Discountedprice = document.getElementById('newprices')
+
+
+
+    function validateName() {
+
+        const name = document.getElementById('name').value;
+        if (name == "") {
+            Name.innerHTML = 'Enter your Name'
+            return false
         }
-         function validPrice() {
-            
-            const price = document.getElementById('price').value;
-            if (price == "") {
-                Price.innerHTML = 'Enter your Price'
-                return false
-            }
-            if (!pricce.match(/^\d{4}$/)) {
-                Price.innerHTML = 'Numbers and symbols are not allowed'
-                return false
-            }
-            Price.innerHTML = null
+        if (!name.match(/^[a-zA-Z]*$/)) {
+            Name.innerHTML = 'Numbers and symbols are not allowed'
+            return false
+        }
+        Name.innerHTML = null
+        return true
+    }
+    function validatePrice() {
+
+        const price = document.getElementById('price').value;
+        if (price == "") {
+            Price.innerHTML = 'Enter your Price'
+            return false
+        }
+        if (!pricce.match(/^\d{4}$/)) {
+            Price.innerHTML = 'Numbers and symbols are not allowed'
+            return false
+        }
+        Price.innerHTML = null
+        return true
+    }
+    function validateDiscription() {
+
+        const discription = document.getElementById('discription').value;
+        if (discription == "") {
+            Discription.innerHTML = 'Enter Discription'
+            return false
+        }
+        if (!discription.match(/^[a-zA-Z]*$/)) {
+            Discription.innerHTML = 'Numbers and symbols are not allowed'
+            return false
+        }
+        Discription.innerHTML = null
+        return true
+    }
+    function validateDiscountedprice() {
+
+        const discountedprice = document.getElementById('discountedprice').value;
+        if (Discountedprice == "") {
+            discountedprice.innerHTML = 'Enter your Discouted Price'
+            return false
+        }
+        if (!discountedprice.match(/^\d{4}$/)) {
+            Discountedprice.innerHTML = 'Numbers only allowed'
+            return false
+        }
+        Discountedprice.innerHTML = null
+        return true
+    }
+    function validation() {
+        if (!validateCategory() || !validateName() || !validatePrice() || !validateDiscription() || !validateDiscountedprice()) {
+            return false
+        } else
             return true
-
-        }
-
-          function validDiscription() {
-            
-            const discription = document.getElementById('discription').value;
-            if (discription == "") {
-                Discription.innerHTML = 'Enter Discription'
-                return false
-            }
-            if (!discription.match(/^[a-zA-Z]*$/)) {
-                Discription.innerHTML = 'Numbers and symbols are not allowed'
-                return false
-            }
-            Discription.innerHTML = null
-            return true
-
-        }
-
-        function validDiscountedprice() {
-            
-            const discountedprice = document.getElementById('discountedprice').value;
-            if (Discountedprice == "") {
-                discountedprice.innerHTML = 'Enter your Discouted Price'
-                return false
-            }
-            if (!discountedprice.match(/^\d{4}$/)) {
-                Discountedprice.innerHTML = 'Numbers only allowed'
-                return false
-            }
-            Discountedprice.innerHTML = null
-            return true
-
-        }
-
-
-
-        function validation() {
-            if ( !validCategory() && !validName()   && !validPrice() && !validDiscription()   && !validDiscountedprice()) {
-                return false
-            } else if ( !validCategory() || !validName()   || !validPrice()  || !validDiscription() || !validDiscountedprice()  ) {
-                return false
-            }else { return true }
-
-        }
-    </script>
-
+    }
+</script>

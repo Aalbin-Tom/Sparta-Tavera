@@ -14,67 +14,69 @@ const client = require("twilio")(otp.accountSID, otp.authToken)
 
 
 //........................middlewear......................
-const ok = (req, res, next)=>{
+const ok = (req, res, next) => {
 
-  if(req.session.cart){
-   
-   next()
-  }else{
+  if (req.session.cart) {
+   userHelper.getCartCount(req.session.userData._id).then((count) => {
+      req.session.count = count
+      next()
+    })
 
-      res.redirect('')
+  } else {
+
+    next()
   }
 }
 
 
-//..........................user-profile...............
 
-router.get('/user-profile', (req, res) => {
-  if (req.session.userData) {
-    console.log('');
-
-   res.render('user/user-profile', { user: true, userData: req.session.userData });
-  
-  } else {
-    res.redirect('/')
-  }
-
-});
-
-router.post('/user-profile',(req,res)=>{
-  if (req.session.userData) {
- userHelper.Addres(req.body).then((response) => {
-    res.render('user/user-profile', { user: true, userData: req.session.userData });
-  }) 
-  } else {
-    res.redirect('/')
-  }
-})
 
 /* GET users listing. */
-router.get('/',async function (req, res) {
-  let cartCount= null
-  if(req.session.userData){
-  cartCount=await  userHelper.getCartCount(req.session.userData._id)
-  req.session.count=cartCount
+router.get('/', ok, async function (req, res) {
+  let cartCount = null
+  if (req.session.userData) {
+    cartCount = await userHelper.getCartCount(req.session.userData._id)
+    req.session.count = cartCount
   }
-  res.render ('home', { user: true, userData: req.session.userData ,cartCount:req.session.count});
+  let category = await adminHelper.getCategory()
+  var product = null
+  adminHelper.getAllProduct().then((products) => {
+    if (req.session.help) {
+ 
+      product = req.session.catshow
+      console.log('xxxxxxxxxxxxxxxxx selected cat vannu');
+
+    } else {
+      product = products
+      console.log('xxxxxxxxxxxxxxxxx all cat vannu');
+    }
+
+    // res.render('home', { user: true, userData: req.session.userData, product, cartCount: req.session.count, category });
+    req.session.help = false
+ 
+  res.render('home', { user: true, userData: req.session.userData, cartCount: req.session.count,product,category });
+  // res.render('home', { user: true, userData: req.session.userData, cartCount: req.session.count });
 });
+})
 
 
 //login get 
 router.get('/login', (req, res) => {
   if (req.session.userData) {
+  console.log(req.session.userData.status);
+
     res.redirect('/')
   }
-  res.render('user/login', { logginErr: req.session.logginErr });
+  res.render('user/login', { logginErr: req.session.logginErr,warn: req.session.logerr });
   req.session.logginErr = null
+  req.session.blocked= null  
  
 });
 
 //login post
 
 router.post('/login', (req, res) => {
- 
+
   userHelper.doLogin(req.body).then((response) => {
     if (response.status) {
 
@@ -95,7 +97,14 @@ router.post('/login', (req, res) => {
 
 
 // router.post('/login',  (req, res) => {
+
 //   userHelper.doLogin(req.body).then((response) => {
+
+// console.log(response.user.status);
+//  if(response.user.status){
+
+
+
 //     console.log(response);
 //     req.session.phone=response.user?.phone
 //     console.log('vannu')
@@ -120,23 +129,29 @@ router.post('/login', (req, res) => {
 //         console.log(data+'iam line 40 data');
 //         res.redirect('/verify')
 //       })
-      
+
 //     } else {
-//       req.session.loginErr = 'Invalid username or password'
+//       req.session.logginErr = 'Invalid username or password'
 //       res.redirect('/login')
 //     }
+//   }else{
+//     req.session.logerr='User is blocked'
+//     res.redirect('/login')
+//   }
+
 //   })
-// })
+//   })
+
 
 
 //signup get 
 router.get('/signup', (req, res) => {
-  if(req.session.userData){
+  if (req.session.userData) {
     res.redirect('/')
-  }else{
-  res.render('user/signup', { signinErr: req.session.signinErr });
-  req.session.signinErr = null 
-}
+  } else {
+    res.render('user/signup', { signinErr: req.session.signinErr });
+    req.session.signinErr = null
+  }
 });
 
 //signup post
@@ -148,8 +163,8 @@ router.post('/signup', function (req, res, next) {
       req.session.signinErr = "Email allready exits"
       res.redirect('/signup')
     } else {
-      userHelper.doSignup(req.body).then((response) => {  
-        
+      userHelper.doSignup(req.body).then((response) => {
+
         res.redirect('/login')
 
       })
@@ -160,11 +175,11 @@ router.post('/signup', function (req, res, next) {
 //verify get 
 router.get('/verify', (req, res) => {
   if (req.session.login) {
-res.redirect('/')
-  
+    res.redirect('/')
+
   } else {
     const Number = req.session.phone
-  res.render('user/verify', { header: true, Number,userData: req.session.userData });
+    res.render('user/verify', { header: true, Number, userData: req.session.userData });
   }
 });
 
@@ -224,27 +239,43 @@ router.get('/logout', function (req, res) {
 
 
 
-//shop  get 
-router.get('/shop', (req, res) => {
-  // if (req.session.userData) {
-    adminHelper.getAllProduct().then((product)=>{
-      res.render('user/shop', { user: true, userData: req.session.userData,product,cartCount:req.session.count});
-    })
-    
-  // }else{
-  //   res.redirect('/')
-  // }
-})
+// //shop  get 
+// router.get('/shop', ok, async (req, res) => {
+//   // if (req.session.userData) {
+//   let category = await adminHelper.getCategory()
 
+//   var product = null
+//   adminHelper.getAllProduct().then((products) => {
+//     if (req.session.help) {
+ 
+//       product = req.session.catshow
+//       console.log('xxxxxxxxxxxxxxxxx selected cat vannu');
+
+//     } else {
+//       product = products
+//       console.log('xxxxxxxxxxxxxxxxx all cat vannu');
+//     }
+
+//     res.render('user/shop', { user: true, userData: req.session.userData, product, cartCount: req.session.count, category });
+//     req.session.help = false
+//   })
+
+
+//   // }else{
+//   //   res.redirect('/')
+//   // }
+// })
 
 
 //..............................single-product.............................................
-router.get('/single-product/:id', (req, res) => {
+router.get('/single-product/:id', ok, (req, res) => {
   // if (req.session.userData) {
-    adminHelper.getProductDetails(req.params.id).then((product)=>{
-      res.render('user/single-product', { user: true, userData: req.session.userData ,product});
 
-    })
+  adminHelper.getProductDetails(req.params.id).then((product) => {
+    console.log(product);
+    res.render('user/single-product', { user: true, userData: req.session.userData, product, cartCount: req.session.count });
+
+  })
   // } else {
   //   res.redirect('/')
   // }
@@ -252,68 +283,136 @@ router.get('/single-product/:id', (req, res) => {
 });
 //..............................cart.............................................
 
- 
-router.get('/cart',async(req,res)=>{
-  if(req.session.userData){
-    let product= await userHelper.getCartProducts(req.session.userData._id)
-// console.log(product);
-// console.log(product[0]._id);
-let totalamount=await userHelper.getTotalAmount(req.session.userData._id) 
-  res.render('user/cart',{user:true,totalamount, userData: req.session.userData ,cartCount:req.session.count,product})
-  
-  }else{
+
+router.get('/cart',ok, async (req, res) => {
+  if (req.session.userData) {
+    let product = await userHelper.getCartProducts(req.session.userData?._id)
+   let singleProAmount= await userHelper.singleProductAmount(req.session.userData?._id)
+   console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+    console.log(singleProAmount);
+
+    // console.log(product[0]._id);
+    let totalamount = await userHelper.getTotalAmount(req.session.userData?._id)
+    console.log(totalamount);
+
+    var subtotal = totalamount + 45
+    console.log(subtotal);
+    res.render('user/cart', { user: true, totalamount, userData: req.session.userData, cartCount: req.session.count,singleProAmount, product, subtotal })
+
+  } else {
     res.redirect('/login',)
   }
-  
-})   
 
-//.............total amountt.....................................................
 
-// router.get('/cart',async(req,res)=>{
-//   if(req.session.userData){
-//     let product= await userHelper.getCartProducts(req.session.userData._id)
-// // console.log(product);
-// // console.log(product[0]._id);
-// response.totalamount=await userHelper.getTotalAmount(req.session.userData._id) 
-//   res.render('user/cart',{user:true,totalamount, userData: req.session.userData ,cartCount:req.session.count,product})
-  
-//   }else{
-//     res.redirect('/login',)
-//   }
-  
-// })   
+})
 
 
 //.............add-to-cart.....................................................
 
-router.get('/add-to-cart/:id',(req,res)=>{ 
-  // console.log('addto cart');
-  if(req.session.userData){
-  //  console.log('verindu');
-    userHelper.addToCart(req.params.id,req.session.userData._id).then(()=>{
-    res.json({status:true})
-  })
-  }else{
-  res.redirect('/login')
+router.get('/add-to-cart/:id', (req, res) => {
+  console.log('add to cart mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
+  if (req.session.userData) {
+     console.log('verindu');
+    userHelper.addToCart(req.params.id, req.session.userData?._id).then(() => {
+      res.json({ status: true })
+    })
+  } else {
+    res.redirect('/login')
   }
-  
+
 })
 //...................................
 
-router.post('/changeproductquantity',(req,res,next)=>{
+router.post('/changeproductquantity', (req, res, next) => { 
   console.log(req.body);
-  userHelper.changeproductquantity(req.body).then(async(response)=>{
-   response.total = await userHelper.getTotalAmount(req.session.userData._id) 
-    res.json(response)
-  })
-}) 
-
-router.post('/remove-product',(req,res,next)=>{
-  // console.log("deleted");
-  userHelper.removeCartProduct(req.body).then((response)=>{
+  userHelper.changeproductquantity(req.body).then(async (response) => {
+    response.total = await userHelper.getTotalAmount(req.session.userData?._id)
+    singleProAmount= await userHelper.singleProductAmount(req.session.userData?._id)
+    console.log(response);
     res.json(response)
   })
 })
+
+router.post('/remove-product', (req, res, next) => {
+  // console.log("deleted");
+  userHelper.removeCartProduct(req.body).then((response) => {
+    res.json(response)
+  })
+})
+
+
+router.get('/check-out', ok, async (req, res) => {
+  if (req.session.userData) {
+    let totalamount = await userHelper.getTotalAmount(req.session.userData?._id)
+    var subtotal = totalamount + 45
+    res.render('user/checkout', { user: true, userData: req.session.userData, totalamount, subtotal, cartCount: req.session.count })
+
+  } else {
+    res.redirect('/login')
+  }
+})
+
+
+
+router.post('/check-out', async (req, res) => {
+  let products = await userHelper.getCartProductsList(req.session.userData?._id)
+  let totalPrice = await userHelper.getTotalAmount(req.session.userData?._id)
+  userHelper.placeOrder(req.body, products, totalPrice).then((response) => {
+    res.json({ status: true })
+  })
+ 
+})
+
+router.get('/showcart/:name', (req, res) => {
+  let name = req.params.name
+  userHelper.getCatName(name).then((pro) => {
+
+    req.session.catshow = pro
+    req.session.help = true
+    res.redirect('home')
+  })
+
+})
+
+//..........................user-profile...............
+
+router.get('/user-profile', (req, res) => {
+  if (req.session.userData) {
+    console.log('');
+
+    res.render('user/user-profile', { user: true, userData: req.session.userData });
+
+  } else {
+    res.redirect('/')
+  }
+
+});
+
+
+router.post('/user-profile', (req, res) => {
+  if (req.session.userData) {
+    userHelper.Addres(req.body).then((response) => {
+      res.render('user/user-profile', { user: true, userData: req.session.userData });
+    })
+  } else {
+    res.redirect('/')
+  }
+})
+
+//.................................................
+
+
+
+router.get('/payment-success', async (req, res) => {
+
+  let totalamount = await userHelper.getTotalAmount()
+  var subtotal = totalamount + 45
+  // console.log(totalamount+subtotal);
+
+  res.render('user/payment-success', { userData: req.session.userData, subtotal, totalamount })
+})
+
+
 
 
 module.exports = router;

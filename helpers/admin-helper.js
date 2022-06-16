@@ -75,7 +75,7 @@ module.exports = {
       resolve(product)
     })
   },
-
+ 
   getProductDetails: (productId) => {
     return new Promise((res, rej) => {
       db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) }).then((product) => {
@@ -85,7 +85,9 @@ module.exports = {
   },
 
   updateProduct: (productId, productDetails) => {
+     body.price= parseInt(body.price)
     return new Promise((resolve, reject) => {
+     
       db.get().collection(collection.PRODUCT_COLLECTION)
         .updateOne({ _id: ObjectId(productId) }, {
           $set: {
@@ -94,12 +96,12 @@ module.exports = {
             category: productDetails.category,
             discription: productDetails.discription,
             discountedprice: productDetails.discountedprice,
-            //  "storage-spec": productDetails.storagespec,
+             // "storage-spec": productDetails.storagespec,
             price: productDetails.price
 
           }
         }).then((response) => {
-          // console.log(response)
+          console.log(response)
           resolve()
         })
     })
@@ -183,7 +185,8 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       db.get().collection(collection.CATAGORY_COLLECTION)
-        .updateOne({ _id: ObjectId(categoryId) }, {
+        .updateOne({ _id: ObjectId(categoryId) }, 
+        {
           $set: {
 
 
@@ -196,6 +199,14 @@ module.exports = {
           // console.log(response)
           resolve()
         })
+    })
+  },
+
+  getAllOrders: () => {
+    return new Promise(async (resolve, reject) => {
+      let orders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
+
+      resolve(orders)
     })
   },
 
