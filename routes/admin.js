@@ -75,7 +75,7 @@ router.get('/admin-login', function (req, res) {
     }
 
 });
-
+ 
 /* post adminlogin page. */
 router.post('/admin-login', function (req, res) {
 
@@ -342,10 +342,12 @@ router.get('/delete-category/:id', (req, res) => {
 //.....................Order-get-all...........................
 
 router.get('/view-orders',(req,res)=>{
-    // adminHelper.getAllorders().then((orders) => {
+    adminHelper.getAllOrders().then((orders) => {
         // console.log(orders);
         res.render('admin/view-orders', { adminhead: true});
     })
-// })
+})
+
+
 module.exports = router;
      

@@ -30,20 +30,23 @@
 								</h5>
 							</div>
 
+
 							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
 								data-parent="#accordionExample">
 								<div class="card-body">
 									<div class="billing-address-form">
-										<form action="/check-out" method="post" id="checkout">
+										<form  id="checkout">
 											<p><a class="btn btn-primary py-3 px-4 mr-4">Add New Address </a>
 											</p>
+
 											<h3 class="mb-4 billing-heading">Billing Details</h3>
 											<div class="row align-items-end">
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="firstname">Name</label>
 														<input type="text" id="name" onkeyup="validateName()"
-															name="name" class="form-control" placeholder="">
+															name="name" class="form-control"
+															value="{{userData.address.[0].name}}">
 														<span id="name" class="text-danger"></span>
 													</div>
 												</div>
@@ -55,18 +58,18 @@
 														<label for="streetaddress">Address</label>
 														<input type="text" id="address" onkeyup="validateName()"
 															name="address" class="form-control"
-															placeholder="House number and street name">
+															value="{{userData.address.[0].address}}">
 														<span id="name" class="text-danger"></span>
 													</div>
 												</div>
-												
-												
+
+
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="phone">Pincode</label>
-														<input type="Number" id="pincode"
-															onkeyup="validPhoneumber()" name="pincode"
-															class="form-control" placeholder="">
+														<input type="Number" id="pincode" onkeyup="validPhoneumber()"
+															name="pincode" class="form-control"
+															value="{{userData.address.[0].pincode}}">
 														<span id="phonenumbers" class="text-danger"></span>
 													</div>
 												</div>
@@ -74,9 +77,9 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="phone">Phone</label>
-														<input type="text" id="phonenumbers"
-															onkeyup="validPhoneumber()" name="number"
-															class="form-control" placeholder="">
+														<input type="text" id="phonenumbers" onkeyup="validPhoneumber()"
+															name="number" class="form-control"
+															value="{{userData.address.[0].phone}}">
 														<span id="phonenumbers" class="text-danger"></span>
 													</div>
 												</div>
@@ -84,11 +87,15 @@
 													<div class="form-group">
 														<label for="emailaddress">Email</label>
 														<input type="text" id="email" onkeyup="validEmail()"
-															name="email" class="form-control" placeholder="">
+															name="email" class="form-control"
+															value="{{userData.address.[0].email}}">
 														<span id="email" class="text-danger"></span>
 													</div>
 												</div>
-												<input type="text"  name="userId" id="" value="{{userData._id}}" hidden  >
+												<input type="text" name="userId" id="" value="{{userData._id}}" hidden>
+												<input type="text" name="username" id="" value="{{userData.name}}"
+													hidden>
+
 												<div class="Payment">
 													<p class="mt-4 my-3">Payment method</p>
 													<label class="radio-inline">
@@ -105,8 +112,8 @@
 														type="submit">CheckOut</button> --}}
 												</div>
 											</div>
-											<button><a class="btn btn-primary float-right boxed-btn"
-													type="submit">Place Order</a></button>
+											<button><a class="btn btn-primary float-right boxed-btn" type="submit">Place
+													Order</a></button>
 
 										</form>
 									</div>
@@ -195,7 +202,6 @@
 
 
 
-
 <script>
 	$('#checkout').submit((e) => {
 		e.preventDefault()
@@ -204,15 +210,71 @@
 
 			method: 'post',
 			data: $('#checkout').serialize(),
-			
+
 			success: (response) => {
-				
-				if (response.status){
-					alert("haloo")
-					location.href="/payment-success"
+
+				if (response.status) {
+					alert("codSuccess")
+					location.href = "/payment-success"
+				} else {
+					
+					razorpayPayment(response)
 				}
 			}
- 
+
 		})
-	}) 
+	})
+
+	function razorpayPayment(order) {
+		var options = {
+			"key": "rzp_test_LzENomul3uevEZ", // Enter the Key ID generated from the Dashboard
+			"amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+			"currency": "INR",
+			"name": "Sparta Teverna",
+			"description": "Test Transaction",
+			"image": "https://example.com/your_logo",
+			"order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+			"handler": function (response) {
+				
+				//returning to server
+
+
+				verifyPayment(response,order)
+			},
+			"prefill": {
+				"name": "Gaurav Kumar",
+				"email": "gaurav.kumar@example.com",
+				"contact": "9999999999"
+			},
+			"notes": {
+				"address": "Razorpay Corporate Office"
+			},
+		 	"theme": {
+				"color": "#3399cc"
+			}
+
+		};
+		var rzp1 = new Razorpay(options);
+		rzp1.open();
+
+	}
+	function verifyPayment(payment,order){
+		alert('ok')
+	$.ajax({
+
+		url:'/verify-payment',
+		data:{
+			payment, 
+			order
+		},
+		method:'post',
+		success:(response)=>{
+			if(response.status){
+				location.href = "/payment-success"
+			}else{
+				alert("payment failed")
+			}
+		}
+	})
+	}
 </script>

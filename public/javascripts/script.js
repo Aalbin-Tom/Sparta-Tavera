@@ -21,7 +21,7 @@ function addToCart(productId) {
 
 
 
-function incQuantity(cartId, item, userid, count) {
+function incQuantity(cartId, item, userid, name,price,count) {
     let quantity = parseInt(document.getElementById(item).innerHTML)
     count = parseInt(count);
     // quantity =parseInt(quantity)
@@ -43,21 +43,24 @@ function incQuantity(cartId, item, userid, count) {
                 location.reload()
 
             } else {
-                console.log(response);
+               
                    response.subtotal= response.total+45 
-                    console.log(response.subtotal);
+                //    let amount = parseInt(document.getElementById(name).innerHTML)
+
+                
                 document.getElementById(item).innerHTML = quantity + count
                 document.getElementById('total').innerHTML=response.total
                 document.getElementById('subtotal').innerHTML=response.subtotal
-                document.getElementById('producttotal').innerHTML=response.singleProAmount
+                document.getElementById(name).innerHTML=price*(quantity+count)
+    
 
- 
+
             }
-
-        } 
+        }
+        
     })
 }
-
+ 
 function removeproduct(cartId, item) {
     // let remove = parseInt(document.getElementById(item).innerHTML)
 

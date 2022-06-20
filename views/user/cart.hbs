@@ -32,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each product}}
+                            {{#each singleProAmount}}
                             <div id='single'>
                             <tr class="table-body-row "  >
 
@@ -41,25 +41,25 @@
                                 <td class="product-image"><img src="/productimage/{{this.product.images.[0]}}" alt="">
                                 </td>
                                 <td class="product-name">{{this.product.name}}</td>
-                                <td class="product-price">{{this.product.price}}</td>
+                                <td class="product-price" >{{this.product.price}}</td>
                                 
 
                                 {{!-- <td> <button></button> class="product-quantity"><input type="number"
                                         placeholder="{{this.quantity}}" </td> --}}
                                 <td><button class="cart-item-count mr-3"
-                                        onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}',-1)"
+                                        onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',-1)"
                                         style="border:none ;">-</button>
                                     <span id="{{this.item}}"> {{this.quantity}} </span>
 
                                     <button class="cart-item-count mr-3"
-                                        onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}',1)"
+                                        onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',1)"
                                         style="border: none;">+</button>
                                 </td>
-                                <td class="product-price" ><span id="producttotal"> {{singleProAmount}} </span>  </td>
+                                <td class="product-price" ><span id="{{this.product.name}}"> {{this.total}} </span>  </td>
 
 
                             </tr>
-                            </div>
+                            </div>  
                             {{/each}}
                         </tbody>
                     </table>
@@ -92,7 +92,9 @@
                     </table>
                     <div class="cart-buttons">
                        
+                       
                         <a href="/check-out" class="boxed-btn black">Check Out</a>
+                        
                     </div>
                 </div>
 

@@ -1,0 +1,30 @@
+ <div class="row gy-3 product-lists px-5">
+
+            {{#each products}}
+
+            <div class="col-lg-3 col-md-6  text-center {{this.product.category}} ">
+                <div class="single-product-item">
+                    <div class="product-image">
+                <img style="height: 200px; width: 305px;" src="/productimage/{{this.product.images.[0]}}" alt="" >
+                    </div>
+                    <h3>{{this.product.name}}</h3>
+                    <h3>Odered Quantity : {{this.quantity}}</h3>
+
+                    <h5>{{this.product.category}}</h5>
+                    <p class="productprice"><span><br></span><h2>{{this.product.price }}</h2></del></p>
+                    
+
+                    
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <style>
+    body {
+        margin-top: 160px;
+        color: #1a202c;
+        text-align: left;
+        background-color: rgb(176, 166, 166);
+    }
+    </style>
