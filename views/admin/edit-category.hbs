@@ -10,6 +10,9 @@
                 <input type="text" name="categoryname" id="category" onkeyup="validateCategory()" value="{{category.categoryname}}" class="form-control">
                 <span id="categorys" class="text-danger"></span><br>
 
+ <label>Category Offer</label>
+        <input type="text" name="offer" id="offer" onkeyup="validateoffer()" value="{{category.offer}}" class="form-control">
+         <span id="offers" class="text-danger"></span><br>
 
                 <button type="submit" onclick="return validation()" class="btn btn-success mt-4">submit</button>
 
@@ -34,7 +37,7 @@
 
 
         }
-        if (!category.match(/^[a-zA-Z]*$/)) {
+        if (!category.match(/^[a-zA-Z\s-, ]+$/)) {
             Category.innerHTML = 'Numbers not allowed'
             return false
         }

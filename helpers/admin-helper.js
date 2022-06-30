@@ -2,6 +2,9 @@
 var db = require('../config/connection')
 var collection = require('../config/collections')
 const { ObjectId } = require('mongodb');
+const req = require('express/lib/request');
+const async = require('hbs/lib/async');
+const { reject } = require('bcrypt/promises');
 module.exports = {
 
   userStatus: (userData) => {
@@ -39,29 +42,32 @@ module.exports = {
   // },
 
   addProduct: (body, files) => {
+    console.log(body);
     body.images = files
-     body.price= parseInt(body.price)
-    return new Promise(async(resolve, reject) => {
-     
-       await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(body)
-            resolve();
-        })
-    
+    body.pricess = parseInt(body.pricess)
+    body.discountedprice = parseInt(body.discountedprice)
+    body.saveprice = parseInt((body.pricess * body.discountedprice) / 100)
+    body.price = parseInt(body.pricess - body.saveprice)
+    // console.log(body);
+    return new Promise(async (resolve, reject) => {
 
+      await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(body)
+      resolve();
+    })
 
-},
+  },
 
   addProductImage: (product_id, image_path) => {
     console.log("product : " + product_id + " image path : " + image_path);
     return new Promise((resolve, reject) => {
       db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
-          { _id: ObjectId(product_id) },
-          {
-            $push: [{
-              img_path: image_path,
-            }],
-          }
-        )
+        { _id: ObjectId(product_id) },
+        {
+          $push: [{
+            img_path: image_path,
+          }],
+        }
+      )
         .then((response) => {
           resolve();
         });
@@ -75,7 +81,7 @@ module.exports = {
       resolve(product)
     })
   },
- 
+
   getProductDetails: (productId) => {
     return new Promise((res, rej) => {
       db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) }).then((product) => {
@@ -85,9 +91,18 @@ module.exports = {
   },
 
   updateProduct: (productId, productDetails) => {
-     body.price= parseInt(body.price)
+    console.log(productDetails);
+    productDetails.price = parseInt(productDetails.price)
+    productDetails.pricess = parseInt(productDetails.pricess)
+    productDetails.discountedprice = parseInt(productDetails.discountedprice)
+    productDetails.saveprice = parseInt(productDetails.pricess * productDetails.discountedprice) / 100
+    productDetails.price = parseInt(productDetails.pricess - productDetails.saveprice)
+    console.log(productDetails.price);
+
+    // console.log("haloooooooooooooooooo");
+    // console.log(productId);
     return new Promise((resolve, reject) => {
-     
+
       db.get().collection(collection.PRODUCT_COLLECTION)
         .updateOne({ _id: ObjectId(productId) }, {
           $set: {
@@ -96,13 +111,15 @@ module.exports = {
             category: productDetails.category,
             discription: productDetails.discription,
             discountedprice: productDetails.discountedprice,
-             // "storage-spec": productDetails.storagespec,
-            price: productDetails.price
+            // "storage-spec": productDetails.storagespec,
+            pricess: productDetails.pricess,
+            price: productDetails.price,
+            saveprice:productDetails.saveprice
 
           }
         }).then((response) => {
           console.log(response)
-          resolve()
+          resolve(response)
         })
     })
   },
@@ -131,8 +148,8 @@ module.exports = {
         res(block)
       })
     })
-  }, 
- 
+  },
+
   unblockUser: (id) => {
     return new Promise((res, rej) => {
       db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(id) }, { $set: { status: false, status: true } }).then((unblock) => {
@@ -151,11 +168,12 @@ module.exports = {
   // },
   Category: (body, files) => {
     body.images = files
-    return new Promise(async(resolve, reject) => {
-       await db.get().collection(collection.CATAGORY_COLLECTION).insertOne(body) 
-            resolve();
-        })
-      },
+    body.offer = parseInt(body.offer)
+    return new Promise(async (resolve, reject) => {
+      await db.get().collection(collection.CATAGORY_COLLECTION).insertOne(body)
+      resolve();
+    })
+  },
 
   getcategoryDetails: (categoryId) => {
     return new Promise((res, rej) => {
@@ -184,31 +202,238 @@ module.exports = {
     console.log(categoryDetails);
 
     return new Promise((resolve, reject) => {
+      categoryDetails.offer = parseInt(categoryDetails.offer)
       db.get().collection(collection.CATAGORY_COLLECTION)
-        .updateOne({ _id: ObjectId(categoryId) }, 
-        {
-          $set: {
+        .updateOne({ _id: ObjectId(categoryId) },
+          {
+            $set: {
 
 
-            category: categoryDetails.category,
+              categoryname: categoryDetails.categoryname,
+              offer: categoryDetails.offer
 
 
-
-          }
-        }).then((response) => {
-          // console.log(response)
-          resolve()
-        })
+            }
+          }).then((response) => {
+            // console.log(response)
+            resolve()
+          })
     })
   },
 
   getAllOrders: () => {
     return new Promise(async (resolve, reject) => {
-      let orders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
-
+      let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({ time: -1 }).toArray()
       resolve(orders)
     })
   },
+
+
+  Cancelstatus: (Orderid) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(Orderid) },
+        {
+          $set: { status: 'Cancelled' }
+        }).then(() => {
+          resolve()
+        })
+    })
+  },
+
+  Deliverystatus: (Orderid) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(Orderid) },
+        {
+          $set: { status: 'Deliverd' }
+        }).then(() => {
+          resolve()
+        })
+    })
+  },
+
+  Shippedstatus: (Orderid) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(Orderid) },
+        {
+          $set: { status: 'Shipped' }
+        }).then(() => {
+          resolve()
+        })
+    })
+  },
+
+  Returnedstatus: (Orderid) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(Orderid) },
+        {
+          $set: { status: 'Returned' }
+        }).then(() => {
+          resolve()
+        })
+    })
+  },
+
+
+
+  totalSales: () => {
+    return new Promise(async (resolve, reject) => {
+
+      let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+        {
+          $group: {
+            _id: null,
+            total: { $sum: '$totalAmount' }
+          }
+
+        }
+
+      ]).toArray()
+      console.log(total)
+      if (total[0]) {
+
+
+        resolve(total[0].total)
+      } else {
+        resolve([0])
+      }
+    })
+
+  },
+
+
+
+  PaypaltotalSales: () => {
+    return new Promise(async (resolve, reject) => {
+
+      let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+        {
+          $match: {
+            paymentMethord: "paypal",
+          }
+        },
+        {
+          $group: {
+
+            _id: null,
+            total: { $sum: '$totalAmount' }
+          }
+
+        }
+
+      ]).toArray()
+      console.log(total)
+      if (total[0]) {
+
+
+        resolve(total[0].total)
+      } else {
+        resolve([0])
+      }
+    })
+
+  },
+
+
+
+
+  CODtotalSales: () => {
+    return new Promise(async (resolve, reject) => {
+
+      let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+        {
+          $match: {
+            paymentMethord: "COD",
+          }
+        },
+        {
+          $group: {
+
+            _id: null,
+            total: { $sum: '$totalAmount' }
+          }
+
+        }
+
+      ]).toArray()
+      console.log(total)
+      if (total[0]) {
+
+
+        resolve(total[0].total)
+      } else {
+        resolve([0])
+      }
+    })
+
+  },
+
+
+
+
+  RazorpaytotalSales: () => {
+    return new Promise(async (resolve, reject) => {
+
+      let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+        {
+          $match: {
+            paymentMethord: "Razorpay",
+          }
+        },
+        {
+          $group: {
+
+            _id: null,
+            total: { $sum: '$totalAmount' }
+          }
+
+        }
+
+      ]).toArray()
+      console.log(total)
+      if (total[0]) {
+
+
+        resolve(total[0].total)
+      } else {
+        resolve([0])
+      }
+    })
+
+  },
+
+  addcoupon: (body) => {
+    console.log(body);
+    body.Couponoffer = parseInt(body.Couponoffer)
+    return new Promise(async (resolve, reject) => {
+      db.get().collection(collection.COUPON_COLLECTION).insertOne(body)
+      resolve()
+    })
+  },
+
+
+  getcoupon: () => {
+    return new Promise(async (resolve, reject) => {
+      let coupon = await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+      resolve(coupon)
+    })
+  },
+
+
+  addBanner: () => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(collection.BANNER_COLLECTION).insertOne(body)
+      resolve()
+    })
+  },
+  deleteCoupon: (couponId) => {
+    return new Promise((res, rej) => {
+      db.get().collection(collection.COUPON_COLLECTION).remove({ _id: ObjectId(couponId) }).then((response) => {
+        res(response)
+      })
+    })
+  },
+
 
 
 }

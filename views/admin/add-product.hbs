@@ -53,16 +53,30 @@
                     {{#each category}}
                     <option " value="{{this.categoryname}}">{{this.categoryname}} </option>
                     {{/each}}
-                </select><br>
+                </select>
+                <br>
 
                         <label >Price</label>
                         
-                        <input type="number" name="price" id="price"  class="form-control" onkeyup="validPrice()" >
+                        <input type="number" name="pricess" id="pricess"  class="form-control" onkeyup="validPrice()" >
                         <span  id="prices" class="text-danger"></span><br>
+
                         <label >Discount Price</label>
                        
                         <input type="number" name="discountedprice" id="discountedprice"  class="form-control" onkeyup="validDiscountedprice()">
+                         <span  id="newprices" class="text-danger"></span>
+
+                          <label hidden >Amount</label>
+                       
+                        <input type="text" name="price" id="price " hidden value="0" class="form-control" onkeyup="validDiscountedprice()">
                          <span  id="newprices" class="text-danger"></span><br>
+
+
+                          <label hidden >saveprice</label>
+
+                            <input type="text" name="saveprice" id="saveprice" hidden class="form-control" onkeyup="validDiscountedprice()">
+                         <span  id="newprices" class="text-danger"></span><br>
+
                     
                         <label >Description</label> 
                         
@@ -114,13 +128,13 @@
         }
          function validPrice() {
             
-            const price = document.getElementById('price').value;
-            if (price == " ") {
+            const price = document.getElementById('pricess').value;
+            if (price == "") {
                 Price.innerHTML = 'Enter Amount'
                 return false
             }
             
-            if (price.match >= 4) {
+            if (price.match <= 3) {
                 Price.innerHTML = ' Numbers only allowed'
                 return false
             }else{
@@ -137,7 +151,7 @@
                 return false
             }
             if (!discription.match(/^[a-zA-Z\s-, ]+$/)) {
-                Discription.innerHTML = 'Numbers and symbols are not allowed'
+                Discription.innerHTML = 'Numbers are not allowed'
                 return false
             }else{
             Discription.innerHTML = null
@@ -166,11 +180,12 @@
         function validation() {
              if (  !validateName()   || !validPrice()  || !validDiscription() || !validDiscountedprice()  ) {
                 return false
-            }else { return true }
+            }else {
+                 return true 
+                 }
 
         }
 
        
     </script>
- 
-{{!-- <script defer src="https://cdn.crop.guide/loader/l.js?c=TPBSGJ"></script>  --}}
+ <script defer src="https://cdn.crop.guide/loader/l.js?c=GVVLNV"></script>

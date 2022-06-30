@@ -36,15 +36,32 @@
 <div class="single-product mt-150 mb-150">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-5">
-				<div class="single-product-img" id="img-container">
-                   
+			<div class="col-md-8">
+				<div class="single-product-img d-flex" id="img-container">
+
 					<div id="lens"></div>
 					<img id="featured" width="500" src="/productimage/{{product.images.[0]}}" alt="">
-                  
+
 				</div>
 			</div>
-			<div class="col-md-7">
+
+
+
+			{{!-- <div class="s_Product_carousel">
+				<div id="img-container" class="">
+					<img id=featured width="350px" src="/proimg/{{product._id}}.jpg">
+					<div id="lens"></div>
+				</div>
+				<div class="single-prd-item">
+					<img class="img-fluid" style="width:30rem;" src="/proimg/{{product._id}}.jpg" alt="">
+				</div>
+			</div> --}}
+
+
+
+
+
+			<div class="col-md-4">
 
 				<div class="single-product-content">
 					<h3>{{product.name}}</h3>
@@ -54,8 +71,8 @@
 						<form action="index.html">
 							<input type="number" placeholder="0">
 						</form>
-						<a onclick="addToCart('{{product._id}}')" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-						
+						<a onclick="addToCart('{{product._id}}')" class="cart-btn"><i class="fas fa-shopping-cart"></i>
+							Add to Cart</a>
 						<p><strong>Categories: </strong>{{product.category}}</p>
 					</div>
 					<h4>Share:</h4>
@@ -173,32 +190,33 @@
 </div>
 <!-- end copyright -->
 
-	<script src="/javascripts/lens.js"></script>
+<script src="/javascripts/lens.js"></script>
 
 
 <style>
-	.img-container{
-
-	z-index: 1;
-	max-width: 500px;
+	#img-container{
+	/* z-index: 1; */
+	max-width: 850px;
 	position: relative;
 }
 
 #lens{
-
-	z-index: 2;
-	position: absolute;
-	height: 145px;
-	width: 145px;
+	/* z-index: 2;
+	position: absolute; */
+    margin-left: 20px;
+	height: 250px;
+	width: 250px;
+	
 	background-repeat: no-repeat;
-	cursor:none;
+	cursor: none;
 
 }
 #featured{
-
 	max-width: 500px;
-	max-height: 500px;
+	max-height: 600px;
+
 	cursor: pointer;
+	
 
 }
 </style>
@@ -220,7 +238,6 @@
 
 <script>
 
-
 document.getElementById('img-container').addEventListener('mouseover', function(){
     imageZoom('featured')
     
@@ -232,7 +249,7 @@ function imageZoom(imgID){
 
 	lens.style.backgroundImage = `url( ${img.src} )`
 
-	let ratio =1;
+	let ratio = 1
 
 	lens.style.backgroundSize = (img.width * ratio) + 'px ' + (img.height * ratio) + 'px';
 
@@ -253,10 +270,10 @@ function imageZoom(imgID){
 
         //1
 		let pos = getCursor()
-		//console.log('pos:', pos)
+		console.log('pos:', pos)
 
 		//2
-		let positionLeft = pos.x - (lens.offsetWidth / 2)
+		let positionLeft = pos.x - (lens.offsetWidth / 4)
 		let positionTop = pos.y - (lens.offsetHeight / 2)
 
 		//5
@@ -268,12 +285,16 @@ function imageZoom(imgID){
 			positionTop = 0
 		}
 
+		// if(positionTop >155){
+		// 	positionTop =155
+		// }
+
 		if(positionLeft > img.width - lens.offsetWidth /3 ){
-			positionLeft = img.width - lens.offsetWidth /3
+			positionLeft = (img.width - lens.offsetWidth /3)
 		}
 
 		if(positionTop > img.height - lens.offsetHeight /3 ){
-			positionTop = img.height - lens.offsetHeight /3
+			positionTop = (img.height - lens.offsetHeight /3)
 		}
 
 
@@ -285,8 +306,7 @@ function imageZoom(imgID){
 		lens.style.backgroundPosition = "-" + (pos.x * ratio) + 'px -' +  (pos.y * ratio) + 'px'
 	}
 
-	
-function getCursor(){
+	function getCursor(){
 		/* Function gets position of mouse in dom and bounds
          of image to know where mouse is over image when moved
         
@@ -307,11 +327,11 @@ function getCursor(){
 		x = x - window.pageXOffset;
 		y = y - window.pageYOffset;
 		
+		
 		return {'x':x, 'y':y}
 	}
 
 }
 
 imageZoom('featured')
-
 </script>

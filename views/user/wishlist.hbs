@@ -1,0 +1,103 @@
+
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                   
+                    <h1>Wishlist</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb section -->
+<div class="cart-section mt-150 mb-150">
+    <div class="container">
+        <div class="row" style="width:1771px ;">
+            <div class="col-lg-8 col-md-12">
+                <div class="cart-table-wrap">
+                    <table class="cart-table">
+                        <thead class="cart-table-head">
+                            <tr class="table-head-row">
+                                <th class="product-remove"></th>
+                                <th class="product-image">Product Image</th>
+                                <th class="product-name">Name</th>
+                                <th class="product-price">Price</th>
+                                
+                                <th class="product-quantity">Product total</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each product}}
+                            <div id='single'>
+                            <tr class="table-body-row "  >
+
+                                <td class="product-remove"><button <i class="far fa-window-close" onclick="removeFromWishList('{{this._id}}','{{this.product._id}}')" > </i></button> 
+                                </td>
+                                <td class="product-image" ><img style="height: 61px;" src="/productimage/{{this.product.images.[0]}}" alt="">
+                                </td>
+                                <td class="product-name">{{this.product.name}}</td>
+                                <td class="product-price" >{{this.product.price}}</td>
+                               
+
+                                {{!-- <td> <button></button> class="product-quantity"><input type="number"
+                                        placeholder="{{this.quantity}}" </td> --}}
+                               
+                           <td><p class="text-center"><a  onclick="addToCart('{{this._id}}')" class="btn btn-primary py-3 px-4">Add to Cart</a></p></td>
+						
+                                <td class="product-price" ><span id="{{this.product.name}}"> {{this.total}} </span>  </td>
+
+
+                            </tr>
+                            </div>  
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+	
+				
+			</div>	
+		</div>
+	</div>
+
+
+
+<style>
+    body {
+        margin-top: 160px;
+        color: #1a202c;
+        text-align: left;
+        background-color: rgb(176, 166, 166);
+    }
+</style>
+
+<script>
+
+function removeFromWishList(wishId,productId){
+	alert("Not workin"+wishId+' '+productId)
+$.ajax({
+    
+    url:"/remove-from-Wishlist",
+	method:'post',
+    data:{    
+        wishList:wishId,
+        product:productId,
+    },
+    success:(response)=>{
+        if(response.removeProduct){
+            alert("Product Removed from cart")
+            location.reload()
+        }else{
+            document.getElementById(productId).innerHTML=quantity+count
+        }
+    }
+})
+}
+
+
+	
+</script>

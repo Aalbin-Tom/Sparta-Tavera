@@ -1,0 +1,166 @@
+<div class=" mt-5">
+    <div class="row float-start tm-content-row d-flex justify-content container-fluid">
+      {{!-- <div class="col-sm-12 col-md-12 col-lg-6  col-xl-6 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block " style="min-height: 356px;">
+           <h2 class="tm-block-title">BANNERS</h2>
+          <div class="tm-product-table-container">
+            <table id="myTable" class="table table-hover tm-table-small tm-product-table">
+              <thead>
+                <tr>
+                  <th scope="col">&nbsp;</th>
+
+                  <th scope="col">SL.NO</th>
+                  <th scope="col">BANNER HEAD</th>
+                  <th scope="col">BANNER MAIN</th>
+                  <th scope="col">IMAGE</th>
+                  <th scope="col">ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr>
+                  <th scope="row"><input type="checkbox" /></th>
+                  <td>1</td>
+                  <td class="tm-product-name font-weight-light"></td>
+                  <td class="tm-product-name font-weight-light"></td>
+
+
+                  <td><img class="rounded" style="width: 50px;height: 50px" src="/banner_img/.jpg" alt="">
+                  </td>
+                  <td><a class="btn btn-warning btn-sm px-2 py-2 rounded" href="/admin/edit-pro/">Edit</a>
+                  </td>
+
+                  <td>
+                    <a onclick="return confirm('are you sure to delete'+ {{this.name}})"
+                      href="/admin/del-pro/{{this._id}}" class="tm-product-delete-link">
+                      <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                    </a>
+                  </td> 
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+
+          <button type="button" class="btn btn-primary btn-block text-uppercase mb-3" data-toggle="modal"
+            data-target="#exampleModal" data-whatever="@mdo">ADD BANNERS</button>
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            data-bs-whatever="@fat">Open modal for @fat</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                  <span aria-hidden="true">&times;</span>
+                </div>
+                <div class="modal-body">
+                  <form action="/admin/banner_data" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">Header:</label>
+                      <input type="text" name="header" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="mb-3">
+                      <label for="message-text" class="col-form-label">Main Head:</label>
+                      <textarea name="main" class="form-control" id="message-text"></textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label for="image" class="text-white">Image</label>
+                      <input type="file" name="image">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block text-uppercase">
+            Delete selected products
+          </button> 
+        </div>
+      </div> --}}
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-4 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block" style="min-height: 356px;width: 794px;">
+          <h2 class="tm-block-title">COUPONS</h2>
+          <div class="tm-product-table-container">
+            <table class="table tm-table-small tm-product-table">
+              <tbody>
+
+                <tr>
+                  {{!-- <th scope="col">SL.NO</th> --}}
+                  <th scope="col">COUPON CODE</th>
+                  <th scope="col">OFFER</th>
+                  <th scope="col">ACTION</th>
+
+                </tr>
+
+              </tbody>
+              <tbody>
+                {{#each coupon}}
+                <tr>
+                  
+                  {{!-- <td>{{inc @index}}</td> --}}
+                  <td class="tm-product-name font-weight-light">{{this.Couponname}}</td>
+                  <td class="tm-product-name font-weight-light">{{this.Couponoffer}}</td>
+                  
+
+
+                  <td><a href="/admin/delete-coupon/{{this._id}}"
+                            onclick="return confirm('Are you want to delete{{this.name}}?')"
+                            class="btn btn-danger">Delete</a></td>
+
+
+                </tr>
+                {{/each}}
+              </tbody>
+
+            </table>
+          </div>
+          <!-- table container -->
+          <button type="button" class="btn btn-primary btn-block text-uppercase mb-3" data-toggle="modal" data-target="#exampleModalB">
+            ADD COUPON
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModalB" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">ADD COUPON</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                   <span aria-hidden="true">&times;</span>
+                </div>
+                <div class="modal-body">
+                  <form action="/admin/Coupon" method="post" >
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">Coupon Name:</label>
+                      <input type="text" name="Couponname" class="form-control" id="recipient">
+                    </div>
+                   <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">Offer:</label>
+                      <input type="text" name="Couponoffer" class="form-control" id="recipient-name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">ADD</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {{!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> --}}
+
+  </div>

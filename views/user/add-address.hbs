@@ -36,7 +36,7 @@
                                                          
                         </li>
                          <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                           <button style="border:none ;"> <a href="/change-password"> Orders </a>  </button>
+                           <button style="border:none ;"> <a href="/change-password"> Change Password </a>  </button>
                                                          
                         </li>
                       
@@ -50,8 +50,10 @@
           <div class="row mb-4">
             <div class="col">
               <div class="form-outline">
-                <input name="name" type="text" id="name" class="form-control"required />
+                <input name="name" type="text" id="name" class="form-control" onkeyup="validName()">
                 <label class="form-label" for="form7Example1"> Name</label>
+                       <span  id="names" class="text-danger"></span> 
+
               </div>
             </div>
            
@@ -59,30 +61,38 @@
 
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <input name="email" type="email" id="email" class="form-control" required />
+            <input name="email" type="email" id="email" class="form-control"  onkeyup="validEmail()">
             <label class="form-label" for="form7Example5">Email</label>
+                       <span  id="emails" class="text-danger"></span> 
+
           </div>
 
           <!-- address input -->
           <div class="form-outline mb-4">
-            <input name="address" type="text" id="address" class="form-control"  required/>
+            <input name="address" type="text" id="address" class="form-control"   onkeyup="validAddress()">
             <label class="form-label" for="form7Example4">Address</label>
+                       <span  id="addresss" class="text-danger"></span> 
+
           </div>    
 
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <input name="pincode" type="number" id="pincode" class="form-control" />
+            <input name="pincode" type="number" id="pincode" class="form-control"  onkeyup="validPincode()">
             <label class="form-label" for="form7Example5">Pin code</label>
+                       <span  id="pincodes" class="text-danger"></span> 
+
           </div>
 
           <!-- Number input -->
           <div class="form-outline mb-4">
-            <input name="phone" type="number" id="phone" class="form-control" />
+            <input name="phone" type="number" id="phone" class="form-control"  onkeyup="validPhone()">
             <label class="form-label" for="phone">Phone</label>
+                       <span  id="phones" class="text-danger"></span> 
+
           </div>
 
           <!-- Message input -->
-             <button type="submit" class="btn btn-primary btn-lg btn-block">
+             <button type="submit"  onclick="return validation()" class="btn btn-primary btn-lg btn-block">
           Add address
         </button>
 
@@ -161,5 +171,102 @@
     }
 </style>
 
+ <script>
+        var Name = document.getElementById('names')
+        var Email = document.getElementById('emails')
+        var Address = document.getElementById('addresss')
+        var Pincode = document.getElementById('pincodes')
+        var Phone = document.getElementById('phones')
 
+
+        function validEmail() {
+            const email = document.getElementById('email').value
+            if (email == "") {
+                Email.innerHTML = "enter you email address"
+                return false
+
+
+            }
+            if (!email.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)) {
+                Email.innerHTML = 'enter a proper email'
+                return false
+            }
+
+            Email.innerHTML = null
+            return true
+        }       
+        function validName() {
+            
+            const name = document.getElementById('name').value;
+            if (name == "") {
+                Name.innerHTML = 'Enter your Name'
+                return false
+            }
+            if (!name.match(/^[a-zA-Z\s-, ]+$/)) {
+                Name.innerHTML = 'Numbers and symbols are not allowed'
+                return false
+            }
+            Name.innerHTML = null
+            return true
+
+        }
+
+
+        function validAddress() {
+            
+            const name = document.getElementById('address').value;
+            if (name == "") {
+                Address.innerHTML = 'Enter your Name'
+                return false
+            }
+            if (!name.match(/^[a-zA-Z\s-, ]+$/)) {
+                Address.innerHTML = 'Numbers and symbols are not allowed'
+                return false
+            }
+            Address.innerHTML = null
+            return true
+
+        }
+
+
+
+        function validPhone() {
+            const phone = document.getElementById('phone').value
+            if (phone == "") {
+                Phone.innerHTML = "enter a password"
+                return false
+            }
+            if (!phone.match(/^\d{10}$/)) {
+                Phone.innerHTML = "phone number should be  10 digits "
+                return false
+            }
+            Phone.innerHTML = null
+            return true
+        }
+
+
+
+        function validPincode() {
+            const pincode = document.getElementById('pincode').value
+            if (pincode == "") {
+                Pincode.innerHTML = "enter pin number"
+                return false
+            }
+            if (!pincode.match(/^\d{6}$/)) {
+                Pincode.innerHTML = "6 digit only allowed"
+                return false
+            }
+            Pincode.innerHTML = null
+            return true
+        }
+
+
+
+        function validation() {
+             if ( !validName() || !validEmail()  || !validAddress()  || !validPincode() || !validPhone()  ) {
+                return false
+            }else { return true }
+
+        }
+    </script>
 

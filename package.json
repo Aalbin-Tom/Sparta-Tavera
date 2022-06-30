@@ -19,6 +19,9 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.16",
+    "paypal": "^1.0.1",
+    "paypal-node-sdk": "^2.0.3",
+    "paypal-rest-sdk": "^1.8.1",
     "razorpay": "^2.8.1",
     "sweetalert": "^2.1.2",
     "twilio": "^3.77.1"

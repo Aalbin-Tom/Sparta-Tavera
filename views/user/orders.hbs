@@ -14,35 +14,50 @@
 
           {{!-- <th class="text-dark">Mobile</th> --}}
           <th class="text-dark">price</th>
-        
-          
+          <th class="text-dark">Status</th>
           <th class="text-dark">View</th>
           <th class="text-dark">Option</th>
-          
-          
+
+
         </tr>
       </thead>
       <tbody>
         {{#each orders}}
-        <tr>    
+        <tr>
           <td>{{this.date}}</td>
           <td>{{this.deliveryDetails.name}}</td>
           <td>{{this.deliveryDetails.address}}</td>
           <td>{{this.deliveryDetails.pincode}}</td>
           <td>{{this.paymentMethord}}</td>
           <td>{{this.totalAmount}}</td>
-         
-          
+
+          <td><span class="badge bg-label-primary me-1">{{this.status}}</span></td>
           <td>
             <a href="/view-orders/{{this._id}}" class="btn btn-primary">View Products</a>
-             <td>
-                      {{#if this.status }}
-                      <span  class="badge bg-label-primary me-1"class="btn btn-danger"> <a href="/cancelOrder/{{this._id}}">Cancel</a></span>
-                      {{else}}
-                      <span class="badge bg-label-danger me-1 btn btn-primary">Canceled</span>
-                      {{/if}}
-                    </td>
-           
+            {{!--
+          <td>
+            {{#if this.status }}
+            <span class=" " class="btn btn-danger">
+              <a href="/cancelOrder/{{this._id}}">Cancel</a>
+              <button style="border: none;" class="badge bg-label-primary me-1 btn btn-primary"
+                onclick="cancelOrder('{{this._id}}')">Cancel</button>
+              <button class="dropdown-item" onclick="returnOrder('{{this._id}}')">Returned</button></span>
+
+            {{else}}
+            <span class="badge bg-label-danger me-1 btn btn-primary">Canceled</span>
+            {{/if}}
+          </td> --}}
+          <td>
+            <div class="dropdown">
+              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu">
+                
+                <button class="dropdown-item" onclick="returnOrder('{{this._id}}')">Return</button>
+                 <button class="dropdown-item"  onclick="cancelOrder('{{this._id}}')">Cancel</button>
+              </div>
+            </div>
           </td>
 
         </tr>
@@ -53,10 +68,39 @@
 </section>
 
 <style>
-    body {
-        margin-top: 160px;
-        color: #1a202c;
-        text-align: left;
-        background-color: rgb(176, 166, 166);
-    }
-    </style>
+  body {
+    margin-top: 160px;
+    color: #1a202c;
+    text-align: left;
+    background-color: rgb(176, 166, 166);
+  }
+</style>
+<script>
+  function cancelOrder(orderId) {
+    alert('hiooooo')
+    $.ajax({
+
+      url: '/admin/cancel-order/' + orderId,
+      method: 'get',
+      success: (response) => {
+       
+        if (response.status) {
+          location.reload()
+        }
+      }
+    })
+  }
+  function returnOrder(orderId) {
+    alert('return')
+    $.ajax({
+      url: '/return-order/' + orderId,
+      method: 'get',
+      success: (response) => {
+        if (response.status) {
+          location.reload()
+        }
+      }
+
+    })
+  }
+</script>

@@ -105,17 +105,23 @@
 												</div>
 												<div class="form-check">
 													<label class="radio-inline ">
-														<input type="radio" name="payment-method" value="Online">online
+														<input type="radio" name="payment-method" value="Razorpay">Razorpay
+													</label>
+													
+												</div>
+												<div class="form-check">
+													<label class="radio-inline ">
+														<input type="radio" name="payment-method" value="paypal">PayPal
 														Payment
 													</label>
-													{{!-- <button class="btn btn-primary float-right boxed-btn"
-														type="submit">CheckOut</button> --}}
 												</div>
+												
 											</div>
 											<button><a class="btn btn-primary float-right boxed-btn" type="submit">Place
 													Order</a></button>
 
 										</form>
+											{{!-- <a href="/pay" ><button>Paypal</button></a> --}}
 									</div>
 								</div>
 							</div>
@@ -216,9 +222,16 @@
 				if (response.status) {
 					alert("codSuccess")
 					location.href = "/payment-success"
-				} else {
-					
+				} else if(response.status==false) {
+					alert('razorpay')		
+			
 					razorpayPayment(response)
+				}else{
+					 for(let i = 0;i < response.links.length;i++){
+                      if(response.links[i].rel === 'approval_url'){
+                         location.href=response.links[i].href
+                       }
+                     }
 				}
 			}
 
