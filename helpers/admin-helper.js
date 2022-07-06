@@ -114,7 +114,7 @@ module.exports = {
             // "storage-spec": productDetails.storagespec,
             pricess: productDetails.pricess,
             price: productDetails.price,
-            saveprice:productDetails.saveprice
+            saveprice: productDetails.saveprice
 
           }
         }).then((response) => {
@@ -432,6 +432,86 @@ module.exports = {
         res(response)
       })
     })
+  },
+
+
+  addCategoryOffer: (name) => {
+    console.log(name);
+    console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+    return new Promise(async (resolve, reject) => {
+      let category = await db.get().collection(collection.CATAGORY_COLLECTION).findOne({ categoryname: name })
+      console.log(name);
+      console.log(category);
+      let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+        {
+          $match: {
+            category:name
+
+          }
+        },
+      ]).toArray()
+
+      console.log(product);
+      resolve(product)
+       
+      product.map(async(value,index)=>{
+        let id=value._id
+        let offers= value.price-category.offer
+        console.log(offers);
+        await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:ObjectId(id)},
+        {
+          $set:{
+            price:offers
+          }
+        })
+      })
+      
+      resolve()
+
+    })
+  },
+
+  datereport:(to,from,type)=>{
+    console.log(from);
+    console.log(to);
+    console.log(type);
+    return new Promise( async(resolve,reject)=>{
+      
+     let report= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+    
+        {
+          $match: {
+            
+            status:type,
+            time:{
+              $gte: from,
+              $lte: to
+            },
+
+          }
+        },
+      
+        {
+          $lookup: {
+              from: collection.PRODUCT_COLLECTION,
+              localField: 'products.item',
+              foreignField: '_id',
+              as: 'product'
+          }
+      },{
+        $lookup:{
+          from:collection.USER_COLLECTION,
+           localField: 'userId',
+          foreignField: '_id',
+          as: 'user'
+        }
+      }
+
+      ]).toArray()
+       
+console.log("hihihihihihih");
+      resolve(report)
+    }) 
   },
 
 

@@ -121,10 +121,10 @@ router.get('/admin-home', async function (req, res) {
         let paypals = formatCash(paypal)
         let COD = formatCash(cod)
         let razorpays = formatCash(razorpay)
-        console.log();
+        console.log(total);
 
         //   console.log(totals);
-        res.render('admin/admin-home', { adminhead: true, totals, paypals, COD, razorpays });
+        res.render('admin/admin-home', { adminhead: true, total, paypal, cod, razorpay, totals, paypals, COD, razorpays });
     } else {
 
         res.redirect('/admin')
@@ -410,7 +410,7 @@ router.get('/return-order/:id', (req, res) => {
 
 //............................get and category...................................................
 
-router.get('/coupon',  async(req, res) => {
+router.get('/coupon', async (req, res) => {
     console.log("hlooooooooooooooooooooooooooooooooooooooo");
     adminHelper.getcoupon().then((coupon) => {
         console.log(coupon);
@@ -437,5 +437,36 @@ router.get('/delete-coupon/:id', (req, res) => {
 })
 
 
+//.............add cstegory offer...........
+router.get('/add-categoryoffer/:name', (req, res) => {
+    console.log("ddddddddddddddddddddddddddddddddddddd");
+    adminHelper.addCategoryOffer(req.params.name).then(() => {
+        res.json({ status: true })
+    })
+})
+
+
+
+// .............sales report............................
+
+router.get('/report', (req, res) => {
+
+    res.render('admin/report', { adminhead: true ,report :req.session.report})
+    
+})
+
+
+router.post('/sales-report', (req, res) => {
+    console.log(req.body);
+    let to = new Date(req.body.to)
+    let from = new Date(req.body.from)
+    adminHelper.datereport(to, from, req.body.type).then((report) => {
+       req.session.report=report
+        console.log(req.session.report);
+        res.redirect('/admin/report')
+
+    })
+
+})
 
 module.exports = router;

@@ -1,4 +1,4 @@
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery.min.js">  </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery.min.js">  </script>
 
 <!-- breadcrumb-section -->
 <div class="breadcrumb-section breadcrumb-bg">
@@ -34,32 +34,36 @@
                         <tbody>
                             {{#each singleProAmount}}
                             <div id='single'>
-                            <tr class="table-body-row "  >
+                                <tr class="table-body-row ">
 
-                                <td class="product-remove"><button <i class="far fa-window-close" onclick="removeproduct('{{this._id}}','{{this.item}}')" > </i></button> 
-                                </td>
-                                <td class="product-image"><img src="/productimage/{{this.product.images.[0]}}" alt="">
-                                </td>
-                                <td class="product-name">{{this.product.name}}</td>
-                                <td class="product-price" >{{this.product.price}}</td>
-                                
-
-                                {{!-- <td> <button></button> class="product-quantity"><input type="number"
-                                        placeholder="{{this.quantity}}" </td> --}}
-                                <td><button class="cart-item-count mr-3"
-                                        onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',-1)"
-                                        style="border:none ;">-</button>
-                                    <span id="{{this.item}}"> {{this.quantity}} </span>
-
-                                    <button class="cart-item-count mr-3"
-                                        onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',1)"
-                                        style="border: none;">+</button>
-                                </td>
-                                <td class="product-price" ><span id="{{this.product.name}}"> {{this.total}} </span>  </td>
+                                    <td class="product-remove"><button style="border: none;"> <i
+                                                class="far fa-window-close"
+                                                onclick="removeproduct('{{this._id}}','{{this.item}}')"> </i></button>
+                                    </td>
+                                    <td class="product-image"><img src="/productimage/{{this.product.images.[0]}}"
+                                            alt="">
+                                    </td>
+                                    <td class="product-name">{{this.product.name}}</td>
+                                    <td class="product-price">{{this.product.price}}</td>
 
 
-                            </tr>
-                            </div>  
+                                    {{!-- <td> <button></button> class="product-quantity"><input type="number"
+                                            placeholder="{{this.quantity}}" </td> --}}
+                                    <td><button class="cart-item-count mr-3"
+                                            onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',-1)"
+                                            style="border:none ;">-</button>
+                                        <span id="{{this.item}}"> {{this.quantity}} </span>
+
+                                        <button class="cart-item-count mr-3"
+                                            onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',1)"
+                                            style="border: none;">+</button>
+                                    </td>
+                                    <td class="product-price"><span id="{{this.product.name}}"> {{this.total}} </span>
+                                    </td>
+
+
+                                </tr>
+                            </div>
                             {{/each}}
                         </tbody>
                     </table>
@@ -80,10 +84,22 @@
                                 <td><strong>Product Total: </strong></td>
                                 <td><span id="total">{{totalamount}}</span> Rs</td>
                             </tr>
-                            <tr class="total-data">
+                            {{!-- <tr class="total-data">
                                 <td><strong>Delivery charge: </strong></td>
                                 <td>45 Rs</td>
+                            </tr> --}}
+                            <div hidden>
+                                {{offer}}
+                            </div>
+                            {{#if offers}}
+                            <tr class="total-data">
+                                <td><strong> Coupon discount</strong></td>
+                                <td id="coupondiscount"><i class="fa-solid fa-indian-rupee-sign"></i> {{offers}} Rs</td>
+
                             </tr>
+                            {{/if}}
+                            
+
                             <tr class="total-data">
                                 <td><strong>Sub Total: </strong></td>
                                 <td> <span id="subtotal">{{subtotal}} Rs </span></td>
@@ -91,24 +107,63 @@
                         </tbody>
                     </table>
                     <div class="cart-buttons">
-                       
-                       
+
+
                         <a href="/check-out" class="boxed-btn black">Check Out</a>
-                        
+
                     </div>
                 </div>
 
                 <div class="coupon-section">
                     <h3>Apply Coupon</h3>
                     <div class="coupon-form-wrap">
-                        <form action="index.html">
-                            <p><input type="text" placeholder="Coupon"></p>
-                            <p><input type="submit" value="Apply"></p>
+                        <form id="applycoupon">
+                            <span class="text-danger" id="couponError"> </span>
+                            <input type="text" name="name" id="name" placeholder="Coupon" class="form-control">
+                            <span id="emails" class="text-danger"></span>
+
+                            {{!-- <p><input type="submit" value="Apply"></p> --}}
+                            <input type="submit" onclick="return validation()" name="submit"
+                                class="btn btn-info btn-md mt-3" value="Apply">
+
                         </form>
+
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
 </div>
 <!-- end cart -->
+
+
+<script>
+
+    $('#applycoupon').submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: '/coupons',
+
+            method: 'post',
+            data: $('#applycoupon').serialize(),
+
+            success: (response) => {
+                alert(response.status)
+                if (response.status) {
+                    //		alert(response.status)
+                    location.reload()
+                } else {
+
+                    document.getElementById("couponError").innerHTML = "Coupon don't not Exists"
+                }
+            }
+
+        })
+    })
+
+
+
+
+
+</script>

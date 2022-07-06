@@ -11,6 +11,8 @@ const async = require('hbs/lib/async');
 const { response } = require('../app');
 const client = require("twilio")(otp.accountSID, otp.authToken)
 const paypal = require('paypal-rest-sdk');
+// const shordid =require('shortid');
+const shortid = require('shortid');
 
 
 
@@ -173,10 +175,13 @@ router.get('/signup', (req, res) => {
   }
 });
 
-//signup post
+//..............signup post
 
 
 router.post('/signup', function (req, res, next) {
+  req.body.referalcode=shortid.generate()
+  req.body.referalAmount=parseInt(50)
+  console.log(req.body.referalcode);
   userHelper.signUp(req.body).then((response) => {
     if (response.status) {
       req.session.signinErr = "Email allready exits"
@@ -291,7 +296,7 @@ router.get('/single-product/:id', ok, (req, res) => {
   // if (req.session.userData) {
 
   adminHelper.getProductDetails(req.params.id).then((product) => {
-    console.log(product);
+    // console.log(product);
     res.render('user/single-product', { user: true, userData: req.session.userData, product, cartCount: req.session.count });
 
   })
@@ -307,15 +312,33 @@ router.get('/cart', ok, async (req, res) => {
   if (req.session.userData) {
     let product = await userHelper.getCartProducts(req.session.userData?._id)
     let singleProAmount = await userHelper.singleProductAmount(req.session.userData?._id)
-    // console.log(singleProAmount);
-
-    // console.log(product[0]._id);
+    // console.log(singleProAmount); 
+    // console.log(couponoffer); 
     let totalamount = await userHelper.getTotalAmount(req.session.userData?._id)
     console.log(totalamount);
+    let couponoffer = await userHelper.getCoupons(req.session.userData?._id)
+    console.log(couponoffer);
+  
 
-    var subtotal = totalamount + 45
+    if(couponoffer.couponoffer){ 
+      console.log(couponoffer.couponoffer);
+      console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    var offer = couponoffer.couponoffer
+    var offers =(totalamount*offer)/100
+    var subtotal =  Math.round(totalamount 
+      // + 45
+       - offers)
+    
+  }else{
+    var subtotal = totalamount
+    //  + 45 
+   var offer= 0
+   var offers=0
+  } 
+   
     console.log(subtotal);
-    res.render('user/cart', { user: true, totalamount, userData: req.session.userData, cartCount: req.session.count, singleProAmount, product, subtotal })
+
+    res.render('user/cart', { user: true, totalamount, userData: req.session.userData,referalAmount:req.session.referal, cartCount: req.session.count, singleProAmount, product, subtotal, offer,offers})
 
   } else {
     res.redirect('/login',)
@@ -344,6 +367,9 @@ router.post('/changeproductquantity', (req, res, next) => {
   console.log(req.body);
   userHelper.changeproductquantity(req.body).then(async (response) => {
     response.total = await userHelper.getTotalAmount(req.session.userData?._id)
+    response.catof = await userHelper.Coupon(req.session.userData?._id)
+    response.referal = req.session.referal
+    console.log(response);
     res.json(response)
   })
 })
@@ -362,10 +388,40 @@ router.get('/check-out', ok, async (req, res) => {
   if (req.session.userData) {
     let address = await userHelper.getAddresdetails(req.session.userData?._id)
     let totalamount = await userHelper.getTotalAmount(req.session.userData?._id)
-    var subtotal = totalamount + 45
-    console.log(req.session.userData);
-    res.render('user/checkout', { user: true, userData: req.session.userData, totalamount, subtotal, cartCount: req.session.count })
+    let subtotal = totalamount 
+    
+    let couponoffer = await userHelper.getCoupons(req.session.userData?._id)
+    console.log(couponoffer);
 
+   
+    if(couponoffer.couponoffer){ 
+     
+    var offer = couponoffer.couponoffer
+    var offers =(totalamount*offer)/100
+     subtotal =  Math.round(totalamount - offers)
+    
+  }else{
+     subtotal
+    
+   var offer= 0
+   var offers=0
+  } 
+
+  if(req.session.referal){
+
+    console.log(req.session.referal);
+      subtotal =subtotal-50
+      
+console.log(totalamount);
+
+  }else{
+    subtotal
+  }
+  console.log("hahhahahahhahahahahahahhahahahahahahahahahahhahhahahhah");
+
+    // console.log(req.session.userData);
+    res.render('user/checkout', { user: true, userData: req.session.userData, totalamount, subtotal, referal: req.session.referal, cartCount: req.session.count,offer,offers })
+ 
   } else {
     res.redirect('/login')
   }
@@ -374,11 +430,39 @@ router.get('/check-out', ok, async (req, res) => {
 
 
 router.post('/check-out', async (req, res) => {
-console.log(req.body);
+  console.log(req.body);
   let products = await userHelper.getCartProductsList(req.session.userData?._id)
   let totalPric = await userHelper.getTotalAmount(req.session.userData?._id)
-  let totalprice=(totalPric+45)
+
+  console.log("asdfghjkqwertyuiozxcvbn");
+ // let totalprice = (totalPric + 45) 
+  console.log(totalPric);    
+  let couponoffer = await userHelper.getCoupons(req.session.userData?._id)
+    console.log(couponoffer);
+
+    if(couponoffer.couponoffer){ 
+      console.log(couponoffer.couponoffer);
+      console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    var offer = couponoffer.couponoffer
+    var offers =(totalPric*offer)/100
+    var totalprice =  Math.round(totalPric  - offers)
+    
+  }else{
+    var totalprice = totalPric  
+   var offer= 0
+   var offers=0
+  } 
+  if(req.session.referal){
+    totalprice=totalprice-50
+  }else{
+    totalprice
+  }
+
   userHelper.placeOrder(req.body, products, totalprice).then((orderId) => {
+    console.log("hahhahhahahhahahah");
+    console.log(totalprice);
+    console.log();
+
     req.session.orderid = orderId.insertedId
     if (req.body['payment-method'] === 'COD') {
       res.json({ status: true })
@@ -386,11 +470,15 @@ console.log(req.body);
       console.log(orderId);
       userHelper.generateRazorpay(orderId, totalprice).then((response) => {
         response.status = false
+          console.log(totalprice);
+
         res.json(response)
       })
     } else {
-      console.log("paypal");
+      console.log("paypal"); 
       userHelper.generatePaypal(orderId, totalprice).then((payment) => {
+    console.log(totalprice);
+
         res.json(payment)
       })
     }
@@ -402,15 +490,15 @@ router.get('/showcart/:name', (req, res) => {
   // if (req.session.userData) {
 
 
-    let names = req.params.name
-    // console.log(names);
-    userHelper.getCatName(names).then((pro) => {
-      console.log(pro);
-      req.session.catshow = pro
-      req.session.help = true
-      res.redirect('/')
-    })
-  // } else {
+  let names = req.params.name
+  // console.log(names);
+  userHelper.getCatName(names).then((pro) => {
+    console.log(pro);
+    req.session.catshow = pro
+    req.session.help = true
+    res.redirect('/')
+  })
+  // } else { 
   //   res.redirect('/login')
   // }
 })
@@ -471,7 +559,8 @@ router.get('/payment-success', async (req, res) => {
 
 
     let totalamount = await userHelper.getTotalAmount()
-    var subtotal = totalamount + 45
+    var subtotal = totalamount 
+    // + 45
 
     res.render('user/payment-success', { user: true, userData: req.session.userData, subtotal, totalamount })
   } else {
@@ -525,11 +614,11 @@ router.get('/cancelOrder/:id', (req, res) => {
 
 router.get('/change-password', (req, res) => {
   if (req.session.userData) {
-    res.render('user/change-password', { status: req.session.pass, stat:req.session.wrong, userData: req.session.userData, user: true, })
-  
+    res.render('user/change-password', { status: req.session.pass, stat: req.session.wrong, userData: req.session.userData, user: true, })
+
   } else {
     res.redirect('/login')
- 
+
 
 
   }
@@ -542,11 +631,11 @@ router.post('/change-password', (req, res) => {
     userHelper.changePassword(req.body, req.session.userData?._id).then((response) => {
       if (response.status) {
         req.session.pass = " Password changed successfully"
-  req.session.wrong = null
+        req.session.wrong = null
 
         res.redirect('/change-password')
       } else {
-           req.session.pass = null
+        req.session.pass = null
         req.session.wrong = "Old Password dosen't Match"
         res.redirect('/change-password')
 
@@ -624,5 +713,28 @@ router.get('/return-order/:id', (req, res) => {
   })
 })
 
+
+router.post('/coupons', (req, res) => {
+  console.log("hihihihihihihi");
+  if (req.session.userData) {
+    req.session.cupoff =req.body.name
+    userHelper.getCoupon(req.body.name, req.session.userData?._id).then((response) => {
+
+      console.log(response);
+      res.json( response )
+    })
+  }
+  // res.redirect('/login')
+})
+
+
+router.post('/referal',(req,res)=>{
+  console.log(req.body);
+  userHelper.getReferal(req.body).then((response) => {
+    req.session.referal=response
+    console.log(response.referalAmount);
+    res.json(response)
+  })  
+})
 
 module.exports = router;

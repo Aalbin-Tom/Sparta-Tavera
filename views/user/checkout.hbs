@@ -117,7 +117,7 @@
 												</div>
 												
 											</div>
-											<button><a class="btn btn-primary float-right boxed-btn" type="submit">Place
+											<button style="border: none; background-color: white;"><a class="btn btn-primary float-right boxed-btn" type="submit">Place
 													Order</a></button>
 
 										</form>
@@ -183,9 +183,27 @@
 								<td>Products Total</td>
 								<td>{{totalamount}} Rs</td>
 							</tr>
-							<tr>
+							{{!-- <tr>
 								<td>Delivery charge</td>
 								<td>45 Rs</td>
+							</tr> --}}
+							<tr>
+								{{#if offers}}
+                            <tr class="total-data">
+                                <td><strong> Coupon discount </strong></td>
+                                <td id="coupondiscount"><i class="fa-solid fa-indian-rupee-sign"></i> {{offers}} Rs</td>
+
+                            </tr>
+                            {{/if}}
+							{{#if referalAmount }}
+                            <tr class="total-data">
+                                <td><strong>Referral Offer </strong></td>
+                                <td id="referral"><i class="fa-solid fa-indian-rupee-sign"></i> {{referalAmount}} Rs
+                                </td>
+
+                            </tr>
+                            {{/if}}
+
 							</tr>
 							<tr>
 								<td>Sub Total</td>
@@ -195,7 +213,22 @@
 
 					</table>
 					<div>
+            <div class="coupon-section">
+                    <h3>Referral Code</h3>
+                    <div class="coupon-form-wrap">
+                        <form id="referalcode">
+                            <span class="text-danger" id="referalError"> </span>
+                            <input type="text" name="referal" id="referal" placeholder="Referral Code"
+                                class="form-control">
 
+                            {{!-- <p><input type="submit" value="Apply"></p> --}}
+                            <input type="submit" onclick="return validation()" name="submit"
+                                class="btn btn-info btn-md mt-3" value="Apply">
+
+                        </form>
+
+                    </div>
+                </div> 	
 
 
 					</div>
@@ -209,6 +242,35 @@
 
 
 <script>
+
+      
+    $('#referalcode').submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: '/referal',
+
+            method: 'post',
+            data: $('#referalcode').serialize(),
+
+            success: (response) => {
+                alert(response)
+                if (response) {
+                    //		alert(response.status)
+                    location.reload()
+                } else {
+
+                    document.getElementById("referalError").innerHTML = "Referal Code dose not Exists"
+                }
+            }
+
+        })
+    })
+
+ 
+
+
+
+
 	$('#checkout').submit((e) => {
 		e.preventDefault()
 		$.ajax({

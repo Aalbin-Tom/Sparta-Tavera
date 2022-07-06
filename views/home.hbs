@@ -101,9 +101,11 @@
 					<div class="col-md-12">
 						<div class="product-filters">
 							<ul>
-								<li class="active" data-filter="*">All</li>
 								{{#each category}}
-								<li> <a href="/showcart/{{this.categoryname}}">{{this.categoryname}} </a> </li>
+								<li> <a href="/showcart/{{this.categoryname}}">{{this.categoryname}} 
+								{{!-- {{#if category.offer}} --}}
+								<br> <span class="badge badge-success" >{{this.offer}} Rs  offer </span></a> </li>
+								{{!-- {{/if}} --}}
 								{{/each}}
 							</ul>
 						</div>
@@ -148,14 +150,17 @@
 					{{#each product}}
 
 					<div class="col-lg-3 col-md-6  text-center {{this.category}} ">
-						<div class="single-product-item">
+						<div class="single-product-item"> 
+							{{!-- {{#each ../category}}
+							<span style="" class="badge badge-success" id="cart-count">{{this.offer}}</span>
+							{{/each}} --}}
 							<div class="product-image">
 								<a href="/single-product/{{this._id}}"><img style="height: 200px; width: 305px;"
 										src="/productimage/{{this.images.[0]}}" alt=""></a>
 							</div>
 							<h3>{{this.name}}</h3>
 							<h6>{{this.category}}</h6>
-							<p class="productprice"><span>Per pice/placte <br></span>
+							{{!-- <p class="productprice"><span>Per pice/placte <br></span> --}}
 							<h3><del>{{this.pricess }}</h3></del></p>
 							<span class="badge bg-label-primary me-1"> {{discountedprice}}% offer, you saved Rs {{this.saveprice}}</span>
 							<p class="product-price">{{this.price }}</p>
@@ -534,3 +539,6 @@
 			</div>
 		</div>
 		<!-- end copyright -->
+
+
+		
