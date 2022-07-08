@@ -71,8 +71,10 @@
 						<form action="index.html">
 							<input type="number" placeholder="0">
 						</form>
-						<a onclick="addToCart('{{product._id}}')" class="cart-btn"><i class="fas fa-shopping-cart"></i>
-							Add to Cart</a>
+						<a class="cart-btn">
+								<button style="border: none; background-color: #f28123;" onclick="addToCart('{{product._id}}')"><i class="fas fa-shopping-cart"></i> Add to
+									Cart</button>
+							</a>
 						<p><strong>Categories: </strong>{{product.category}}</p>
 					</div>
 					<h4>Share:</h4>

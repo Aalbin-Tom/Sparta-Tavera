@@ -103,6 +103,8 @@ router.get('/admin-home', async function (req, res) {
         let paypal = await adminHelper.PaypaltotalSales()
         let cod = await adminHelper.CODtotalSales()
         let razorpay = await adminHelper.RazorpaytotalSales()
+      
+
         const formatCash = n => {
             if (n < 1e3) return n;
             if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + "K";
@@ -122,6 +124,7 @@ router.get('/admin-home', async function (req, res) {
         let COD = formatCash(cod)
         let razorpays = formatCash(razorpay)
         console.log(total);
+
 
         //   console.log(totals);
         res.render('admin/admin-home', { adminhead: true, total, paypal, cod, razorpay, totals, paypals, COD, razorpays });
@@ -451,7 +454,7 @@ router.get('/add-categoryoffer/:name', (req, res) => {
 
 router.get('/report', (req, res) => {
 
-    res.render('admin/report', { adminhead: true ,report :req.session.report})
+    res.render('admin/report', { adminhead: true ,report :req.session.report}) 
     
 })
 
@@ -467,6 +470,52 @@ router.post('/sales-report', (req, res) => {
 
     })
 
+})
+
+router.get('/sales-report',async(req,res)=>{
+    let dailySales = await adminHelper.getDailySales()
+    let weeklySales = await adminHelper.getWeeklySales()
+    let YearlySales = await adminHelper.getYearlySales()
+    
+    // map to get only the dates
+    let date = [];
+    dailySales.map((daily) => {
+      date.push(daily._id);
+    });
+
+    let a=date[0]
+    let b =date[1]
+
+    let dailycount = [];
+    dailySales.map((daily) => {
+      dailycount.push(daily.count);
+    });
+
+    //map to get the month 
+    let month = [];
+    weeklySales.map((daily) => {
+      month.push(daily._id);
+    });
+
+    let monthcount = [];
+    weeklySales.map((daily) => {
+      monthcount.push(daily.count);
+    });
+
+     //map to get the year
+     let year = [];
+     YearlySales.map((daily) => {
+       month.push(daily._id);
+     });
+ 
+     let yearcount = [];
+     YearlySales.map((daily) => {
+       yearcount.push(daily.count);
+     });
+
+    console.log(date);
+    console.log(dailycount);
+   res.render('admin/sales-report',{adminhead:true,a,b,date,dailycount,month,monthcount,yearcount, year})
 })
 
 module.exports = router;

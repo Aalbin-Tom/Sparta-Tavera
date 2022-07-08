@@ -52,11 +52,11 @@
                                     <td><button class="cart-item-count mr-3"
                                             onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',-1)"
                                             style="border:none ;">-</button>
-                                        <span id="{{this.item}}"> {{this.quantity}} </span>
+                                        <span id="{{this.item}}"> {{this.quantity}}   </span> &nbsp
 
                                         <button class="cart-item-count mr-3"
                                             onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',1)"
-                                            style="border: none;">+</button>
+                                            style="border: none;">  +</button>
                                     </td>
                                     <td class="product-price"><span id="{{this.product.name}}"> {{this.total}} </span>
                                     </td>

@@ -46,7 +46,6 @@ module.exports = {
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
               
 
-                // db.get().collection(collection.USER_COLLECTION).updateOne({email:userData.email},{$set:{status:true}})
                 console.log(userData);
                 resolve(data)
             })
@@ -75,7 +74,6 @@ module.exports = {
 
     doLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
-            // let loginStatus = false
             let response = {}
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email })
             if (user) {
@@ -234,25 +232,9 @@ module.exports = {
                         product: { $arrayElemAt: ['$product', 0] }
                     }
                 },
-                // {  
-                //     $lookup: {
-                //         from: collection.PRODUCT_COLLECTION,
-                //         let: { prodList: '$product' },
-                //         pipeline: [
-                //             {
-                //                 $match: {
-                //                     $expr: {
-                //                         $in:['$_id',"$$prodList"]
-                //                     }
-                //                 }
-                //             }
-                //         ],
-                //         as: 'cartItems'
-                //    }
-                // }
+               
 
             ]).toArray()
-            // console.log(cartItems)
             resolve(cartItems)
 
         })
@@ -282,7 +264,6 @@ module.exports = {
                     {
                         $pull: { product: { item: ObjectId(details.product) } }
                     }).then((response) => {
-                        // response.removedItem = true
                         resolve({ removeProduct: true })
 
                     })
@@ -300,8 +281,6 @@ module.exports = {
     },
 
     removeCartProduct: (details) => {
-        // details.count = parseInt(details.count)
-        // console.log(details.count);
         return new Promise((resolve, reject) => {
 
 
@@ -422,7 +401,6 @@ module.exports = {
                     email: order.email,
                 },
                 userId: objectId(order.userId),
-                // usename: objectId(order.username),
                 paymentMethord: order['payment-method'],
                 products: products,
                 totalAmount: total,
@@ -444,7 +422,6 @@ module.exports = {
     getCartProductsList: (userId) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) }).then((cart) => {
-                // console.log(cart);
                 resolve(cart.product)
             })
 
@@ -458,7 +435,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let pro = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: name }).toArray()
             resolve(pro)
-            // console.log(pro);
         }) 
 
 
@@ -471,8 +447,7 @@ module.exports = {
 
 
         return new Promise(async (resolve, reject) => {
-            // let data = await db.get().collection(collection.CART_COLLECTION).find({ user: objectId(userId) }).toArray()
-            // console.log(data);
+          
 
             let producttotal = await db.get().collection(collection.CART_COLLECTION).aggregate([
                 {
@@ -495,9 +470,7 @@ module.exports = {
                         as: 'product'
                     }
                 },
-                // {
-                //     $unwind: '$product'
-                // },
+                
                 {
                     $project: {
                         item: 1,
@@ -514,7 +487,6 @@ module.exports = {
                 }
 
             ]).toArray()
-            // console.log(producttotal)
             if (producttotal) {
                 resolve(producttotal)
             } else {
@@ -532,7 +504,6 @@ module.exports = {
             let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ userId: objectId(userId) })
                 .sort({ time: -1 })
                 .toArray()
-            // console.log(orders);
             resolve(orders)
         })
     },
@@ -572,7 +543,6 @@ module.exports = {
                 }
 
             ]).toArray()
-            // console.log(orderItems);
             resolve(orderItems)
 
         })
@@ -690,8 +660,7 @@ module.exports = {
             let userCart = await db.get().collection(collection.WISH_COLLECTION).findOne({ user: objectId(userId) })
             if (userCart) {
                 let proExist = userCart.product.findIndex(products => products.item == productId)
-                // console.log(proExist);
-                // console.log('kukukkkkkkkkk666666666666666666666666');
+
                 if (proExist != -1) {
                     db.get().collection(collection.WISH_COLLECTION).updateOne({ user: objectId(userId), 'product.item': objectId(productId) },
                         {
@@ -737,9 +706,7 @@ module.exports = {
                 {
                     $match: { user: objectId(userId) }
                 },
-                // {
-                //     $unwind: '$products'
-                // },
+               
                 {
                     $project: {
                         item: '$product.item',
@@ -799,11 +766,7 @@ module.exports = {
                 if (error) {
                     throw error;
                 } else {
-                    // for(let i = 0;i < payment.links.length;i++){
-                    //   if(payment.links[i].rel === 'approval_url'){
-                    //     res.redirect(payment.links[i].href);
-                    //   }
-                    // }
+                   
                     resolve(payment)
                 }
             });

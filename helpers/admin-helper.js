@@ -33,13 +33,7 @@ module.exports = {
   },
 
 
-  // addProduct: (product, callback) => {
-  //   console.log(product);
-  //   db.get().collection('product').insertOne(product).then((data) => {
-
-  //     callback(data.insertedId)
-  //   })
-  // },
+ 
 
   addProduct: (body, files) => {
     console.log(body);
@@ -48,7 +42,7 @@ module.exports = {
     body.discountedprice = parseInt(body.discountedprice)
     body.saveprice = parseInt((body.pricess * body.discountedprice) / 100)
     body.price = parseInt(body.pricess - body.saveprice)
-    // console.log(body);
+     console.log(body);
     return new Promise(async (resolve, reject) => {
 
       await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(body)
@@ -77,7 +71,6 @@ module.exports = {
   getAllProduct: () => {
     return new Promise(async (resolve, reject) => {
       let product = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
-      // console.log(product);
       resolve(product)
     })
   },
@@ -99,8 +92,6 @@ module.exports = {
     productDetails.price = parseInt(productDetails.pricess - productDetails.saveprice)
     console.log(productDetails.price);
 
-    // console.log("haloooooooooooooooooo");
-    // console.log(productId);
     return new Promise((resolve, reject) => {
 
       db.get().collection(collection.PRODUCT_COLLECTION)
@@ -111,7 +102,6 @@ module.exports = {
             category: productDetails.category,
             discription: productDetails.discription,
             discountedprice: productDetails.discountedprice,
-            // "storage-spec": productDetails.storagespec,
             pricess: productDetails.pricess,
             price: productDetails.price,
             saveprice: productDetails.saveprice
@@ -159,13 +149,7 @@ module.exports = {
   },
 
 
-  // Category: (category, callback) => {
-  //   console.log(category);
-  //   db.get().collection('category').insertOne(category).then((data) => {
 
-  //     callback(data.insertedId)
-  //   })
-  // },
   Category: (body, files) => {
     body.images = files
     body.offer = parseInt(body.offer)
@@ -186,7 +170,6 @@ module.exports = {
   getCategory: () => {
     return new Promise(async (resolve, reject) => {
       let category = await db.get().collection(collection.CATAGORY_COLLECTION).find().toArray()
-      // console.log(product);
       resolve(category)
     })
   },
@@ -215,7 +198,6 @@ module.exports = {
 
             }
           }).then((response) => {
-            // console.log(response)
             resolve()
           })
     })
@@ -436,7 +418,6 @@ module.exports = {
 
 
   addCategoryOffer: (name) => {
-    console.log(name);
     console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
     return new Promise(async (resolve, reject) => {
       let category = await db.get().collection(collection.CATAGORY_COLLECTION).findOne({ categoryname: name })
@@ -514,6 +495,84 @@ console.log("hihihihihihih");
     }) 
   },
 
+  getDailySales:()=>{
+   return new Promise(async(resolve,reject)=>{
+
+    let Dailysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+      {
+        $match:{
+          "status":{ $nin: ['cancelled','pending']}
+        }
+      },
+      {
+           $group:{
+            _id:{ $dateToString : {format: "%Y-%m-%d", date:"$time"}},
+            total:{$sum : '$totalAmount'},
+            count:{$sum:1},
+           }
+      },
+      {
+        $sort:{_id:1},
+      }
+    ]).toArray()
+    console.log(Dailysales);
+    resolve(Dailysales)
+   })
+  },
+  
+   
+  getWeeklySales:()=>{
+   return new Promise(async(resolve,reject)=>{
+
+    let Monthlysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+      {
+        $match:{
+          "status":{ $nin: ['cancelled','pending']}
+        }
+      },
+      {
+           $group:{
+            _id:{ $dateToString : {format: "%Y-%m", date:"$time"}},
+            total:{$sum : '$totalAmount'},
+            count:{$sum:1},
+           }
+      },
+      {
+        $sort:{_id:1},
+      }
+    ]).toArray()
+    console.log(Monthlysales);
+    resolve(Monthlysales)
+   })
+  },
+
+
+
+   
+  getYearlySales:()=>{
+    return new Promise(async(resolve,reject)=>{
+ 
+     let Yearlysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+       {
+         $match:{
+           "status":{ $nin: ['cancelled','pending']}
+         }
+       },
+       {
+            $group:{
+             _id:{ $dateToString : {format: "%Y", date:"$time"}},
+             total:{$sum : '$totalAmount'},
+             count:{$sum:1},
+            }
+       },
+       {
+         $sort:{_id:1},
+       }
+     ]).toArray()
+     console.log(Yearlysales);
+     resolve(Yearlysales)
+    })
+   },
 
 
 }

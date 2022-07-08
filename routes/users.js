@@ -389,6 +389,7 @@ router.get('/check-out', ok, async (req, res) => {
     let address = await userHelper.getAddresdetails(req.session.userData?._id)
     let totalamount = await userHelper.getTotalAmount(req.session.userData?._id)
     let subtotal = totalamount 
+    // response.referal = req.session.referal
     
     let couponoffer = await userHelper.getCoupons(req.session.userData?._id)
     console.log(couponoffer);
@@ -396,7 +397,7 @@ router.get('/check-out', ok, async (req, res) => {
    
     if(couponoffer.couponoffer){ 
      
-    var offer = couponoffer.couponoffer
+   var offer = couponoffer.couponoffer
     var offers =(totalamount*offer)/100
      subtotal =  Math.round(totalamount - offers)
     
@@ -413,7 +414,7 @@ router.get('/check-out', ok, async (req, res) => {
       subtotal =subtotal-50
       
 console.log(totalamount);
-
+ 
   }else{
     subtotal
   }
@@ -435,7 +436,6 @@ router.post('/check-out', async (req, res) => {
   let totalPric = await userHelper.getTotalAmount(req.session.userData?._id)
 
   console.log("asdfghjkqwertyuiozxcvbn");
- // let totalprice = (totalPric + 45) 
   console.log(totalPric);    
   let couponoffer = await userHelper.getCoupons(req.session.userData?._id)
     console.log(couponoffer);
@@ -487,20 +487,15 @@ router.post('/check-out', async (req, res) => {
 //---------------sort category----------------
 
 router.get('/showcart/:name', (req, res) => {
-  // if (req.session.userData) {
 
 
   let names = req.params.name
-  // console.log(names);
   userHelper.getCatName(names).then((pro) => {
     console.log(pro);
     req.session.catshow = pro
     req.session.help = true
     res.redirect('/')
   })
-  // } else { 
-  //   res.redirect('/login')
-  // }
 })
 
 //..........................user-profile...............
@@ -560,7 +555,7 @@ router.get('/payment-success', async (req, res) => {
 
     let totalamount = await userHelper.getTotalAmount()
     var subtotal = totalamount 
-    // + 45
+   
 
     res.render('user/payment-success', { user: true, userData: req.session.userData, subtotal, totalamount })
   } else {
@@ -597,15 +592,13 @@ router.get('/view-orders/:id', ok, async (req, res) => {
 //.............cancel the order................
 
 router.get('/cancelOrder/:id', (req, res) => {
-  // userHelper.cancelOrderList(req.params.id).then((cancel)=>{
   adminHelper.Cancelstatus(req.params.id).then(() => {
     console.log('hihihihihihh');
 
     res.json({ status: true })
-    // res.redirect('/orders')
 
   })
-
+ 
 })
 
 
@@ -724,7 +717,6 @@ router.post('/coupons', (req, res) => {
       res.json( response )
     })
   }
-  // res.redirect('/login')
 })
 
 
