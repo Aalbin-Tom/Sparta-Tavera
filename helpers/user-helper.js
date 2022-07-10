@@ -19,6 +19,7 @@ var instance = new Razorpay({
 });
 const paypal = require('paypal-rest-sdk');
 const { get } = require('express/lib/response');
+const { resolve } = require('path');
 
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
@@ -44,7 +45,7 @@ module.exports = {
             userData.password = await bcrypt.hash(userData.password, 10)
             console.log(userData.password);
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
-              
+
 
                 console.log(userData);
                 resolve(data)
@@ -220,7 +221,7 @@ module.exports = {
                 {
                     $lookup: {
                         from: collection.PRODUCT_COLLECTION,
-                        localField: 'item', 
+                        localField: 'item',
                         foreignField: '_id',
                         as: 'product'
                     }
@@ -232,7 +233,7 @@ module.exports = {
                         product: { $arrayElemAt: ['$product', 0] }
                     }
                 },
-               
+
 
             ]).toArray()
             resolve(cartItems)
@@ -320,10 +321,15 @@ module.exports = {
 
     },
 
-    getAddresdetails: (userId) => {
+    getAddresdetails: (userId,id) => {
+        let ids =id.index
+        ids=parseInt(ids)
+
         return new Promise((res, rej) => {
             db.get().collection(collections.USER_COLLECTION).findOne({ _id: ObjectId(userId) }).then((user) => {
-                res(user)
+                console.log(user.address[ids]);
+                console.log("addressjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+                res(user.address[ids])
             })
         })
     },
@@ -399,6 +405,7 @@ module.exports = {
                     pincode: order.pincode,
                     mobile: order.number,
                     email: order.email,
+                    city:order.city
                 },
                 userId: objectId(order.userId),
                 paymentMethord: order['payment-method'],
@@ -435,7 +442,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let pro = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: name }).toArray()
             resolve(pro)
-        }) 
+        })
 
 
     },
@@ -447,7 +454,7 @@ module.exports = {
 
 
         return new Promise(async (resolve, reject) => {
-          
+
 
             let producttotal = await db.get().collection(collection.CART_COLLECTION).aggregate([
                 {
@@ -470,7 +477,7 @@ module.exports = {
                         as: 'product'
                     }
                 },
-                
+
                 {
                     $project: {
                         item: 1,
@@ -706,7 +713,7 @@ module.exports = {
                 {
                     $match: { user: objectId(userId) }
                 },
-               
+
                 {
                     $project: {
                         item: '$product.item',
@@ -761,12 +768,12 @@ module.exports = {
                     },
                     "description": "Hat for the best team ever"
                 }]
-            }; 
+            };
             paypal.payment.create(create_payment_json, function (error, payment) {
                 if (error) {
                     throw error;
                 } else {
-                   
+
                     resolve(payment)
                 }
             });
@@ -794,77 +801,125 @@ module.exports = {
         })
     },
 
-    getCoupon: (name,userid) => { 
+    getCoupon: (name, userid) => {
         return new Promise(async (resolve, reject) => {
             let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ Couponname: name })
             console.log(coupon);
-            if(coupon){
-                db.get().collection(collection.CART_COLLECTION).updateOne({user:objectId(userid)},{
-               $set:{
-                 couponname:coupon.Couponname,
-                 couponoffer:coupon.Couponoffer
-               }
-            })
-            resolve({status:true})
-        }else{  
-     resolve({status:false}) 
-        }
-            
-                 
+            if (coupon) {
+                db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectId(userid) }, {
+                    $set: {
+                        couponname: coupon.Couponname,
+                        couponoffer: coupon.Couponoffer
+                    }
+                })
+                resolve({ status: true })
+            } else {
+                resolve({ status: false })
+            }
+
+
         })
     },
 
-    getCoupons :(userid)=>{
-     return new Promise(async (resolve,reject)=>{
-        let coupon = await db.get().collection(collection.CART_COLLECTION).findOne({user:objectId(userid)})
-        console.log("kkkkkkkkkk");
+    getCoupons: (userid) => {
+        return new Promise(async (resolve, reject) => {
+            let coupon = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userid) })
+            console.log("kkkkkkkkkk");
 
-        console.log(coupon);
-       if(coupon.couponoffer){
-            resolve(coupon)
-        }else{
-            resolve(false)
-        }
-        
-     })
-    },
-    Coupon :(userid)=>{
-        return new Promise(async (resolve,reject)=>{
-           let coupon = await db.get().collection(collection.CART_COLLECTION).findOne({user:objectId(userid)})
-           console.log("kkkkkkkkkk");
-   
-           console.log(coupon);
-          if(coupon.couponoffer){
-              console.log("hiiihiihihhihihih");
-               resolve(coupon)
-           }else{
-               resolve(false)
-           }
-           
-        })
-       },
-
-
-       getReferal:(body)=>{
-        return new Promise(async (resolve,reject)=>{
-         db.get().collection(collection.USER_COLLECTION).findOne({referalcode:body.referal}).then((user)=>{
-               if(user.referalAmount){
-                resolve(user.referalAmount)
-               }else{
+            console.log(coupon);
+            if (coupon) {
+                resolve(coupon)
+            } else {
                 resolve(false)
-               }
-        
-            
-         }) 
-        
-         })
-      
-       },
+            }
+
+        })
+    },
+    Coupon: (userid) => {
+        return new Promise(async (resolve, reject) => {
+            let coupon = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userid) })
+            console.log("kkkkkkkkkk");
+
+            console.log(coupon);
+            if (coupon.couponoffer) {
+                console.log("hiiihiihihhihihih");
+                resolve(coupon)
+            } else {
+                resolve(false)
+            }
+
+        })
+    },
 
 
-       getReferalA:()=>{
+    getReferal: (body) => {
+        return new Promise(async (resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).findOne({ referalcode: body.referal }).then((user) => {
+                if (user.referalAmount) {
+                    resolve(user.referalAmount)
+                } else {
+                    resolve(false)
+                }
 
-       }
+
+            })
+
+        })
+
+    },
+
+
+    getallAddress: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(id) }).then((user) => {
+
+                resolve(user)
+
+            })
+        })
+
+    },
+    //very important address-updation
+    getaddress: (id, userId, body) => {
+        console.log(body);
+        return new Promise((resolve, reject) => {
+
+
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
+                $set: {
+                    "address.$[elem].name": body.name,
+                    "address.$[elem].email": body.email,
+                    "address.$[elem].address": body.address,
+                    "address.$[elem].city": body.city,
+                    "address.$[elem].pincode": body.pincode,
+                    "address.$[elem].phone": body.phone
+                },
+            }, { arrayFilters: [{ "elem.addressId": id }] }).then((s) => {
+                console.log(s);
+
+            })
+        })
+    },
+
+    deleteadderss: (userId, id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).update({ _id: objectId(userId) },
+                {
+                    $pull: {
+                        address: {
+                            addressId: id
+                        }
+                    }  
+
+                },false,
+                    true).then((r) => {
+                  resolve(r)
+                })
+
+        })
+    },
+
+
 
 }
 

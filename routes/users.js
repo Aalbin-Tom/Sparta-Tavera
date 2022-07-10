@@ -13,6 +13,7 @@ const client = require("twilio")(otp.accountSID, otp.authToken)
 const paypal = require('paypal-rest-sdk');
 // const shordid =require('shortid');
 const shortid = require('shortid');
+const { route } = require('./admin');
 
 
 
@@ -311,34 +312,36 @@ router.get('/single-product/:id', ok, (req, res) => {
 router.get('/cart', ok, async (req, res) => {
   if (req.session.userData) {
     let product = await userHelper.getCartProducts(req.session.userData?._id)
+
+  let address = await userHelper.getallAddress(req.session.userData?._id)
+  console.log("hiiiiiiiiiiiiiiiiiiiiiiii");
+console.log(address);
+
     let singleProAmount = await userHelper.singleProductAmount(req.session.userData?._id)
-    // console.log(singleProAmount); 
-    // console.log(couponoffer); 
+     
     let totalamount = await userHelper.getTotalAmount(req.session.userData?._id)
     console.log(totalamount);
     let couponoffer = await userHelper.getCoupons(req.session.userData?._id)
     console.log(couponoffer);
   
-
+ if(product){
     if(couponoffer.couponoffer){ 
       console.log(couponoffer.couponoffer);
-      console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
     var offer = couponoffer.couponoffer
-    var offers =(totalamount*offer)/100
-    var subtotal =  Math.round(totalamount 
-      // + 45
-       - offers)
+    var offers =(totalamount * offer)/100
+    var subtotal =  Math.round(totalamount - offers)
     
   }else{
     var subtotal = totalamount
-    //  + 45 
+   
    var offer= 0
    var offers=0
   } 
-   
+   }
     console.log(subtotal);
 
-    res.render('user/cart', { user: true, totalamount, userData: req.session.userData,referalAmount:req.session.referal, cartCount: req.session.count, singleProAmount, product, subtotal, offer,offers})
+    res.render('user/cart', { user: true, totalamount, userData: req.session.userData,address,
+      referalAmount:req.session.referal, cartCount: req.session.count, singleProAmount, product, subtotal, offer,offers})
 
   } else {
     res.redirect('/login',)
@@ -386,9 +389,11 @@ router.post('/remove-product', (req, res, next) => {
 
 router.get('/check-out', ok, async (req, res) => {
   if (req.session.userData) {
-    let address = await userHelper.getAddresdetails(req.session.userData?._id)
+   
+    let address = await userHelper.getAddresdetails(req.session.userData?._id, req.session.addressId)
     let totalamount = await userHelper.getTotalAmount(req.session.userData?._id)
     let subtotal = totalamount 
+    
     // response.referal = req.session.referal
     
     let couponoffer = await userHelper.getCoupons(req.session.userData?._id)
@@ -396,7 +401,7 @@ router.get('/check-out', ok, async (req, res) => {
 
    
     if(couponoffer.couponoffer){ 
-     
+      
    var offer = couponoffer.couponoffer
     var offers =(totalamount*offer)/100
      subtotal =  Math.round(totalamount - offers)
@@ -420,8 +425,7 @@ console.log(totalamount);
   }
   console.log("hahhahahahhahahahahahahhahahahahahahahahahahhahhahahhah");
 
-    // console.log(req.session.userData);
-    res.render('user/checkout', { user: true, userData: req.session.userData, totalamount, subtotal, referal: req.session.referal, cartCount: req.session.count,offer,offers })
+    res.render('user/checkout', { user: true, address, userData: req.session.userData, totalamount, subtotal, referal: req.session.referal, cartCount: req.session.count,offer,offers })
  
   } else {
     res.redirect('/login')
@@ -434,7 +438,7 @@ router.post('/check-out', async (req, res) => {
   console.log(req.body);
   let products = await userHelper.getCartProductsList(req.session.userData?._id)
   let totalPric = await userHelper.getTotalAmount(req.session.userData?._id)
-
+  
   console.log("asdfghjkqwertyuiozxcvbn");
   console.log(totalPric);    
   let couponoffer = await userHelper.getCoupons(req.session.userData?._id)
@@ -500,10 +504,11 @@ router.get('/showcart/:name', (req, res) => {
 
 //..........................user-profile...............
 
-router.get('/user-profile', ok, (req, res) => {
+router.get('/user-profile', ok,async (req, res) => {
   if (req.session.userData) {
-
-    res.render('user/user-profile', { user: true, userData: req.session.userData, cartCount: req.session.count });
+  let address=await userHelper.getallAddress(req.session.userData?._id)
+  console.log(address);
+    res.render('user/user-profile', { user: true, userData: req.session.userData, cartCount: req.session.count,address });
 
   } else {
     res.redirect('/')
@@ -532,7 +537,8 @@ router.post('/add-address', (req, res) => {
 
 
     let id = req.session.userData._id
-
+    req.body.addressId = shortid.generate()
+    console.log(req.body);
     userHelper.Addres(req.body, id)
 
     res.redirect('/user-profile')
@@ -729,4 +735,43 @@ router.post('/referal',(req,res)=>{
   })  
 })
 
+//...............edit address.........
+router.post('/edit-address/:id',(req,res)=>{
+  try{
+  console.log("ihiihihihihihihi");
+  console.log(req.params.id);
+  userHelper.getaddress(req.params.id,req.session.userData?._id,req.body)
+  
+  res.redirect('/user-profile')
+  }catch(err){
+    console.log(err);
+    res.status(400)
+  }
+})
+
+//...............edit address.........
+
+router.get('/delete-address/:id',(req,res)=>{
+  userHelper.deleteadderss(req.session.userData?._id,req.params.id) 
+  res.redirect('/user-profile')
+})
+ 
+
+
+//................get all address...............................
+
+
+ 
+
+
+
+
+router.post('/alladdress',(req,res)=>{
+  console.log(req.body);
+  req.session.addressId=req.body
+  res.redirect('/check-out')
+ 
+})
+
 module.exports = router;
+ 

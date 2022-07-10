@@ -515,7 +515,6 @@ console.log("hihihihihihih");
         $sort:{_id:1},
       }
     ]).toArray()
-    console.log(Dailysales);
     resolve(Dailysales)
    })
   },
@@ -541,7 +540,6 @@ console.log("hihihihihihih");
         $sort:{_id:1},
       }
     ]).toArray()
-    console.log(Monthlysales);
     resolve(Monthlysales)
    })
   },
@@ -569,7 +567,6 @@ console.log("hihihihihihih");
          $sort:{_id:1},
        }
      ]).toArray()
-     console.log(Yearlysales);
      resolve(Yearlysales)
     })
    },

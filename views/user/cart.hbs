@@ -21,17 +21,23 @@
                 <div class="cart-table-wrap">
                     <table class="cart-table">
                         <thead class="cart-table-head">
+
                             <tr class="table-head-row">
+                                {{#if product}}
                                 <th class="product-remove"></th>
                                 <th class="product-image">Product Image</th>
                                 <th class="product-name">Name</th>
                                 <th class="product-price">Price</th>
                                 <th class="product-quantity">Quantity</th>
                                 <th class="product-quantity">Product total</th>
+                                {{else}}
+                                <th class="product-quantity"></th>
+                                {{/if}}
 
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if product}}
                             {{#each singleProAmount}}
                             <div id='single'>
                                 <tr class="table-body-row ">
@@ -52,19 +58,28 @@
                                     <td><button class="cart-item-count mr-3"
                                             onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',-1)"
                                             style="border:none ;">-</button>
-                                        <span id="{{this.item}}"> {{this.quantity}}   </span> &nbsp
+                                        <span id="{{this.item}}"> {{this.quantity}} </span> &nbsp
 
                                         <button class="cart-item-count mr-3"
                                             onclick="incQuantity('{{this._id}}','{{this.item}}','{{../user}}','{{this.product.name}}','{{this.product.price}}',1)"
-                                            style="border: none;">  +</button>
+                                            style="border: none;"> +</button>
                                     </td>
                                     <td class="product-price"><span id="{{this.product.name}}"> {{this.total}} </span>
                                     </td>
 
+                                    {{/each}}
+                                    {{else}}
+
+                                    <td>
+                                        <p class="text-danger">YOU HAVE NOT ADDED ANY PRODUCT TO THE CART</p>
+                                    </td>
+
+                                    {{/if}}
 
                                 </tr>
+
                             </div>
-                            {{/each}}
+
                         </tbody>
                     </table>
                 </div>
@@ -98,7 +113,7 @@
 
                             </tr>
                             {{/if}}
-                            
+
 
                             <tr class="total-data">
                                 <td><strong>Sub Total: </strong></td>
@@ -107,9 +122,50 @@
                         </tbody>
                     </table>
                     <div class="cart-buttons">
+                        {{#if product}}
+                        <button type="button" class="btn btn-primary btn-block text-uppercase mb-3" data-toggle="modal"
+                            data-target="#exampleModalB">
+                            SELECT ADDRESS
+                        </button>
+                        {{/if}}
 
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalB" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Select Address</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close"></button>
+                                        <span aria-hidden="true">&times;</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/alladdress" method="post">
+                                            {{#each address.address}}
+                                            <div class="form-check">
+                                                <label class="radio-inline ">
+                                                    <input type="radio" name="index" value="{{@index}}">
+                                                    {{name}} <br> {{email}} <br> {{address}}<br>{{pincode}}
+                                                    <br>{{city}}<br>{{phone}}
+                                                </label>
 
-                        <a href="/check-out" class="boxed-btn black">Check Out</a>
+                                            </div>
+                                            {{/each}}
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Check Out</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        {{!-- <a href="/check-out" class="boxed-btn black">Check Out</a> --}}
 
                     </div>
                 </div>
@@ -130,9 +186,11 @@
 
                     </div>
                 </div>
-                
+
             </div>
+
         </div>
+
     </div>
 </div>
 <!-- end cart -->

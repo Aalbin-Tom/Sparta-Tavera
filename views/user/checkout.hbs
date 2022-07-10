@@ -24,103 +24,43 @@
 							<div class="card-header" id="headingOne">
 								<h5 class="mb-0">
 									<button class="btn btn-link" type="button" data-toggle="collapse"
-										data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										Billing Address
+										data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+										Add New Address
 									</button>
 								</h5>
 							</div>
 
 
-							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+							<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
 								data-parent="#accordionExample">
 								<div class="card-body">
 									<div class="billing-address-form">
-										<form  id="checkout">
-											<p><a class="btn btn-primary py-3 px-4 mr-4">Add New Address </a>
+										<form id="checkout">
+											 <p><a href="" class="btn btn-primary py-3 px-4 mr-4">Add New Address </a>
 											</p>
 
-											<h3 class="mb-4 billing-heading">Billing Details</h3>
-											<div class="row align-items-end">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="firstname">Name</label>
-														<input type="text" id="name" onkeyup="validateName()"
-															name="name" class="form-control"
-															value="{{userData.address.[0].name}}">
-														<span id="name" class="text-danger"></span>
-													</div>
-												</div>
+											
+										 {{!-- <div class="card-body shadow-lg p-3 mb-5 bg-white rounded">
+            <div class="card-body">
+              <p class="card-text" style="font-weight: bolder; font-size: large; color: black;">
+                {{user.name}}
+              </p>
+              <div class="">
+                <input class="form-check-input" type="radio" name="checkoutAddress"
+                  onclick="selectAddress('{{@index}}')">
+
+              </div>
 
 
-												<div class="w-100"></div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="streetaddress">Address</label>
-														<input type="text" id="address" onkeyup="validateName()"
-															name="address" class="form-control"
-															value="{{userData.address.[0].address}}">
-														<span id="name" class="text-danger"></span>
-													</div>
-												</div>
-
-
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="phone">Pincode</label>
-														<input type="Number" id="pincode" onkeyup="validPhoneumber()"
-															name="pincode" class="form-control"
-															value="{{userData.address.[0].pincode}}">
-														<span id="phonenumbers" class="text-danger"></span>
-													</div>
-												</div>
-												<div class="w-100"></div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="phone">Phone</label>
-														<input type="text" id="phonenumbers" onkeyup="validPhoneumber()"
-															name="number" class="form-control"
-															value="{{userData.address.[0].phone}}">
-														<span id="phonenumbers" class="text-danger"></span>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="emailaddress">Email</label>
-														<input type="text" id="email" onkeyup="validEmail()"
-															name="email" class="form-control"
-															value="{{userData.address.[0].email}}">
-														<span id="email" class="text-danger"></span>
-													</div>
-												</div>
-												<input type="text" name="userId" id="" value="{{userData._id}}" hidden>
-												<input type="text" name="username" id="" value="{{userData.name}}"
-													hidden>
-
-												<div class="Payment">
-													<p class="mt-4 my-3">Payment method</p>
-													<label class="radio-inline">
-														<input type="radio" name="payment-method" value="COD"
-															checked>COD
-													</label>
-												</div>
-												<div class="form-check">
-													<label class="radio-inline ">
-														<input type="radio" name="payment-method" value="Razorpay">Razorpay
-													</label>
-													
-												</div>
-												<div class="form-check">
-													<label class="radio-inline ">
-														<input type="radio" name="payment-method" value="paypal">PayPal
-														Payment
-													</label>
-												</div>
-												
-											</div>
-											<button style="border: none; background-color: white;"><a class="btn btn-primary float-right boxed-btn" type="submit">Place
-													Order</a></button>
-
-										</form>
+              <p class="card-text">{{this.name}}</p>
+              <p class="card-text">{{this.mobile}}</p>
+              <p class="card-text">{{this.email}}</p>
+              <p class="card-text">{{this.address}}</p>
+              <p class="card-text">{{this.city}}</p>
+              <p class="card-text">{{this.pincode}}</p> 
+              <input type="text " name="thisId" value="{{user._id}}" hidden> 
+            </div>
+             </div>--}}
 									</div>
 								</div>
 							</div>
@@ -129,39 +69,125 @@
 							<div class="card-header" id="headingTwo">
 								<h5 class="mb-0">
 									<button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-										data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-										Shipping Address
+										data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+										Payment Methords
 									</button>
 								</h5>
 							</div>
-							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+							<div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
 								data-parent="#accordionExample">
 								<div class="card-body">
 									<div class="shipping-address-form">
-										<p>Your shipping address form is here.</p>
+										<div class="billing-address-form">
+											 <form id="checkout"> 
+                                              
+                                                  {{#if address}}
+												<h3 class="mb-4 billing-heading">Billing Details</h3>
+												<div class="row align-items-end">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="firstname">Name</label>
+															<input type="text" id="name" onkeyup="validateName()"
+																name="name" class="form-control"
+																value="{{address.name}}">
+															<span id="name" class="text-danger"></span>
+														</div>
+													</div>
+
+
+													<div class="w-100"></div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="streetaddress">Address</label>
+															<input type="text" id="address" onkeyup="validateName()"
+																name="address" class="form-control"
+																value="{{address.address}}">
+															<span id="name" class="text-danger"></span>
+														</div>
+													</div>
+
+
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="phone">Pincode</label>
+															<input type="Number" id="pincode"
+																onkeyup="validPhoneumber()" name="pincode"
+																class="form-control"
+																value="{{address.pincode}}">
+															<span id="phonenumbers" class="text-danger"></span>
+														</div>
+													</div>
+													<div class="w-100"></div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="phone">Phone</label>
+															<input type="text" id="phonenumbers"
+																onkeyup="validPhoneumber()" name="number"
+																class="form-control"
+																value="{{address.phone}}">
+															<span id="phonenumbers" class="text-danger"></span>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="emailaddress">Email</label>
+															<input type="text" id="email" onkeyup="validEmail()"
+																name="email" class="form-control"
+																value="{{address.email}}">
+															<span id="email" class="text-danger"></span>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="emailaddress">City</label>
+															<input type="text" id="city" onkeyup="validEmail()"
+																name="city" class="form-control"
+																value="{{address.city}}">
+															<span id="city" class="text-danger"></span>
+														</div>
+													</div>
+													{{/if}}
+													<input type="text" name="userId" id="" value="{{userData._id}}"
+														hidden>
+													<input type="text" name="username" id="" value="{{userData.name}}"
+														hidden>
+
+
+													<div class="Payment">
+														<p class="mt-4 my-3">Payment method</p>
+														<label class="radio-inline">
+															<input type="radio" name="payment-method" value="COD"
+																checked>COD
+														</label>
+													</div>
+													<div class="form-check">
+														<label class="radio-inline ">
+															<input type="radio" name="payment-method"
+																value="Razorpay">Razorpay
+														</label>
+
+													</div>
+													<div class="form-check">
+														<label class="radio-inline ">
+															<input type="radio" name="payment-method"
+																value="paypal">PayPal
+															Payment
+														</label>
+													</div>
+
+												</div>
+												<button style="border: none; background-color: white;"><a
+														class="btn btn-primary float-right boxed-btn"
+														type="submit">Place
+														Order</a></button>
+
+											</form>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="card single-accordion">
-							<div class="card-header" id="headingThree">
-								<h5 class="mb-0">
-									<button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-										data-target="#collapseThree" aria-expanded="false"
-										aria-controls="collapseThree">
-										Card Details
-									</button>
-								</h5>
-							</div>
-							<div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-								data-parent="#accordionExample">
-								<div class="card-body">
-									<div class="card-details">
-										<p>Your card details goes here.</p>
-									</div>
-								</div>
-							</div>
-						</div>
+						
 					</div>
 
 				</div>
@@ -188,20 +214,20 @@
 							</tr> --}}
 							<tr>
 								{{#if offers}}
-                            <tr class="total-data">
-                                <td><strong> Coupon discount </strong></td>
-                                <td id="coupondiscount"><i class="fa-solid fa-indian-rupee-sign"></i> {{offers}} Rs</td>
+							<tr class="total-data">
+								<td><strong> Coupon discount </strong></td>
+								<td id="coupondiscount"><i class="fa-solid fa-indian-rupee-sign"></i> {{offers}} Rs</td>
 
-                            </tr>
-                            {{/if}}
+							</tr>
+							{{/if}}
 							{{#if referal }}
-                            <tr class="total-data">
-                                <td><strong>Referral Offer </strong></td>
-                                <td id="referral"><i class="fa-solid fa-indian-rupee-sign"></i> 50 Rs
-                                </td>
+							<tr class="total-data">
+								<td><strong>Referral Offer </strong></td>
+								<td id="referral"><i class="fa-solid fa-indian-rupee-sign"></i> 50 Rs
+								</td>
 
-                            </tr>
-                            {{/if}}
+							</tr>
+							{{/if}}
 
 							</tr>
 							<tr>
@@ -212,22 +238,22 @@
 
 					</table>
 					<div>
-            <div class="coupon-section">
-                    <h3>Referral Code</h3>
-                    <div class="coupon-form-wrap">
-                        <form id="referalcode">
-                            <span class="text-danger" id="referalError"> </span>
-                            <input type="text" name="referal" id="referal" placeholder="Referral Code"
-                                class="form-control">
+						<div class="coupon-section">
+							<h3>Referral Code</h3>
+							<div class="coupon-form-wrap">
+								<form id="referalcode">
+									<span class="text-danger" id="referalError"> </span>
+									<input type="text" name="referal" id="referal" placeholder="Referral Code"
+										class="form-control">
 
-                            {{!-- <p><input type="submit" value="Apply"></p> --}}
-                            <input type="submit" onclick="return validation()" name="submit"
-                                class="btn btn-info btn-md mt-3" value="Apply">
+									{{!-- <p><input type="submit" value="Apply"></p> --}}
+									<input type="submit" onclick="return validation()" name="submit"
+										class="btn btn-info btn-md mt-3" value="Apply">
 
-                        </form>
+								</form>
 
-                    </div>
-                </div> 	
+							</div>
+						</div>
 
 
 					</div>
@@ -242,30 +268,30 @@
 
 <script>
 
-      
-    $('#referalcode').submit((e) => {
-        e.preventDefault()
-        $.ajax({
-            url: '/referal',
 
-            method: 'post',
-            data: $('#referalcode').serialize(),
+	$('#referalcode').submit((e) => {
+		e.preventDefault()
+		$.ajax({
+			url: '/referal',
 
-            success: (response) => {
-                alert(response)
-                if (response) {
-                    //		alert(response.status)
-                    location.reload()
-                } else {
+			method: 'post',
+			data: $('#referalcode').serialize(),
 
-                    document.getElementById("referalError").innerHTML = "Referal Code dose not Exists"
-                }
-            }
+			success: (response) => {
+				alert(response)
+				if (response) {
+					//		alert(response.status)
+					location.reload()
+				} else {
 
-        })
-    })
+					document.getElementById("referalError").innerHTML = "Referal Code dose not Exists"
+				}
+			}
 
- 
+		})
+	})
+
+
 
 
 
@@ -283,16 +309,16 @@
 				if (response.status) {
 					alert("codSuccess")
 					location.href = "/payment-success"
-				} else if(response.status==false) {
-					alert('razorpay')		
-			
+				} else if (response.status == false) {
+					alert('razorpay')
+
 					razorpayPayment(response)
-				}else{
-					 for(let i = 0;i < response.links.length;i++){
-                      if(response.links[i].rel === 'approval_url'){
-                         location.href=response.links[i].href
-                       }
-                     }
+				} else {
+					for (let i = 0; i < response.links.length; i++) {
+						if (response.links[i].rel === 'approval_url') {
+							location.href = response.links[i].href
+						}
+					}
 				}
 			}
 
@@ -309,11 +335,11 @@
 			"image": "https://example.com/your_logo",
 			"order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 			"handler": function (response) {
-				
+
 				//returning to server
 
 
-				verifyPayment(response,order)
+				verifyPayment(response, order)
 			},
 			"prefill": {
 				"name": "Gaurav Kumar",
@@ -323,7 +349,7 @@
 			"notes": {
 				"address": "Razorpay Corporate Office"
 			},
-		 	"theme": {
+			"theme": {
 				"color": "#3399cc"
 			}
 
@@ -332,23 +358,23 @@
 		rzp1.open();
 
 	}
-	function verifyPayment(payment,order){
+	function verifyPayment(payment, order) {
 		alert('ok')
-	$.ajax({
+		$.ajax({
 
-		url:'/verify-payment',
-		data:{
-			payment, 
-			order
-		},
-		method:'post',
-		success:(response)=>{
-			if(response.status){
-				location.href = "/payment-success"
-			}else{
-				alert("payment failed")
+			url: '/verify-payment',
+			data: {
+				payment,
+				order
+			},
+			method: 'post',
+			success: (response) => {
+				if (response.status) {
+					location.href = "/payment-success"
+				} else {
+					alert("payment failed")
+				}
 			}
-		}
-	})
+		})
 	}
 </script>

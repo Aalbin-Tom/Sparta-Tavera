@@ -1,107 +1,124 @@
-
-
-
 <div class="container">
     <div class="main-body">
 
 
-     
+
         <div class="row gutters-sm">
             <div class="col-md-4 mb-3">
                 <div class="card">
-                 
+
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
                             <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
                                 class="rounded-circle" width="150">
                             <div class="mt-3">
-                                   {{#if userData}}
+                                {{#if userData}}
                                 <h4>{{userData.name}}</h4>
                                 <h6> {{userData.email}}</h6>
                                 {{/if}}
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="card mt-3">
                     <ul class="list-group list-group-flush">
-                        
+
                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                           <button style="border:none ;"> <a href="/orders"> Orders </a>  </button>
-                                                         
+                            <button style="border:none ;"> <a href="/orders"> Orders </a> </button>
+
                         </li>
-                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                           <button style="border:none ;"> <a href="/add-address"> Add Address </a>  </button>
-                                                         
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <button style="border:none ;"> <a href="/add-address"> Add Address </a> </button>
+
                         </li>
-                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                           <button style="border:none ;"> <a href="/change-password"> Change Password </a>  </button>
-                                                         
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <button style="border:none ;"> <a href="/change-password"> Change Password </a> </button>
+
                         </li>
-                      
+
                     </ul>
                 </div>
             </div>
-           
+
             <div class="col-md-8">
-    <form method="post" action="/add-address" >
-          <!-- 2 column grid layout with text inputs for the first and last names -->
-          <div class="row mb-4">
-            <div class="col">
-              <div class="form-outline">
-                <input name="name" type="text" id="name" class="form-control" onkeyup="validName()">
-                <label class="form-label" for="form7Example1"> Name</label>
-                       <span  id="names" class="text-danger"></span> 
+                <form method="post" action="/add-address">
+                    <!-- 2 column grid layout with text inputs for the first and last names -->
+                    <div class="row mb-4">
+                        {{!-- <div class="col">
+                            <div class="form-outline">
+                                <input name="id" type="text" id="id" class="form-control" onkeyup="validId()">
+                                <label class="form-label" for="form7Example1"> ID</label>
+                                <span id="ids" class="text-danger"></span>
 
-              </div>
+                            </div>
+                        </div> --}}
+
+                        <div class="col">
+                            <div class="form-outline">
+                                <input name="name" type="text" id="name" class="form-control" onkeyup="validName()">
+                                <label class="form-label" for="form7Example1"> Name</label>
+                                <span id="names" class="text-danger"></span>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input name="email" type="email" id="email" class="form-control" onkeyup="validEmail()">
+                        <label class="form-label" for="form7Example5">Email</label>
+                        <span id="emails" class="text-danger"></span>
+
+                    </div>
+
+                    <!-- address input -->
+                    <div class="form-outline mb-4">
+                        <input name="address" type="text" id="address" class="form-control" onkeyup="validAddress()">
+                        <label class="form-label" for="form7Example4">Address</label>
+                        <span id="addresss" class="text-danger"></span>
+
+                    </div>
+                    <div class="col">
+                        <div class="form-outline">
+                            <input name="city" type="text" id="city" class="form-control" onkeyup="validCity()">
+                            <label class="form-label" for="form7Example1">City</label>
+                            <span id="citys" class="text-danger"></span>
+
+                        </div>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="col">
+                        <div class="form-outline mb-4">
+                            <input name="pincode" type="number" id="pincode" class="form-control"
+                                onkeyup="validPincode()">
+                            <label class="form-label" for="form7Example5">Pin code</label>
+                            <span id="pincodes" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+
+                    <!-- Number input -->
+                    <div class="form-outline mb-4">
+                        <input name="phone" type="number" id="phone" class="form-control" onkeyup="validPhone()">
+                        <label class="form-label" for="phone">Phone</label>
+                        <span id="phones" class="text-danger"></span>
+
+                    </div>
+
+                    <!-- Message input -->
+                    <button type="submit" onclick="return validation()" class="btn btn-primary btn-lg btn-block">
+                        Add address
+                    </button>
+
+
+                </form>
+
+
+
             </div>
-           
-          </div>
-
-          <!-- Email input -->
-          <div class="form-outline mb-4">
-            <input name="email" type="email" id="email" class="form-control"  onkeyup="validEmail()">
-            <label class="form-label" for="form7Example5">Email</label>
-                       <span  id="emails" class="text-danger"></span> 
-
-          </div>
-
-          <!-- address input -->
-          <div class="form-outline mb-4">
-            <input name="address" type="text" id="address" class="form-control"   onkeyup="validAddress()">
-            <label class="form-label" for="form7Example4">Address</label>
-                       <span  id="addresss" class="text-danger"></span> 
-
-          </div>    
-
-          <!-- Email input -->
-          <div class="form-outline mb-4">
-            <input name="pincode" type="number" id="pincode" class="form-control"  onkeyup="validPincode()">
-            <label class="form-label" for="form7Example5">Pin code</label>
-                       <span  id="pincodes" class="text-danger"></span> 
-
-          </div>
-
-          <!-- Number input -->
-          <div class="form-outline mb-4">
-            <input name="phone" type="number" id="phone" class="form-control"  onkeyup="validPhone()">
-            <label class="form-label" for="phone">Phone</label>
-                       <span  id="phones" class="text-danger"></span> 
-
-          </div>
-
-          <!-- Message input -->
-             <button type="submit"  onclick="return validation()" class="btn btn-primary btn-lg btn-block">
-          Add address
-        </button>
-
-         
-        </form>
-
-
-
-</div>
 
         </div>
 
@@ -171,102 +188,101 @@
     }
 </style>
 
- <script>
-        var Name = document.getElementById('names')
-        var Email = document.getElementById('emails')
-        var Address = document.getElementById('addresss')
-        var Pincode = document.getElementById('pincodes')
-        var Phone = document.getElementById('phones')
+<script>
+    var Name = document.getElementById('names')
+    var Email = document.getElementById('emails')
+    var Address = document.getElementById('addresss')
+    var Pincode = document.getElementById('pincodes')
+    var Phone = document.getElementById('phones')
 
 
-        function validEmail() {
-            const email = document.getElementById('email').value
-            if (email == "") {
-                Email.innerHTML = "enter you email address"
-                return false
+    function validEmail() {
+        const email = document.getElementById('email').value
+        if (email == "") {
+            Email.innerHTML = "enter you email address"
+            return false
 
-
-            }
-            if (!email.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)) {
-                Email.innerHTML = 'enter a proper email'
-                return false
-            }
-
-            Email.innerHTML = null
-            return true
-        }       
-        function validName() {
-            
-            const name = document.getElementById('name').value;
-            if (name == "") {
-                Name.innerHTML = 'Enter your Name'
-                return false
-            }
-            if (!name.match(/^[a-zA-Z\s-, ]+$/)) {
-                Name.innerHTML = 'Numbers and symbols are not allowed'
-                return false
-            }
-            Name.innerHTML = null
-            return true
 
         }
-
-
-        function validAddress() {
-            
-            const name = document.getElementById('address').value;
-            if (name == "") {
-                Address.innerHTML = 'Enter your Name'
-                return false
-            }
-            if (!name.match(/^[a-zA-Z\s-, ]+$/)) {
-                Address.innerHTML = 'Numbers and symbols are not allowed'
-                return false
-            }
-            Address.innerHTML = null
-            return true
-
+        if (!email.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)) {
+            Email.innerHTML = 'enter a proper email'
+            return false
         }
 
+        Email.innerHTML = null
+        return true
+    }
+    function validName() {
 
-
-        function validPhone() {
-            const phone = document.getElementById('phone').value
-            if (phone == "") {
-                Phone.innerHTML = "enter a password"
-                return false
-            }
-            if (!phone.match(/^\d{10}$/)) {
-                Phone.innerHTML = "phone number should be  10 digits "
-                return false
-            }
-            Phone.innerHTML = null
-            return true
+        const name = document.getElementById('name').value;
+        if (name == "") {
+            Name.innerHTML = 'Enter your Name'
+            return false
         }
-
-
-
-        function validPincode() {
-            const pincode = document.getElementById('pincode').value
-            if (pincode == "") {
-                Pincode.innerHTML = "enter pin number"
-                return false
-            }
-            if (!pincode.match(/^\d{6}$/)) {
-                Pincode.innerHTML = "6 digit only allowed"
-                return false
-            }
-            Pincode.innerHTML = null
-            return true
+        if (!name.match(/^[a-zA-Z\s-, ]+$/)) {
+            Name.innerHTML = 'Numbers and symbols are not allowed'
+            return false
         }
+        Name.innerHTML = null
+        return true
+
+    }
 
 
+    function validAddress() {
 
-        function validation() {
-             if ( !validName() || !validEmail()  || !validAddress()  || !validPincode() || !validPhone()  ) {
-                return false
-            }else { return true }
-
+        const name = document.getElementById('address').value;
+        if (name == "") {
+            Address.innerHTML = 'Enter your Name'
+            return false
         }
-    </script>
+        if (!name.match(/^[a-zA-Z\s-, ]+$/)) {
+            Address.innerHTML = 'Numbers and symbols are not allowed'
+            return false
+        }
+        Address.innerHTML = null
+        return true
 
+    }
+
+
+
+    function validPhone() {
+        const phone = document.getElementById('phone').value
+        if (phone == "") {
+            Phone.innerHTML = "enter a password"
+            return false
+        }
+        if (!phone.match(/^\d{10}$/)) {
+            Phone.innerHTML = "phone number should be  10 digits "
+            return false
+        }
+        Phone.innerHTML = null
+        return true
+    }
+
+
+
+    function validPincode() {
+        const pincode = document.getElementById('pincode').value
+        if (pincode == "") {
+            Pincode.innerHTML = "enter pin number"
+            return false
+        }
+        if (!pincode.match(/^\d{6}$/)) {
+            Pincode.innerHTML = "6 digit only allowed"
+            return false
+        }
+        Pincode.innerHTML = null
+        return true
+    }
+
+
+
+    function validation() {
+        if (!validName() || !validEmail() || !validAddress() || !validPincode() || !validPhone()) {
+            return false
+        } else { return true }
+
+    }
+</script>
