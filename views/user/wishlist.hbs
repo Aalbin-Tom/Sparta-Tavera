@@ -39,14 +39,14 @@
                                 </td>
                                 <td class="product-image" ><img style="height: 61px;" src="/productimage/{{this.product.images.[0]}}" alt="">
                                 </td>
-                                <td class="product-name">{{this.product.name}}</td>
+                                <td class="product-name">{{product.name}}</td>
                                 <td class="product-price" >{{this.product.price}}</td>
                                
 
                                 {{!-- <td> <button></button> class="product-quantity"><input type="number"
                                         placeholder="{{this.quantity}}" </td> --}}
                                
-                           <td><p class="text-center"><a  onclick="addToCart('{{this._id}}')" class="btn btn-primary py-3 px-4">Add to Cart</a></p></td>
+                           <td><p class="text-center"><a  onclick="addToCar('{{this._id}}')" class="btn btn-primary py-3 px-4">Add to Cart</a></p></td>
 						
                                 <td class="product-price" ><span id="{{this.product.name}}"> {{this.total}} </span>  </td>
 
@@ -81,7 +81,7 @@ function removeFromWishList(wishId,productId){
 	alert("Not workin"+wishId+' '+productId)
 $.ajax({
     
-    url:"/remove-from-Wishlist",
+    url:"/removelist",
 	method:'post',
     data:{    
         wishList:wishId,

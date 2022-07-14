@@ -33,7 +33,7 @@ module.exports = {
   },
 
 
- 
+
 
   addProduct: (body, files) => {
     console.log(body);
@@ -42,7 +42,7 @@ module.exports = {
     body.discountedprice = parseInt(body.discountedprice)
     body.saveprice = parseInt((body.pricess * body.discountedprice) / 100)
     body.price = parseInt(body.pricess - body.saveprice)
-     console.log(body);
+    console.log(body);
     return new Promise(async (resolve, reject) => {
 
       await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(body)
@@ -77,8 +77,13 @@ module.exports = {
 
   getProductDetails: (productId) => {
     return new Promise((res, rej) => {
+
       db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) }).then((product) => {
+
         res(product)
+      }).catch((err) => {
+
+        rej()
       })
     })
   },
@@ -130,9 +135,9 @@ module.exports = {
       let users = await db.get().collection(collection.USER_COLLECTION).find().toArray()
 
       resolve(users)
-    })
+    }) 
   },
-  blockUser: (id) => {
+  blockUser: (id) => { 
     return new Promise((res, rej) => {
       db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(id) }, { $set: { status: true, status: false } }).then((block) => {
         res(block)
@@ -426,7 +431,7 @@ module.exports = {
       let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
         {
           $match: {
-            category:name
+            category: name
 
           }
         },
@@ -434,142 +439,142 @@ module.exports = {
 
       console.log(product);
       resolve(product)
-       
-      product.map(async(value,index)=>{
-        let id=value._id
-        let offers= value.price-category.offer
+
+      product.map(async (value, index) => {
+        let id = value._id
+        let offers = value.price - category.offer
         console.log(offers);
-        await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:ObjectId(id)},
-        {
-          $set:{
-            price:offers
-          }
-        })
+        await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(id) },
+          {
+            $set: {
+              price: offers
+            }
+          })
       })
-      
+
       resolve()
 
     })
   },
 
-  datereport:(to,from,type)=>{
+  datereport: (to, from, type) => {
     console.log(from);
     console.log(to);
     console.log(type);
-    return new Promise( async(resolve,reject)=>{
-      
-     let report= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-    
+    return new Promise(async (resolve, reject) => {
+
+      let report = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
         {
           $match: {
-            
-            status:type,
-            time:{
+
+            status: type,
+            time: {
               $gte: from,
               $lte: to
             },
 
           }
         },
-      
+
         {
           $lookup: {
-              from: collection.PRODUCT_COLLECTION,
-              localField: 'products.item',
-              foreignField: '_id',
-              as: 'product'
+            from: collection.PRODUCT_COLLECTION,
+            localField: 'products.item',
+            foreignField: '_id',
+            as: 'product'
           }
-      },{
-        $lookup:{
-          from:collection.USER_COLLECTION,
-           localField: 'userId',
-          foreignField: '_id',
-          as: 'user'
+        }, {
+          $lookup: {
+            from: collection.USER_COLLECTION,
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'user'
+          }
         }
-      }
 
       ]).toArray()
-       
-console.log("hihihihihihih");
+
+      console.log("hihihihihihih");
       resolve(report)
-    }) 
-  },
-
-  getDailySales:()=>{
-   return new Promise(async(resolve,reject)=>{
-
-    let Dailysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-      {
-        $match:{
-          "status":{ $nin: ['cancelled','pending']}
-        }
-      },
-      {
-           $group:{
-            _id:{ $dateToString : {format: "%Y-%m-%d", date:"$time"}},
-            total:{$sum : '$totalAmount'},
-            count:{$sum:1},
-           }
-      },
-      {
-        $sort:{_id:1},
-      }
-    ]).toArray()
-    resolve(Dailysales)
-   })
-  },
-  
-   
-  getWeeklySales:()=>{
-   return new Promise(async(resolve,reject)=>{
-
-    let Monthlysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-      {
-        $match:{
-          "status":{ $nin: ['cancelled','pending']}
-        }
-      },
-      {
-           $group:{
-            _id:{ $dateToString : {format: "%Y-%m", date:"$time"}},
-            total:{$sum : '$totalAmount'},
-            count:{$sum:1},
-           }
-      },
-      {
-        $sort:{_id:1},
-      }
-    ]).toArray()
-    resolve(Monthlysales)
-   })
-  },
-
-
-
-   
-  getYearlySales:()=>{
-    return new Promise(async(resolve,reject)=>{
- 
-     let Yearlysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-       {
-         $match:{
-           "status":{ $nin: ['cancelled','pending']}
-         }
-       },
-       {
-            $group:{
-             _id:{ $dateToString : {format: "%Y", date:"$time"}},
-             total:{$sum : '$totalAmount'},
-             count:{$sum:1},
-            }
-       },
-       {
-         $sort:{_id:1},
-       }
-     ]).toArray()
-     resolve(Yearlysales)
     })
-   },
+  },
+
+  getDailySales: () => {
+    return new Promise(async (resolve, reject) => {
+
+      let Dailysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+        {
+          $match: {
+            "status": { $nin: ['cancelled', 'pending'] }
+          }
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: "%Y-%m-%d", date: "$time" } },
+            total: { $sum: '$totalAmount' },
+            count: { $sum: 1 },
+          }
+        },
+        {
+          $sort: { _id: 1 },
+        }
+      ]).toArray()
+      resolve(Dailysales)
+    })
+  },
+
+
+  getWeeklySales: () => {
+    return new Promise(async (resolve, reject) => {
+
+      let Monthlysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+        {
+          $match: {
+            "status": { $nin: ['cancelled', 'pending'] }
+          }
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: "%Y-%m", date: "$time" } },
+            total: { $sum: '$totalAmount' },
+            count: { $sum: 1 },
+          }
+        },
+        {
+          $sort: { _id: 1 },
+        }
+      ]).toArray()
+      resolve(Monthlysales)
+    })
+  },
+
+
+
+
+  getYearlySales: () => {
+    return new Promise(async (resolve, reject) => {
+
+      let Yearlysales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+        {
+          $match: {
+            "status": { $nin: ['cancelled', 'pending'] }
+          }
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: "%Y", date: "$time" } },
+            total: { $sum: '$totalAmount' },
+            count: { $sum: 1 },
+          }
+        },
+        {
+          $sort: { _id: 1 },
+        }
+      ]).toArray()
+      resolve(Yearlysales)
+    })
+  },
 
 
 }

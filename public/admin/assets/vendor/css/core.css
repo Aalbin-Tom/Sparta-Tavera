@@ -15284,7 +15284,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   transform: translate3d(0, 0, 0);
 }
 .layout-navbar .navbar-nav-right {
-  flex-basis: 100%;
+  flex-basis: 80%;
 }
 .layout-navbar .navbar-search-wrapper .search-input,
 .layout-navbar .navbar-search-wrapper .input-group-text {

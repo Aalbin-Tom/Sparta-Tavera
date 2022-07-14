@@ -87,13 +87,13 @@ module.exports = {
                         resolve(response)
                     } else {
                         resolve({ status: false })
-                        console.log("login failed")
+                      
 
                     }
                 })
             } else {
-                console.log("login failed due to ");
-                resolve({ status: false })
+                
+                resolve({ status: false }) 
 
             }
 
@@ -236,7 +236,7 @@ module.exports = {
 
 
             ]).toArray()
-            resolve(cartItems)
+                resolve(cartItems)   
 
         })
     },
@@ -411,7 +411,9 @@ module.exports = {
                 paymentMethord: order['payment-method'],
                 products: products,
                 totalAmount: total,
-                date: year + "/" + month + "/" + day,
+                total_amount:order.total_amount,
+                coupon_amount:order.coupon_amount,
+                date: year + "/" + month + "/" + day, 
                 time: new Date(),
                 status: status
             }
@@ -427,12 +429,19 @@ module.exports = {
     },
 
     getCartProductsList: (userId) => {
-        return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) }).then((cart) => {
-                resolve(cart.product)
+        return new Promise( (resolve, reject) => {
+            db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) }).then((cart) => {
+               
+                if(cart){
+                      resolve(cart.product)
+                }
+            else{
+                resolve(false)
+            }
+              
             })
 
-        })
+        }) 
     },
 
 
@@ -512,6 +521,15 @@ module.exports = {
                 .sort({ time: -1 })
                 .toArray()
             resolve(orders)
+        })
+    },
+
+    getUserOrder: (id) => {
+        return new Promise(async (resolve, reject) => {
+            
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ _id: objectId(id),}).toArray()
+                 resolve(orders)
+ 
         })
     },
 
@@ -618,7 +636,7 @@ module.exports = {
                     console.log("New Order :", order);
                     resolve(order)
                 }
-            })
+            }) 
 
         })
     },
@@ -706,8 +724,7 @@ module.exports = {
     },
 
     getWishList: (userId) => {
-        console.log("Commi11111111111111111111111111111111111111111111111111");
-        console.log(userId);
+       
         return new Promise(async (resolve, reject) => {
             let cartItems = await db.get().collection(collection.WISH_COLLECTION).aggregate([
                 {
@@ -733,7 +750,7 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            console.log(cartItems);
+
             resolve(cartItems)
         })
     },
@@ -916,6 +933,14 @@ module.exports = {
                   resolve(r)
                 })
 
+        })
+    },
+    removeList: (proID, userID) => {
+        console.log("deleteeeeeeeeeeeeeee");
+        return new Promise((res, rej) => {
+            db.get().collection(collections.WISH_COLLECTION).updateOne({ user: objectId(userID) }, { $pull: { products: { item: objectId(proID) } } }).then(() => {
+                res()
+            })
         })
     },
 

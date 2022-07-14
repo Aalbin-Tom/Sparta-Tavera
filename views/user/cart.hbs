@@ -71,7 +71,7 @@
                                     {{else}}
 
                                     <td>
-                                        <p class="text-danger">YOU HAVE NOT ADDED ANY PRODUCT TO THE CART</p>
+                                        <p class="text-danger">THE CART IS EMPTY <br> ADD PRODUCTS </p>
                                     </td>
 
                                     {{/if}}
@@ -123,10 +123,12 @@
                     </table>
                     <div class="cart-buttons">
                         {{#if product}}
-                        <button type="button" class="btn btn-primary btn-block text-uppercase mb-3" data-toggle="modal"
-                            data-target="#exampleModalB">
-                            SELECT ADDRESS
-                        </button>
+                        <a href="/check-out" class="boxed-btn black" data-toggle="modal"
+                            data-target="#exampleModalB">Check Out</a>
+                        {{!-- <a><button type="button" class="btn btn-primary btn-block text-uppercase mb-3"
+                                data-toggle="modal" data-target="#exampleModalB">
+                                SELECT ADDRESS
+                            </button></a> --}}
                         {{/if}}
 
                         <!-- Modal -->
@@ -136,6 +138,8 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Select Address</h5>
+                                        <a href="/add-address" class="boxed-btn black">Add Address</a>
+
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close"></button>
                                         <span aria-hidden="true">&times;</span>
@@ -165,11 +169,11 @@
                             </div>
                         </div>
 
-                        {{!-- <a href="/check-out" class="boxed-btn black">Check Out</a> --}}
+
 
                     </div>
                 </div>
-
+                {{#if product}}
                 <div class="coupon-section">
                     <h3>Apply Coupon</h3>
                     <div class="coupon-form-wrap">
@@ -186,6 +190,7 @@
 
                     </div>
                 </div>
+                {{/if}}
 
             </div>
 

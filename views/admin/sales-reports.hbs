@@ -1,3 +1,91 @@
+
+<!-- Bootstrap Dark Table -->
+<div class="card mt-5 d-flex">
+    <h5 style="background-color: darkseagreen;" class="card-header justify-content-center">Daily Sales</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table table">
+            <thead>
+                <tr>
+                    <th ><h5>Date</h5></th>
+                    <th><h5>No Orders</h5></th>
+                    <th><h5>Total Amount </h5></th>
+                 
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                    {{#each dailySales}}
+            
+                <tr>
+                    <td><strong> {{_id}}  </strong></td>
+                    <td><strong>  {{count}}  </strong> </td>
+                    <td> <strong>  {{total}} </strong> </td> 
+                </tr>
+                  {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mt-5 d-flex">
+    <h5 style="background-color: darkseagreen;" class="card-header justify-content-center">Weekly Sales</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table table">
+            <thead>
+                <tr>
+                   <th ><h5>Month</h5></th>
+                    <th><h5>No Orders</h5></th>
+                    <th><h5>Total Amount </h5></th>
+                 
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                    {{#each weeklySales}}
+            
+                <tr>
+                    <td><strong> {{_id}}  </strong></td>
+                   <td><strong>  {{count}}  </strong> </td>
+                    <td> <strong>  {{total}} </strong> </td> 
+                </tr>
+                  {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card mt-5 mb-5">
+    <h5 style="background-color: darkseagreen;" class="card-header auto-center">Yearly Sales</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table table">
+            <thead>
+                <tr>
+                  <th ><h5>Year</h5></th>
+                    <th><h5>No Orders</h5></th>
+                    <th><h5>Total Amount </h5></th>
+                 
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                    {{#each YearlySales}}
+            
+                <tr>
+                    <td><strong> {{_id}}  </strong></td>
+                    <td><strong>  {{count}}  </strong> </td>
+                    <td> <strong>  {{total}} </strong> </td> 
+                </tr>
+                  {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Bootstrap Dark Table -->
+
+
+
 {{!-- <div " {{ date}} {{a}}{{b}} {{dailycount}} {{YearlySales}}" hidden>
     .
 </div>
@@ -277,88 +365,3 @@
     })
 </script> --}}
 
-
-<!-- Bootstrap Dark Table -->
-<div class="card mt-5 d-flex">
-    <h5 style="background-color: darkseagreen;" class="card-header justify-content-center">Daily Sales</h5>
-    <div class="table-responsive text-nowrap">
-        <table class="table table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>No Orders</th>
-                    <th>Total Amount </th>
-                 
-                </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
-                    {{#each dailySales}}
-            
-                <tr>
-                    <td><strong> {{_id}}  </strong></td>
-                    <td> {{count}}   </td>
-                    <td>  {{total}}  </td> 
-                </tr>
-                  {{/each}}
-
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-<div class="card mt-5 d-flex">
-    <h5 style="background-color: darkseagreen;" class="card-header justify-content-center">Weekly Sales</h5>
-    <div class="table-responsive text-nowrap">
-        <table class="table table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>No Orders</th>
-                    <th>Total Amount </th>
-                 
-                </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
-                    {{#each weeklySales}}
-            
-                <tr>
-                    <td><strong> {{_id}}  </strong></td>
-                    <td> {{count}}   </td>
-                    <td>  {{total}}  </td> 
-                </tr>
-                  {{/each}}
-
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-<div class="card mt-5 d-flex">
-    <h5 style="background-color: darkseagreen;" class="card-header justify-content-center">Yearly Sales</h5>
-    <div class="table-responsive text-nowrap">
-        <table class="table table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>No Orders</th>
-                    <th>Total Amount </th>
-                 
-                </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
-                    {{#each YearlySales}}
-            
-                <tr>
-                    <td><strong> {{_id}}  </strong></td>
-                    <td> {{count}}   </td>
-                    <td>  {{total}}  </td> 
-                </tr>
-                  {{/each}}
-
-            </tbody>
-        </table>
-    </div>
-</div>
-<!--/ Bootstrap Dark Table -->

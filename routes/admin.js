@@ -12,17 +12,7 @@ const multer = require("multer");
 
 
 
-//....................................middlewewar.......................
-// const adminLogin= (req, res, next)=>{
 
-//     if(req.session.admin){
-
-//      next()
-//     }else{
-
-//         res.redirect('/admin/admin-login')
-//     }
-// }
 //...............................multer........
 const productStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -126,7 +116,6 @@ router.get('/admin-home', async function (req, res) {
         console.log(total);
 
 
-        //   console.log(totals);
         res.render('admin/admin-home', { adminhead: true, total, paypal, cod, razorpay, totals, paypals, COD, razorpays });
     } else {
 
@@ -160,7 +149,7 @@ router.get('/show-users', function (req, res) {
 router.get('/products-view', function (req, res) {
     if (req.session.admin) {
         adminHelper.getAllProduct().then((product) => {
-            // console.log(product);
+            
             res.render('admin/products-view', { adminhead: true, product });
         })
     } else {
@@ -215,12 +204,14 @@ router.post('/add-product', productImgStore.array('image', 5), function (req, re
 //.........get.............edit-product..........
 router.get('/edit-product/:id', async (req, res) => {
     if (req.session.admin) {
-        console.log(req.params.id);
-        let product = await adminHelper.getProductDetails(req.params.id)
-        let category = await adminHelper.getCategory()
+       
+        adminHelper.getProductDetails(req.params.id).then(async(product)=>{
+            let category = await adminHelper.getCategory()
+               res.render('admin/edit-product', { adminhead: true, product, category })
+        }).catch(()=>{
+            res.render('404')
+        })
 
-        console.log(product);
-        res.render('admin/edit-product', { adminhead: true, product, category })
 
     } else {
 
@@ -276,7 +267,7 @@ router.get('/unblock-user/:id', (req, res) => {
 router.get('/view-category', (req, res) => {
     if (req.session.admin) {
         adminHelper.getCategory().then((category) => {
-            // console.log(product);
+           
             res.render('admin/view-category', { adminhead: true, category });
         })
 
@@ -317,18 +308,7 @@ router.post('/add-category', categoryImgStore.array('image', 1), (req, res) => {
     })
 
 })
-// adminHelper.Category(req.body, (id) => {
-//     let imagecat = req.files.image
-//     // console.log(imagecat); 
-//     imagecat.mv('./public/category/' + id + '.jpg', (err) => {
-//         if (!err) {
-//             res.redirect('/admin/add-category')
-//         }
-//         console.log(err)
-//     })
 
-
-// })
 
 //...........................EDIT_CATEGORY.....................................................
 
@@ -373,10 +353,26 @@ router.get('/delete-category/:id', (req, res) => {
 
 router.get('/view-orders', (req, res) => {
     adminHelper.getAllOrders().then((orders) => {
-        // console.log(orders);
+        
         res.render('admin/view-orders', { adminhead: true, orders });
     })
 })
+
+
+router.get('/order-products/:id', async (req, res) => {
+    // if (req.session.admin) {
+  console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+      let products = await userHelper.getOrderProducts(req.params.id)
+      let orders = await userHelper.getUserOrder(req.params.id)
+      console.log(orders);
+  
+      res.render('admin/order-products',{ adminhead: true, products, orders })
+    // } else {
+    //   res.redirect('admin/login')
+    // }
+  })
+
+
 
 router.get('/cancel-order/:id', (req, res) => {
     adminHelper.Cancelstatus(req.params.id).then(() => {
@@ -386,6 +382,7 @@ router.get('/cancel-order/:id', (req, res) => {
 
     })
 })
+
 
 router.get('/ship-order/:id', (req, res) => {
     adminHelper.Shippedstatus(req.params.id).then((response) => {
@@ -477,41 +474,7 @@ router.get('/sales-report',async(req,res)=>{
     let weeklySales = await adminHelper.getWeeklySales()
     let YearlySales = await adminHelper.getYearlySales()
     
-    // map to get only the dates
-    // let date = [];
-    // dailySales.map((daily) => {
-    //   date.push(daily._id);
-    // });
-
-    // let a=date[0]
-    // let b =date[1]
-
-    // let dailycount = [];
-    // dailySales.map((daily) => {
-    //   dailycount.push(daily.count);
-    // });
-
-    // //map to get the month 
-    // let month = [];
-    // weeklySales.map((daily) => {
-    //   month.push(daily._id);
-    // });
-
-    // let monthcount = [];
-    // weeklySales.map((daily) => {
-    //   monthcount.push(daily.count);
-    // });
-
-    //  //map to get the year
-    //  let year = [];
-    //  YearlySales.map((daily) => {
-    //    month.push(daily._id);
-    //  });
- 
-    //  let yearcount = [];
-    //  YearlySales.map((daily) => {
-    //    yearcount.push(daily.count);
-    //  });
+   
 
     console.log(dailySales);
     console.log(weeklySales);

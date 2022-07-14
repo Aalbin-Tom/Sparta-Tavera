@@ -2699,13 +2699,13 @@ table.order-details {
 table.order-details thead tr th {
   background-color: #efefef;
   padding: 18px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
 }
 
 table.order-details tbody td {
   border: 1px solid #efefef;
-  padding: 15px;
+  padding: 14px;
 }
 
 .order-details-wrap > a {

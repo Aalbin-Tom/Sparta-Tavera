@@ -3,78 +3,80 @@
 <!-- Bootstrap Table with Header - Dark -->
 
 <body>
-  <div class="card">
-    <h5 class="card-header"></h5>
-    <div>
-      <table class="table">
-        <thead class="table-dark">
-          <tr>
-            <th>Date</th>
-            <th>Name</th>
-            <th>User Id</th>
+  <div class="container-xxl flex-grow-1 container-p-y">
 
-            <th>Address</th>
-            <th>Phone</th>
-            <th>Payment Methord</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+    <div class="card">
+      <h5 class="card-header"></h5>
+      
+        <table class="table">
+          <thead class="table-dark">
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Payment Methord</th>
+              <th>Amount</th>
+              <th>products</th>
+              <th>Status</th>
+              <th>.</th>
+            </tr>
+          </thead>
 
-        <tbody class="table-border-bottom-0">
-          {{#each orders}}
-          <tr>
+          <tbody class="table-border-bottom-0">
+            {{#each orders}}
+            <tr>
 
-            <td> {{this.date}} </td>
-            <td>{{this.deliveryDetails.name}}</td>
-            <td>{{this.userId}}</td>
-            <td>{{this.deliveryDetails.address}}</td>
-            <td>{{this.deliveryDetails.mobile}}</td>
-            <td>{{this.paymentMethord}}</td>
+              <td> {{this.date}} </td>
+              <td>{{this.deliveryDetails.name}}</td>
 
-            <td>{{this.totalAmount}}</td>
+              <td>{{this.deliveryDetails.address}}</td>
+              <td>{{this.deliveryDetails.mobile}}</td>
+              <td>{{this.paymentMethord}}</td>
+           
+              <td>{{this.totalAmount}}</td>
+           <td> <a href="/admin/order-products/{{this._id}}" class="btn btn-primary">Products</a></td>
 
-            {{!-- <td>
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Status
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+              {{!-- <td>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Status
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td><a href="/admin/cancel-product/{{this._id}}" class="text-primary">STATUS</a></td> --}}
+              </td>
+              <td><a href="/admin/cancel-product/{{this._id}}" class="text-primary">STATUS</a></td> --}}
 
 
-            <td><span class="badge bg-label-primary me-1">{{this.status}}</span></td>
-            <td>
-              <div class="dropdown">
-                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-                <div class="dropdown-menu">
-                  <button class="dropdown-item" onclick="deliverOrder('{{this._id}}')">Deliverd</button>
-                  <button class="dropdown-item" onclick="shipOrder('{{this._id}}')">Shipped</button>
-                  <button class="dropdown-item" onclick="cancelOrder('{{this._id}}')">Canceled</button>
-                  <button class="dropdown-item" onclick="returnOrder('{{this._id}}')">Returned</button>
+              <td><span class="badge bg-label-primary me-1">{{this.status}}</span></td>
+              <td>
+                <div class="dropdown">
+                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <button class="dropdown-item" onclick="deliverOrder('{{this._id}}')">Deliverd</button>
+                    <button class="dropdown-item" onclick="shipOrder('{{this._id}}')">Shipped</button>
+                    <button class="dropdown-item" onclick="cancelOrder('{{this._id}}')">Canceled</button>
+                    <button class="dropdown-item" onclick="returnOrder('{{this._id}}')">Returned</button>
+                  </div>
                 </div>
-              </div>
-            </td>
+              </td>
 
 
 
 
-          </tr>
-          {{/each}}
+            </tr>
+            {{/each}}
 
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+          </div>
   </div>
   <!--/ Bootstrap Table with Header Dark -->
 </body>
