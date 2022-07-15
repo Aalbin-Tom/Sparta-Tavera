@@ -299,8 +299,6 @@ router.get('/cart', ok, async (req, res) => {
 router.get('/add-to-cart/:id', (req, res) => {
   if (req.session.userData) {
     userHelper.addToCart(req.params.id, req.session.userData?._id).then((response) => {
-      console.log(response);
-
       res.json(response)
     })
   } else {
@@ -396,7 +394,6 @@ router.post('/check-out', async (req, res) => {
   }
 
   userHelper.placeOrder(req.body, products, totalprice).then((orderId) => {
-   console.log(req.body);
     req.session.orderid = orderId.insertedId
     if (req.body['payment-method'] === 'COD') {
       res.json({ status: true })
@@ -515,10 +512,8 @@ router.get('/orders', ok, async (req, res) => {
 
 router.get('/view-orders/:id', ok, async (req, res) => {
   if (req.session.userData) {
-console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
     let products = await userHelper.getOrderProducts(req.params.id)
     let orders = await userHelper.getUserOrder(req.params.id)
-    console.log(orders);
 
     res.render('user/view-orders', { userData: req.session.userData, user: true, products, cartCount: req.session.count,orders })
   } else {
@@ -589,8 +584,6 @@ router.post('/verify-payment', (req, res) => {
 router.get('/wishlist', async (req, res) => {
   if (req.session.userData) {
     let product = await userHelper.getWishList(req.session.userData?._id)
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-    console.log(product);
     res.render('user/wishlist', { user: true, userData: req.session.userData, product, cartCount: req.session.count })
   } else {
     res.redirect("/login")

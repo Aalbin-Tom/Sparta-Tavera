@@ -55,7 +55,6 @@ router.get('/', function (req, res) {
 
 /* GET adminlogin page. */
 router.get('/admin-login', function (req, res) {
-    console.log('vanu');
     if (req.session.admin) {
         res.render('admin/admin-home', { adminhead: true });
 
@@ -88,14 +87,11 @@ router.post('/admin-login', function (req, res) {
 /* GET adminhome page. */
 router.get('/admin-home', async function (req, res) {
     if (req.session.admin) {
-        console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
         let total = await adminHelper.totalSales()
         let paypal = await adminHelper.PaypaltotalSales()
         let cod = await adminHelper.CODtotalSales()
         let razorpay = await adminHelper.RazorpaytotalSales()
         let users=await adminHelper.getUsercount()
-        // let user=users.count
-        console.log(users);
       
 
         const formatCash = n => {
@@ -106,17 +102,12 @@ router.get('/admin-home', async function (req, res) {
             if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
         };
 
-        console.log(formatCash(cod));
-        console.log(formatCash(total));
-        console.log(formatCash(total));
-        console.log(formatCash(paypal));
 
 
         let totals = formatCash(total)
         let paypals = formatCash(paypal)
         let COD = formatCash(cod)
         let razorpays = formatCash(razorpay)
-        console.log(total);
 
 
         res.render('admin/admin-home', { adminhead: true, total, paypal, cod, razorpay, totals, paypals, COD, razorpays,users });
@@ -137,7 +128,6 @@ router.get('/logout', function (req, res) {
 router.get('/show-users', function (req, res) {
     if (req.session.admin) {
         adminHelper.getAllUsers().then((users) => {
-            console.log(users);
             res.render('admin/show-users', { adminhead: true, users })
 
         })
@@ -188,13 +178,11 @@ router.post('/add-product', productImgStore.array('image', 5), function (req, re
     let arr = []
 
     req.files.forEach(function (files, index, ar) {
-        console.log(req.files[index].filename);
 
         arr.push(req.files[index].filename)
 
     })
     let objectarray = { ...arr }
-    console.log(objectarray);
     adminHelper.addProduct(req.body, arr).then(() => {
         res.redirect('/admin/products-view')
 
@@ -225,8 +213,6 @@ router.get('/edit-product/:id', async (req, res) => {
 })
 
 router.post('/edit-product/:id', (req, res) => {
-    console.log(req.body);
-    console.log("huhuhuhuhhuhuhuhuuhuhuhuhuh");
 
     adminHelper.updateProduct(req.params.id, req.body).then((response) => {
 
@@ -298,13 +284,11 @@ router.post('/add-category', categoryImgStore.array('image', 1), (req, res) => {
     let arr = []
 
     req.files.forEach(function (files, index, ar) {
-        console.log(req.files[index].filename);
 
         arr.push(req.files[index].filename)
 
     })
     let objectarray = { ...arr }
-    console.log(objectarray);
     adminHelper.Category(req.body, arr).then(() => {
         res.redirect('/admin/add-category')
 
@@ -318,7 +302,6 @@ router.post('/add-category', categoryImgStore.array('image', 1), (req, res) => {
 
 
 router.get('/edit-category/:id', async (req, res) => {
-    console.log('da panni');
     if (req.session.admin) {
         let category = await adminHelper.getcategoryDetails(req.params.id)
         res.render('admin/edit-category', { adminhead: true, category })
@@ -331,7 +314,6 @@ router.get('/edit-category/:id', async (req, res) => {
 
 
 router.post('/edit-category/:id', (req, res) => {
-    console.log(req.params.id);
     adminHelper.updateCategory(req.params.id, req.body).then((data) => {
 
         res.redirect('/admin/view-category')
@@ -364,10 +346,8 @@ router.get('/view-orders', (req, res) => {
 
 router.get('/order-products/:id', async (req, res) => {
     // if (req.session.admin) {
-  console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
       let products = await userHelper.getOrderProducts(req.params.id)
       let orders = await userHelper.getUserOrder(req.params.id)
-      console.log(orders);
   
       res.render('admin/order-products',{ adminhead: true, products, orders })
     // } else {
@@ -379,7 +359,6 @@ router.get('/order-products/:id', async (req, res) => {
 
 router.get('/cancel-order/:id', (req, res) => {
     adminHelper.Cancelstatus(req.params.id).then(() => {
-        console.log('hihihihihihh');
 
         res.json({ status: true })
 
@@ -414,9 +393,7 @@ router.get('/return-order/:id', (req, res) => {
 //............................get and category...................................................
 
 router.get('/coupon', async (req, res) => {
-    console.log("hlooooooooooooooooooooooooooooooooooooooo");
     adminHelper.getcoupon().then((coupon) => {
-        console.log(coupon);
 
         res.render('admin/add-coupon', { adminhead: true, coupon })
 
@@ -442,7 +419,6 @@ router.get('/delete-coupon/:id', (req, res) => {
  
 //.............add cstegory offer...........
 router.get('/add-categoryoffer/:name', (req, res) => {
-    console.log("ddddddddddddddddddddddddddddddddddddd");
     adminHelper.addCategoryOffer(req.params.name).then(() => {
         res.json({ status: true })
     })
@@ -460,12 +436,10 @@ router.get('/report', (req, res) => {
 
 
 router.post('/sales-report', (req, res) => {
-    console.log(req.body);
     let to = new Date(req.body.to)
     let from = new Date(req.body.from)
     adminHelper.datereport(to, from, req.body.type).then((report) => {
        req.session.report=report
-        console.log(req.session.report);
         res.redirect('/admin/report')
 
     })
@@ -479,9 +453,6 @@ router.get('/sales-report',async(req,res)=>{
     
    
 
-    console.log(dailySales);
-    console.log(weeklySales);
-    console.log(YearlySales);
    res.render('admin/sales-reports',{adminhead:true,dailySales,weeklySales,YearlySales})
 })
 

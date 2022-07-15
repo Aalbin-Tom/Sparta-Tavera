@@ -13,17 +13,14 @@ module.exports = {
       let user = await db.get().collection(collection.USER_COLLECTION).findOne({ Email: userData.Email })
       if (user) {
         if (user.status == "active") {
-          console.log('active user');
           response.status = true
           resolve(response)
         } else {
-          console.log('@@@@@@@@@@@@@blocked user');
           response.block = true
           resolve(response)
         }
       }
       else {
-        console.log('blocked user');
 
         resolve({ status: false })
       }
@@ -36,13 +33,11 @@ module.exports = {
 
 
   addProduct: (body, files) => {
-    console.log(body);
     body.images = files
     body.pricess = parseInt(body.pricess)
     body.discountedprice = parseInt(body.discountedprice)
     body.saveprice = parseInt((body.pricess * body.discountedprice) / 100)
     body.price = parseInt(body.pricess - body.saveprice)
-    console.log(body);
     return new Promise(async (resolve, reject) => {
 
       await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(body)
@@ -52,7 +47,6 @@ module.exports = {
   },
 
   addProductImage: (product_id, image_path) => {
-    console.log("product : " + product_id + " image path : " + image_path);
     return new Promise((resolve, reject) => {
       db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
         { _id: ObjectId(product_id) },
@@ -89,13 +83,11 @@ module.exports = {
   },
 
   updateProduct: (productId, productDetails) => {
-    console.log(productDetails);
     productDetails.price = parseInt(productDetails.price)
     productDetails.pricess = parseInt(productDetails.pricess)
     productDetails.discountedprice = parseInt(productDetails.discountedprice)
     productDetails.saveprice = parseInt(productDetails.pricess * productDetails.discountedprice) / 100
     productDetails.price = parseInt(productDetails.pricess - productDetails.saveprice)
-    console.log(productDetails.price);
 
     return new Promise((resolve, reject) => {
 
@@ -113,7 +105,6 @@ module.exports = {
 
           }
         }).then((response) => {
-          console.log(response)
           resolve(response)
         })
     })
@@ -187,7 +178,6 @@ module.exports = {
     })
   },
   updateCategory: (categoryId, categoryDetails) => {
-    console.log(categoryDetails);
 
     return new Promise((resolve, reject) => {
       categoryDetails.offer = parseInt(categoryDetails.offer)
@@ -276,7 +266,6 @@ module.exports = {
         }
 
       ]).toArray()
-      console.log(total)
       if (total[0]) {
 
 
@@ -309,7 +298,6 @@ module.exports = {
         }
 
       ]).toArray()
-      console.log(total)
       if (total[0]) {
 
 
@@ -343,7 +331,6 @@ module.exports = {
         }
 
       ]).toArray()
-      console.log(total)
       if (total[0]) {
 
 
@@ -377,7 +364,6 @@ module.exports = {
         }
 
       ]).toArray()
-      console.log(total)
       if (total[0]) {
 
 
@@ -390,7 +376,6 @@ module.exports = {
   },
 
   addcoupon: (body) => {
-    console.log(body);
     body.Couponoffer = parseInt(body.Couponoffer)
     return new Promise(async (resolve, reject) => {
       db.get().collection(collection.COUPON_COLLECTION).insertOne(body)
@@ -423,11 +408,8 @@ module.exports = {
 
 
   addCategoryOffer: (name) => {
-    console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
     return new Promise(async (resolve, reject) => {
       let category = await db.get().collection(collection.CATAGORY_COLLECTION).findOne({ categoryname: name })
-      console.log(name);
-      console.log(category);
       let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
         {
           $match: {
@@ -437,13 +419,11 @@ module.exports = {
         },
       ]).toArray()
 
-      console.log(product);
       resolve(product)
 
       product.map(async (value, index) => {
         let id = value._id
         let offers = value.price - category.offer
-        console.log(offers);
         await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: ObjectId(id) },
           {
             $set: {
@@ -458,9 +438,6 @@ module.exports = {
   },
 
   datereport: (to, from, type) => {
-    console.log(from);
-    console.log(to);
-    console.log(type);
     return new Promise(async (resolve, reject) => {
 
       let report = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
@@ -495,7 +472,6 @@ module.exports = {
 
       ]).toArray()
 
-      console.log("hihihihihihih");
       resolve(report)
     })
   },
