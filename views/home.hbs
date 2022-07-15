@@ -28,8 +28,8 @@
 						<p class="subtitle">Order yours</p>
 						<h1>Delicious Seasonal Foods</h1>
 						<div class="hero-btns">
-							<a href="/shop" class="boxed-btn">Order Now</a>
-							<a href="contact.html" class="bordered-btn">Contact Us</a>
+							<a href="#" class="boxed-btn">Order Now</a>
+							<a href="#" class="bordered-btn">Contact Us</a>
 						</div>
 					</div>
 				</div>
@@ -84,7 +84,7 @@
 <!-- end features list section -->
 
 <!-- product section -->
-<div class="product-section mt-150 mb-150">
+<div class="product-section mt-90 mb-90">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8 offset-lg-2 text-center">
@@ -94,7 +94,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="product-section mt-150 mb-150">
+		<div class="product-section mt-90 mb-90">
 			<div class="container">
 
 				<div class="row">
@@ -102,9 +102,9 @@
 						<div class="product-filters">
 							<ul>
 								{{#each category}}
-								<li> <a href="/showcart/{{this.categoryname}}">{{this.categoryname}} 
-								{{!-- {{#if category.offer}} --}}
-								<br> <span class="badge badge-success" >{{this.offer}} Rs  offer </span></a> </li>
+								<li> <a href="/showcart/{{this.categoryname}}">{{this.categoryname}}
+										{{!-- {{#if category.offer}} --}}
+										<br> <span class="badge badge-success">{{this.offer}} Rs offer </span></a> </li>
 								{{!-- {{/if}} --}}
 								{{/each}}
 							</ul>
@@ -150,7 +150,7 @@
 					{{#each product}}
 
 					<div class="col-lg-3 col-md-6  text-center {{this.category}} ">
-						<div class="single-product-item"> 
+						<div class="single-product-item">
 							{{!-- {{#each ../category}}
 							<span style="" class="badge badge-success" id="cart-count">{{this.offer}}</span>
 							{{/each}} --}}
@@ -162,18 +162,22 @@
 							<h6>{{this.category}}</h6>
 							{{!-- <p class="productprice"><span>Per pice/placte <br></span> --}}
 							<h3><del>{{this.pricess }}</h3></del></p>
-							<span class="badge bg-label-primary me-1"> {{discountedprice}}% offer, you saved Rs {{this.saveprice}}</span>
+							<span class="badge bg-label-primary me-1"> {{discountedprice}}% offer, you saved Rs
+								{{this.saveprice}}</span>
 							<p class="product-price">{{this.price }}</p>
 
 							{{!-- <a href="/add-to-cart/{{this._id}}" "><i class=" fas fa-shopping-cart"></i> Add to
 								Cart</a> --}}
 							<a class="cart-btn">
-								<button style="border: none; background-color: #f28123;" onclick="addToCart('{{this._id}}')"><i class="fas fa-shopping-cart"></i> Add to
+								<button style="border: none; background-color: #f28123;"
+									onclick="addToCart('{{this._id}}')"><i class="fas fa-shopping-cart"></i> Add to
 									Cart</button>
-							</a>		
-							<a href="/add-to-wishlist/{{this._id}}">	<button style="border: none;background-color: white;"><i class="fa fa-heart"></i>	</button></a>			
+							</a>
+							<a href="/add-to-wishlist/{{this._id}}"> <button
+									style="border: none;background-color: white;"><i class="fa fa-heart"></i>
+								</button></a>
 						</div>
-						
+
 					</div>
 					{{/each}}
 				</div>
@@ -217,7 +221,7 @@
 
 		<!-- cart banner section -->
 
-		<section class="cart-banner pt-100 pb-100">
+		<section class="cart-banner pt-90 pb-90">
 			<div class="container">
 				<div class="row clearfix">
 					<!--Image Column-->
@@ -257,7 +261,8 @@
 									</div>
 								</div>
 							</div>
-							<a href="" class="cart-btn mt-3"><i class="fas fa-shopping-cart"></i> Shop Now</a>
+							{{!-- <a href="" class="cart-btn mt-3"><i class="fas fa-shopping-cart"></i> Shop Now</a>
+							--}}
 						</div>
 					</div>
 				</div>
@@ -344,7 +349,7 @@
 								aliquet sapien sed, interdum velit. Nam eu molestie lorem.</p>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente facilis illo repellat
 								veritatis minus, et labore minima mollitia qui ducimus.</p>
-							<a href="about.html" class="boxed-btn mt-4">know more</a>
+							{{!-- <a href="about.html" class="boxed-btn mt-4">know more</a> --}}
 						</div>
 					</div>
 				</div>
@@ -357,7 +362,7 @@
 			<div class="container">
 				<h3>December sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
 				<div class="sale-percent"><span>Sale! <br> Upto</span>50% <span>off</span></div>
-				<a href="/shop" class="cart-btn btn-lg">Shop Now</a>
+				{{!-- <a href="/shop" class="cart-btn btn-lg">Shop Now</a> --}}
 			</div>
 		</section>
 		<!-- end shop banner -->
@@ -390,8 +395,7 @@
 								</p>
 								<p class="excerpt">Vivamus lacus enim, pulvinar vel nulla sed, scelerisque rhoncus nisi.
 									Praesent vitae mattis nunc, egestas viverra eros.</p>
-								<a href="single-news.html" class="read-more-btn">read more <i
-										class="fas fa-angle-right"></i></a>
+								<a href="single-news.html" class="read-more-btn"> </i></a>
 							</div>
 						</div>
 					</div>
@@ -408,8 +412,7 @@
 								</p>
 								<p class="excerpt">Vivamus lacus enim, pulvinar vel nulla sed, scelerisque rhoncus nisi.
 									Praesent vitae mattis nunc, egestas viverra eros.</p>
-								<a href="single-news.html" class="read-more-btn">read more <i
-										class="fas fa-angle-right"></i></a>
+								<a href="single-news.html" class="read-more-btn"> </i></a>
 							</div>
 						</div>
 					</div>
@@ -426,15 +429,14 @@
 								</p>
 								<p class="excerpt">Vivamus lacus enim, pulvinar vel nulla sed, scelerisque rhoncus nisi.
 									Praesent vitae mattis nunc, egestas viverra eros.</p>
-								<a href="single-news.html" class="read-more-btn">read more <i
-										class="fas fa-angle-right"></i></a>
+								<a href="single-news.html" class="read-more-btn"> </i></a>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-lg-12 text-center">
-						<a href="news.html" class="boxed-btn">More News</a>
+						{{!-- <a href="news.html" class="boxed-btn">More News</a> --}}
 					</div>
 				</div>
 			</div>
@@ -539,6 +541,3 @@
 			</div>
 		</div>
 		<!-- end copyright -->
-
-
-		

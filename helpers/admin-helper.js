@@ -576,6 +576,20 @@ module.exports = {
     })
   },
 
+  getUsercount:()=>{
+    return new Promise( async(resolve,reject)=>{
+     let users=await db.get().collection(collection.USER_COLLECTION).aggregate([
+      {
+        $group:{
+           _id:null,
+           count:{ $sum: 1}
+        }
+      }
+     ]).toArray()
+     resolve(users)
+    })
+  }
+
 
 }
 

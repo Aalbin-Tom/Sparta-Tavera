@@ -88,16 +88,16 @@
         </div>
       </div> --}}
       <div class="col-sm-12 col-md-12 col-lg-6 col-xl-4 tm-block-col">
-        <div class="tm-bg-primary-dark tm-block" style="min-height: 356px;width: 794px;">
+        <div class="tm-bg-primary-dark tm-block" >
           <h2 class="tm-block-title">COUPONS</h2>
           <div class="tm-product-table-container">
-            <table class="table tm-table-small tm-product-table">
+            <table class="table table-responsive ">
               <tbody>
 
                 <tr>
                   {{!-- <th scope="col">SL.NO</th> --}}
                   <th scope="col">COUPON CODE</th>
-                  <th scope="col">OFFER</th>
+                  <th scope="col">OFFER %</th>
                   <th scope="col">ACTION</th>
 
                 </tr>
@@ -125,14 +125,14 @@
             </table>
           </div>
           <!-- table container -->
-          <button type="button" class="btn btn-primary btn-block text-uppercase mb-3" data-toggle="modal" data-target="#exampleModalB">
+          <button style="height: 45px; width: 200px;" type="button" class="btn btn-primary btn-block text-uppercase mb-3" data-toggle="modal" data-target="#exampleModalB">
             ADD COUPON
           </button>
 
           <!-- Modal -->
-          <div class="modal fade" id="exampleModalB" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
+          <div class="modal fade" id="exampleModalB" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" >
+            <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">ADD COUPON</h5>

@@ -62,11 +62,9 @@ function incQuantity(cartId, item, userid, name, price, count) {
                 document.getElementById(name).innerHTML = price * (quantity + count)
             
                 } else{
-                // couponoffer = (response.total * response.catof.couponoffer) / 100
+             
                 response.subtotal = response.total 
-                // + 45 
-
-                //document.getElementById('coupondiscount').innerHTML = couponoffer
+                    
                 document.getElementById(item).innerHTML = quantity + count
                 document.getElementById('total').innerHTML = response.total
                 document.getElementById('subtotal').innerHTML = response.subtotal

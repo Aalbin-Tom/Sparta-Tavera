@@ -117,7 +117,7 @@
 
                             <tr class="total-data">
                                 <td><strong>Sub Total: </strong></td>
-                                <td> <span id="subtotal">{{subtotal}} Rs </span></td>
+                                <td> <span id="subtotal">{{subtotal}} </span> Rs</td>
                             </tr>
                         </tbody>
                     </table>
@@ -138,13 +138,15 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Select Address</h5>
-                                        <a href="/add-address" class="boxed-btn black">Add Address</a>
+                                       
 
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close"></button>
                                         <span aria-hidden="true">&times;</span>
+                                        
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body"> 
+                                        <a href="/add-address" class="boxed-btn black">Add Address</a>
                                         <form action="/alladdress" method="post">
                                             {{#each address.address}}
                                             <div class="form-check">

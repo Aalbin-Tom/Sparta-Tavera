@@ -93,6 +93,9 @@ router.get('/admin-home', async function (req, res) {
         let paypal = await adminHelper.PaypaltotalSales()
         let cod = await adminHelper.CODtotalSales()
         let razorpay = await adminHelper.RazorpaytotalSales()
+        let users=await adminHelper.getUsercount()
+        // let user=users.count
+        console.log(users);
       
 
         const formatCash = n => {
@@ -116,7 +119,7 @@ router.get('/admin-home', async function (req, res) {
         console.log(total);
 
 
-        res.render('admin/admin-home', { adminhead: true, total, paypal, cod, razorpay, totals, paypals, COD, razorpays });
+        res.render('admin/admin-home', { adminhead: true, total, paypal, cod, razorpay, totals, paypals, COD, razorpays,users });
     } else {
 
         res.redirect('/admin')
