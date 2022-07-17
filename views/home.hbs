@@ -111,41 +111,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					{{!-- {{#each product}}
-					<div class="col-md-4 d-flex">
+				
 
-
-						<div class="product ftco-animate">
-							<div class="img d-flex align-items-center justify-content-center"
-								style="background-image: url(/assets/images/{{this._id}});">
-								<div class="desc">
-									<p class="meta-prod d-flex">
-										<a href="#" class="d-flex align-items-center justify-content-center"><span
-												class="flaticon-shopping-bag"></span></a>
-										<a href="#" class="d-flex align-items-center justify-content-center"><span
-												class="flaticon-heart"></span></a>
-										<a href="#" class="d-flex align-items-center justify-content-center"><span
-												class="flaticon-visibility"></span></a>
-									</p>
-								</div>
-							</div>
-							<div class="text text-center">
-								<span class="sale">Sale</span>
-								<span class="category">{{this.catogaery}}</span>
-								<h2>{{this.name}}</h2>
-								<p class="mb-0"><span class="price price-sale"></span> <span class="price">
-										<h2>{{this.price}}Rs</h2>
-									</span></p>
-							</div>
-						</div>
-
-					</div>
-					{{/each}}
-
-				</div> --}}
-
-				<div class="row gy-4 product-lists">
+				<div class="row gy-4 product-lists justify-content-center">
 
 					{{#each product}}
 
@@ -173,7 +141,8 @@
 									onclick="addToCart('{{this._id}}')"><i class="fas fa-shopping-cart"></i> Add to
 									Cart</button>
 							</a>
-							<a href="/add-to-wishlist/{{this._id}}"> <button
+							<a > <button
+							onclick="add-to-wishlist('{{this._id}}')"
 									style="border: none;background-color: white;"><i class="fa fa-heart"></i>
 								</button></a>
 						</div>

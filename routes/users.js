@@ -83,69 +83,71 @@ router.get('/login', (req, res) => {
 
 //login post
 
-router.post('/login', (req, res) => {
+// router.post('/login', (req, res) => {
 
-  userHelper.doLogin(req.body).then((response) => {
-    if (response.status) {
+//   userHelper.doLogin(req.body).then((response) => {
+//     if (response.status) {
 
-      req.session.loggedIn = true
-      req.session.userData = response.user
-      res.redirect('/verify')
-    } else {
-      req.session.logginErr = "Invalid Username or Password"
-      res.redirect('/login')
+//       req.session.loggedIn = true
+//       req.session.userData = response.user
+//       res.redirect('/verify')
+//     } else {
+//       req.session.logginErr = "Invalid Username or Password"
+//       res.redirect('/login')
 
-    }
-  })
-});
+//     }
+//   })
+// });
 
 
 
 //................................login with otp......................................................................................................................................
 
 
-// router.post('/login',  (req, res) => {
+router.post('/login',  (req, res) => {
 
-//   userHelper.doLogin(req.body).then((response) => {
+  userHelper.doLogin(req.body).then((response) => {
 
-// //  if(response.user.status){
-
-
-
-//     req.session.phone=response.user?.phone
-//     let user = response.user
-//     if (response.status) {
-//      // req.session.login = true
-//      // req.session.user = response.user
-//       var Number = response.phone
-//       client.verify
-//       .services(SSID)
-//       .verifications
-//       .create({
-//         to:`+91${user.phone}`,
-//         channel:'sms'
-//       })
-//       .then((data)=>{
-//       //  req.session.loggedin = true
-//        req.session.userData = response.user
-//         res.redirect('/verify')
-//       })
-
-//     } else {
-//       req.session.logginErr = 'Invalid username or password'
-//       res.redirect('/login')
-//     }
-//   // }else{
-//   //   req.session.logerr='User is blocked'
-//   //   res.redirect('/login')
-//   // }
-
-//   })
-//   })
+//  if(response.user.status){
 
 
 
-//signup get 
+    req.session.phone=response.user?.phone
+    let user = response.user
+    if (response.status) {
+     // req.session.login = true
+     // req.session.user = response.user
+      var Number = response.phone
+      client.verify
+      .services(SSID)
+      .verifications
+      .create({
+        to:`+91${user.phone}`,
+        channel:'sms'
+      })
+      .then((data)=>{
+      //  req.session.loggedin = true
+       req.session.userData = response.user
+        res.redirect('/verify')
+      })
+
+    } else {
+      req.session.logginErr = 'Invalid username or password'
+      res.redirect('/login')
+    }
+  // }else{
+  //   req.session.logerr='User is blocked'
+  //   res.redirect('/login')
+  // }
+
+  })
+  })
+
+
+
+//.....................signup get 
+
+
 router.get('/signup', (req, res) => {
   if (req.session.userData) {
     res.redirect('/')
@@ -154,6 +156,8 @@ router.get('/signup', (req, res) => {
     req.session.signinErr = null
   }
 });
+
+
 
 //..............signup post
 
@@ -191,41 +195,41 @@ router.get('/verify', (req, res) => {
 
  //............verify post.........
 
-router.post('/verify', (req, res) => {
-  if (req.body.otp == "1234") {
+// router.post('/verify', (req, res) => {
+//   if (req.body.otp == "1234") {
 
-    res.redirect('/')
-  }
-  res.redirect('/verify');
-});
+//     res.redirect('/')
+//   }
+//   res.redirect('/verify');
+// });
 
 
 //................................verify with otp......................................................................................................................................
 
 
-// router.post('/verify', (req, res) => {
-//   let Number =req.session.phone
-//   var Otp = req.body.otp
+router.post('/verify', (req, res) => {
+  let Number =req.session.phone
+  var Otp = req.body.otp
 
 
-//   client.verify
-//     .services(SSID)
-//     .verificationChecks.create({
-//       to: `+91${Number}`,
-//       code: Otp
-//     })
-//     .then((data) => {
-//       if(data.status=='approved'){
-//           req.session.login = true
-//         res.redirect("/");
-//       }else{
-//         otpErr = 'Invalid OTP'
-//         res.redirect('user/verify',{otpErr,Number,header:true})
-//       }
+  client.verify
+    .services(SSID)
+    .verificationChecks.create({
+      to: `+91${Number}`,
+      code: Otp
+    })
+    .then((data) => {
+      if(data.status=='approved'){
+          req.session.login = true
+        res.redirect("/");
+      }else{
+        otpErr = 'Invalid OTP'
+        res.redirect('user/verify',{otpErr,Number,header:true})
+      }
 
-// });
+});
 
-// })
+})
 
 
 
@@ -662,7 +666,6 @@ router.post('/referal',(req,res)=>{
 router.post('/edit-address/:id',(req,res)=>{
   try{
   userHelper.getaddress(req.params.id,req.session.userData?._id,req.body)
-  
   res.redirect('/user-profile')
   }catch(err){
     res.status(400)
@@ -670,6 +673,7 @@ router.post('/edit-address/:id',(req,res)=>{
 })
 
 //...............edit address.........
+
 
 router.get('/delete-address/:id',(req,res)=>{
   userHelper.deleteadderss(req.session.userData?._id,req.params.id) 
@@ -679,11 +683,6 @@ router.get('/delete-address/:id',(req,res)=>{
 
 
 //................get all address...............................
-
-
- 
-
-
 
 
 router.post('/alladdress',(req,res)=>{

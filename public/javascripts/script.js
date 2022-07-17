@@ -1,17 +1,16 @@
 
 function addToCart(productId) {
-    console.log('hi.......................');
+  
     $.ajax(
         {
             url: '/add-to-cart/' + productId,
             method: 'get',
             success: (response) => {
-                console.log('halo');
                 if (response.status) {
                     let count = $("#cart-count").html()
-                    count = parseInt(count) + 1
-                    $("#cart-count").html(count)
-                    //  alert(response)
+                  
+                 let   counts = parseInt(count) + 1
+                    $("#cart-count").html(counts)
                 } else {
                     alert("already added")
                 }
@@ -26,9 +25,7 @@ function addToCart(productId) {
 function incQuantity(cartId, item, userid, name, price, count) {
     let quantity = parseInt(document.getElementById(item).innerHTML)
     count = parseInt(count);
-    // quantity =parseInt(quantity)
-    // alert(userid)
-    console.log('ajax conected')
+   
     $.ajax({
         url: '/changeproductquantity',
         data: {
@@ -40,9 +37,7 @@ function incQuantity(cartId, item, userid, name, price, count) {
         },
         method: 'post',
         success: (response) => {
-            console.log(response);
             if (response.removeProduct) {
-                alert('Product Removed')
                 location.reload()
 
             } else {
@@ -53,7 +48,6 @@ function incQuantity(cartId, item, userid, name, price, count) {
                 // + 45
                  - couponoffer
                 response.subtotal = Math.round(subtotals)
-                console.log(response.subtotals);
             
                 document.getElementById('coupondiscount').innerHTML = couponoffer
                 document.getElementById(item).innerHTML = quantity + count
@@ -89,7 +83,6 @@ function removeproduct(cartId, item) {
         },
         success: (response) => {
             if (response.removeProduct)
-                alert('Product Removed')
             location.reload()
 
 
