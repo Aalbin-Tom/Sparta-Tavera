@@ -735,8 +735,8 @@ module.exports = {
                     "payment_method": "paypal"
                 },
                 "redirect_urls": {
-                    "return_url": "http://localhost:3000/success",
-                    "cancel_url": "http://localhost:3000/cancel"
+                    "return_url": "http://aalbintom.com/success",
+                    "cancel_url": "http://aalbintom.com/cancel"
                 },
                 "transactions": [{
                     "item_list": {
