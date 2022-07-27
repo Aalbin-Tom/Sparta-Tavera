@@ -322,6 +322,17 @@ module.exports = {
         })
     },
 
+    delcart: (userId) => {
+        
+        return new Promise(async (resolve, reject) => {
+           db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(userId) })
+        
+
+        })
+
+    },
+
+
     getTotalAmount: (userId) => {
         return new Promise(async (resolve, reject) => {
 
@@ -383,7 +394,7 @@ module.exports = {
             var day = date.getUTCDate()
             var year = date.getUTCFullYear()
 
-            let orderObj = {
+            orderObj = {
                 deliveryDetails: {
 
                     name: order.name,
@@ -403,10 +414,12 @@ module.exports = {
                 time: new Date(),
                 status: status
             }
+              
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
-                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.userId) })
+                // db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.userId) })
                 resolve(response)
             })
+        
 
 
         })
@@ -504,6 +517,9 @@ module.exports = {
             let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ userId: objectId(userId) })
                 .sort({ time: -1 })
                 .toArray()
+               
+            //    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.userId) })
+
             resolve(orders)
         })
     },
@@ -741,10 +757,10 @@ module.exports = {
                 "transactions": [{
                     "item_list": {
                         "items": [{
-                            "name": "Red Sox Hat",
+                            "name": "Sparta Taverna",
                             "sku": "001",
                             "price": total,
-                            "currency": "USD",
+                            "currency": "IND",
                             "quantity": 1
                         }]
                     },

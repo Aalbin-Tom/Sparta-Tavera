@@ -81,7 +81,7 @@ router.get('/login', (req, res) => {
  
 });
 
-//login post
+// login post
 
 // router.post('/login', (req, res) => {
 
@@ -488,11 +488,11 @@ router.get('/payment-success', async (req, res) => {
   if (req.session.userData) {
 
 
-    let totalamount = await userHelper.getTotalAmount()
-    var subtotal = totalamount 
+   userHelper.delcart(req.session.userData._id)
+    
    
 
-    res.render('user/payment-success', { user: true, userData: req.session.userData, subtotal, totalamount })
+    res.render('user/payment-success', { user: true, userData: req.session.userData })
   } else {
 
 
